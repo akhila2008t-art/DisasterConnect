@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Register as a DisasterConnect volunteer and help coordinate emergency response.">
+
+    <title>Join as Volunteer | DisasterConnect</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <script src="/js/theme.js"></script>
+
+    <style>
+
+        /* =========================================================
+           DISASTERCONNECT — VOLUNTEER REGISTRATION
+           ========================================================= */
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 8% 10%,
+                    rgba(29, 78, 216, 0.07),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 92% 88%,
+                    rgba(16, 185, 129, 0.07),
+                    transparent 30%
+                ),
+                var(--dc-bg);
+        }
+
+        .volunteer-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+        .volunteer-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 34px;
+
+            background: color-mix(
+                in srgb,
+                var(--dc-surface) 94%,
+                transparent
+            );
+
+            border-bottom: 1px solid var(--dc-border);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--dc-text);
+            text-decoration: none;
+
+            font-size: 1.08rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-brand-mark {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: var(--dc-primary);
+            color: #fff;
+
+            box-shadow:
+                0 7px 18px rgba(29, 78, 216, 0.20);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-link {
+            min-height: 40px;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 0 13px;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 10px;
+
+            background: var(--dc-surface);
+            color: var(--dc-text-muted);
+
+            font-size: 0.82rem;
+            font-weight: 650;
+
+            text-decoration: none;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-color: var(--dc-border-strong);
+            background: var(--dc-surface-muted);
+            color: var(--dc-text);
+            transform: translateY(-1px);
+        }
+
+        .theme-button {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 10px;
+
+            background: var(--dc-surface);
+            color: var(--dc-text);
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .theme-button:hover {
+            border-color: var(--dc-border-strong);
+            background: var(--dc-surface-muted);
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+
+        .volunteer-main {
+            flex: 1;
+
+            width: min(
+                calc(100% - 40px),
+                1180px
+            );
+
+            margin: 0 auto;
+
+            padding: 55px 0 70px;
+        }
+
+        .volunteer-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(300px, 0.78fr)
+                minmax(520px, 1.22fr);
+
+            gap: 34px;
+
+            align-items: start;
+        }
+
+        /* =========================================================
+           INTRO PANEL
+           ========================================================= */
+
+        .volunteer-intro {
+            position: sticky;
+            top: 105px;
+
+            padding: 35px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0f172a 0%,
+                    #172554 52%,
+                    #1d4ed8 100%
+                );
+
+            color: #fff;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 22px 55px rgba(15, 23, 42, 0.18);
+        }
+
+        .volunteer-intro::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            top: -145px;
+            right: -110px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+        }
+
+        .volunteer-intro::after {
+            content: "";
+
+            position: absolute;
+
+            width: 210px;
+            height: 210px;
+
+            border-radius: 50%;
+
+            bottom: -105px;
+            left: -100px;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 22px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.13);
+
+            color:
+                rgba(255, 255, 255, 0.88);
+
+            font-size: 0.72rem;
+            font-weight: 750;
+
+            text-transform: uppercase;
+            letter-spacing: 0.075em;
+        }
+
+        .intro-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #34d399;
+
+            box-shadow:
+                0 0 0 5px rgba(52, 211, 153, 0.13);
+        }
+
+        .volunteer-intro h1 {
+            margin: 0 0 17px;
+
+            color: #fff;
+
+            font-size:
+                clamp(2.25rem, 4vw, 3.55rem);
+
+            line-height: 1.03;
+
+            letter-spacing: -0.055em;
+        }
+
+        .volunteer-intro h1 span {
+            color: #93c5fd;
+        }
+
+        .intro-description {
+            margin: 0 0 31px;
+
+            color:
+                rgba(255, 255, 255, 0.72);
+
+            font-size: 0.94rem;
+            line-height: 1.72;
+        }
+
+        /* =========================================================
+           BENEFITS
+           ========================================================= */
+
+        .benefit-list {
+            display: grid;
+            gap: 13px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .benefit-icon {
+            width: 36px;
+            height: 36px;
+
+            flex: 0 0 36px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.09);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .benefit-content strong {
+            display: block;
+
+            margin-bottom: 2px;
+
+            color:
+                rgba(255, 255, 255, 0.90);
+
+            font-size: 0.77rem;
+        }
+
+        .benefit-content span {
+            color:
+                rgba(255, 255, 255, 0.57);
+
+            font-size: 0.71rem;
+            line-height: 1.45;
+        }
+
+        /* =========================================================
+           AVAILABILITY NOTE
+           ========================================================= */
+
+        .intro-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+
+            margin-top: 30px;
+            padding: 13px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.09);
+        }
+
+        .intro-note-icon {
+            flex: 0 0 auto;
+        }
+
+        .intro-note p {
+            margin: 0;
+
+            color:
+                rgba(255, 255, 255, 0.62);
+
+            font-size: 0.70rem;
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           FORM CARD
+           ========================================================= */
+
+        .volunteer-form-card {
+            padding: 38px;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 22px;
+
+            background: var(--dc-surface);
+
+            box-shadow:
+                var(--dc-shadow-md);
+
+            animation:
+                volunteerEnter
+                0.55s
+                ease
+                both;
+        }
+
+        @keyframes volunteerEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .form-heading {
+            margin-bottom: 30px;
+        }
+
+        .form-heading-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .form-heading h2 {
+            margin: 0 0 7px;
+
+            color: var(--dc-text);
+
+            font-size: 1.55rem;
+
+            letter-spacing: -0.035em;
+        }
+
+        .form-heading p {
+            margin: 0;
+
+            color: var(--dc-text-muted);
+
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .required-note {
+            color: var(--dc-text-subtle);
+
+            font-size: 0.72rem;
+
+            white-space: nowrap;
+        }
+
+        .required {
+            color: var(--dc-danger);
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .volunteer-form {
+            display: grid;
+            gap: 21px;
+        }
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 17px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: var(--dc-text);
+
+            font-size: 0.81rem;
+            font-weight: 750;
+        }
+
+        .field-hint {
+            color: var(--dc-text-subtle);
+
+            font-size: 0.70rem;
+            line-height: 1.45;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background:
+                var(--dc-input-bg);
+
+            color:
+                var(--dc-text);
+
+            font: inherit;
+
+            font-size: 0.87rem;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .form-input,
+        .form-select {
+            min-height: 48px;
+
+            padding:
+                0 13px;
+        }
+
+        .form-textarea {
+            min-height: 105px;
+
+            padding:
+                13px;
+
+            resize: vertical;
+
+            line-height: 1.55;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color:
+                var(--dc-text-subtle);
+        }
+
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            border-color:
+                var(--dc-border-strong);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color:
+                var(--dc-primary);
+
+            box-shadow:
+                0 0 0 4px
+                var(--dc-primary-soft);
+
+            background:
+                var(--dc-surface);
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           SKILLS
+           ========================================================= */
+
+        .skills-wrap {
+            display: grid;
+            gap: 8px;
+        }
+
+        .skill-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .skill-chip {
+            min-height: 29px;
+
+            display: inline-flex;
+            align-items: center;
+
+            padding:
+                0 9px;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 999px;
+
+            background:
+                var(--dc-surface-muted);
+
+            color:
+                var(--dc-text-muted);
+
+            font-size: 0.68rem;
+            font-weight: 650;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .skill-chip:hover {
+            border-color:
+                var(--dc-primary);
+
+            color:
+                var(--dc-primary);
+
+            background:
+                var(--dc-primary-soft);
+
+            transform:
+                translateY(-1px);
+        }
+
+        /* =========================================================
+           AVAILABILITY
+           ========================================================= */
+
+        .availability-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        .availability-option {
+            position: relative;
+        }
+
+        .availability-option input {
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+        .availability-label {
+            min-height: 88px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding:
+                11px 12px;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 11px;
+
+            background:
+                var(--dc-input-bg);
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .availability-label:hover {
+            border-color:
+                var(--dc-border-strong);
+
+            transform:
+                translateY(-1px);
+        }
+
+        .availability-title {
+            color:
+                var(--dc-text);
+
+            font-size:
+                0.78rem;
+
+            font-weight:
+                800;
+        }
+
+        .availability-description {
+            margin-top:
+                5px;
+
+            color:
+                var(--dc-text-subtle);
+
+            font-size:
+                0.66rem;
+
+            line-height:
+                1.4;
+        }
+
+        .availability-option input:checked
+        + .availability-label {
+            border-color:
+                var(--dc-primary);
+
+            background:
+                var(--dc-primary-soft);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(29, 78, 216, 0.06);
+        }
+
+        /* =========================================================
+           DIVIDER
+           ========================================================= */
+
+        .form-divider {
+            height: 1px;
+
+            margin:
+                1px 0;
+
+            background:
+                var(--dc-border);
+        }
+
+        /* =========================================================
+           ALERT
+           ========================================================= */
+
+        .form-alert {
+            display: none;
+
+            padding:
+                13px 15px;
+
+            border-radius:
+                11px;
+
+            background:
+                var(--dc-danger-soft);
+
+            border:
+                1px solid
+                var(--dc-danger-border);
+
+            color:
+                var(--dc-danger);
+
+            font-size:
+                0.78rem;
+
+            line-height:
+                1.5;
+        }
+
+        .form-alert.show {
+            display: block;
+        }
+
+        /* =========================================================
+           SUBMIT
+           ========================================================= */
+
+        .submit-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .submit-note {
+            max-width:
+                280px;
+
+            margin:
+                0;
+
+            color:
+                var(--dc-text-subtle);
+
+            font-size:
+                0.70rem;
+
+            line-height:
+                1.5;
+        }
+
+        .submit-button {
+            min-width:
+                180px;
+
+            min-height:
+                50px;
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                9px;
+
+            padding:
+                0 19px;
+
+            border:
+                0;
+
+            border-radius:
+                11px;
+
+            background:
+                var(--dc-primary);
+
+            color:
+                #ffffff;
+
+            font:
+                inherit;
+
+            font-size:
+                0.84rem;
+
+            font-weight:
+                800;
+
+            cursor:
+                pointer;
+
+            box-shadow:
+                0 9px 22px
+                rgba(29, 78, 216, 0.20);
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .submit-button:hover {
+            background:
+                var(--dc-primary-hover);
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 13px 28px
+                rgba(29, 78, 216, 0.26);
+        }
+
+        .submit-button:active {
+            transform:
+                translateY(0);
+        }
+
+        .submit-button:disabled {
+            opacity:
+                0.65;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+
+            box-shadow:
+                none;
+        }
+
+        .submit-spinner {
+            display:
+                none;
+
+            width:
+                16px;
+
+            height:
+                16px;
+
+            border:
+                2px solid
+                rgba(255, 255, 255, 0.35);
+
+            border-top-color:
+                #ffffff;
+
+            border-radius:
+                50%;
+
+            animation:
+                spin
+                0.7s
+                linear
+                infinite;
+        }
+
+        .submit-button.loading
+        .submit-spinner {
+            display:
+                block;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .volunteer-footer {
+            padding:
+                22px 30px;
+
+            border-top:
+                1px solid
+                var(--dc-border);
+
+            text-align:
+                center;
+
+            color:
+                var(--dc-text-subtle);
+
+            font-size:
+                0.70rem;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .volunteer-layout {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .volunteer-intro {
+                position:
+                    relative;
+
+                top:
+                    auto;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .volunteer-nav {
+                padding:
+                    0 18px;
+            }
+
+            .back-link span {
+                display:
+                    none;
+            }
+
+            .volunteer-main {
+                width:
+                    min(
+                        calc(100% - 28px),
+                        620px
+                    );
+
+                padding:
+                    28px 0 45px;
+            }
+
+            .volunteer-intro {
+                padding:
+                    28px 22px;
+            }
+
+            .volunteer-intro h1 {
+                font-size:
+                    2.45rem;
+            }
+
+            .volunteer-form-card {
+                padding:
+                    25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .availability-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .availability-label {
+                min-height:
+                    70px;
+            }
+
+            .form-heading-top {
+                flex-direction:
+                    column;
+            }
+
+            .required-note {
+                white-space:
+                    normal;
+            }
+
+            .submit-area {
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+            }
+
+            .submit-note {
+                max-width:
+                    none;
+            }
+
+            .submit-button {
+                width:
+                    100%;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .nav-brand {
+                font-size:
+                    0.95rem;
+            }
+
+            .nav-brand-mark {
+                width:
+                    36px;
+
+                height:
+                    36px;
+            }
+
+            .volunteer-main {
+                width:
+                    calc(100% - 20px);
+            }
+
+            .volunteer-form-card {
+                padding:
+                    22px 16px;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .volunteer-form-card,
+            .submit-button,
+            .form-input,
+            .form-select,
+            .form-textarea,
+            .availability-label,
+            .skill-chip,
+            .back-link,
+            .theme-button {
+                animation:
+                    none;
+
+                transition:
+                    none;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="volunteer-page">
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <header class="volunteer-nav">
+
+        <a
+            href="/"
+            class="nav-brand">
+
+            <span class="nav-brand-mark">
+                🛡️
+            </span>
+
+            <span>
+                DisasterConnect
+            </span>
+
+        </a>
+
+
+        <div class="nav-actions">
+
+            <a
+                href="/"
+                class="back-link">
+
+                <span>
+                    ← Back to home
+                </span>
+
+                <strong>
+                    ←
+                </strong>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="theme-button"
+                data-theme-toggle
+                aria-label="Switch theme"
+                title="Switch theme">
+
+                <span data-theme-icon>
+                    🌙
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
+
+    <main class="volunteer-main">
+
+        <div class="volunteer-layout">
+
+            <!-- =================================================
+                 INTRO
+                 ================================================= -->
+
+            <aside class="volunteer-intro">
+
+                <div class="intro-content">
+
+                    <div class="intro-badge">
+
+                        <span class="intro-dot">
+                        </span>
+
+                        Volunteer network
+
+                    </div>
+
+
+                    <h1>
+                        Turn your
+                        <span>skills</span>
+                        into help.
+                    </h1>
+
+
+                    <p class="intro-description">
+
+                        Register as a DisasterConnect volunteer and
+                        make your skills available for coordinated
+                        emergency response when support is needed.
+
+                    </p>
+
+
+                    <div class="benefit-list">
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                🤝
+                            </div>
+
+                            <div class="benefit-content">
+
+                                <strong>
+                                    Support your community
+                                </strong>
+
+                                <span>
+                                    Make your time and skills available
+                                    for meaningful response work.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                🧰
+                            </div>
+
+                            <div class="benefit-content">
+
+                                <strong>
+                                    Share your expertise
+                                </strong>
+
+                                <span>
+                                    Add skills such as first aid,
+                                    driving, logistics, or communication.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="benefit">
+
+                            <div class="benefit-icon">
+                                📍
+                            </div>
+
+                            <div class="benefit-content">
+
+                                <strong>
+                                    Improve coordination
+                                </strong>
+
+                                <span>
+                                    Your location and availability help
+                                    coordinators identify suitable support.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="intro-note">
+
+                        <span class="intro-note-icon">
+                            ℹ️
+                        </span>
+
+                        <p>
+                            Registering does not guarantee assignment to
+                            an emergency. Coordinators can review volunteer
+                            information before assigning response work.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 FORM CARD
+                 ================================================= -->
+
+            <section class="volunteer-form-card">
+
+                <div class="form-heading">
+
+                    <div class="form-heading-top">
+
+                        <div>
+
+                            <h2>
+                                Volunteer registration
+                            </h2>
+
+                            <p>
+                                Tell us about yourself, your skills,
+                                and when you can help.
+                            </p>
+
+                        </div>
+
+                        <div class="required-note">
+
+                            <span class="required">*</span>
+                            Required fields
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERT -->
+
+                <div
+                    id="formAlert"
+                    class="form-alert"
+                    role="alert">
+                </div>
+
+
+                <form
+                    id="volunteerForm"
+                    class="volunteer-form"
+                    method="post"
+                    action="/volunteer/register"
+                    novalidate>
+
+
+                    <!-- =========================================
+                         PERSONAL INFORMATION
+                         ========================================= -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="name">
+
+                                Full name
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="name"
+                                name="name"
+                                class="form-input"
+                                type="text"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                maxlength="100"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="email">
+
+                                Email address
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="email"
+                                name="email"
+                                class="form-input"
+                                type="email"
+                                placeholder="you@example.com"
+                                autocomplete="email"
+                                maxlength="150"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         CONTACT + LOCATION
+                         ========================================= -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="contactNumber">
+
+                                Contact number
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="contactNumber"
+                                name="contactNumber"
+                                class="form-input"
+                                type="tel"
+                                placeholder="Enter a reachable number"
+                                autocomplete="tel"
+                                maxlength="20"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="location">
+
+                                Location
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="location"
+                                name="location"
+                                class="form-input"
+                                type="text"
+                                placeholder="City / area"
+                                maxlength="150"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         SKILLS
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="skills">
+
+                            Skills and capabilities
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <div class="skills-wrap">
+
+                            <textarea
+                                id="skills"
+                                name="skills"
+                                class="form-textarea"
+                                placeholder="Example: First Aid, Driving, Search & Rescue, Communication"
+                                maxlength="300"
+                                required></textarea>
+
+
+                            <div class="field-hint">
+
+                                Add the skills or capabilities you can
+                                realistically contribute.
+
+                            </div>
+
+
+                            <div class="skill-suggestions">
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="First Aid">
+
+                                    First Aid
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="Driving">
+
+                                    Driving
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="Search & Rescue">
+
+                                    Search & Rescue
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="Medical Support">
+
+                                    Medical Support
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="Logistics">
+
+                                    Logistics
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="skill-chip"
+                                    data-skill="Communication">
+
+                                    Communication
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         AVAILABILITY
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+
+                            Availability
+                            <span class="required">*</span>
+
+                        </label>
+
+
+                        <div class="availability-grid">
+
+
+                            <!-- FULL TIME -->
+
+                            <div class="availability-option">
+
+                                <input
+                                    id="fullTime"
+                                    type="radio"
+                                    name="availability"
+                                    value="FULL_TIME"
+                                    required>
+
+                                <label
+                                    for="fullTime"
+                                    class="availability-label">
+
+                                    <span class="availability-title">
+                                        Full time
+                                    </span>
+
+                                    <span class="availability-description">
+                                        Available regularly for response coordination.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- PART TIME -->
+
+                            <div class="availability-option">
+
+                                <input
+                                    id="partTime"
+                                    type="radio"
+                                    name="availability"
+                                    value="PART_TIME">
+
+                                <label
+                                    for="partTime"
+                                    class="availability-label">
+
+                                    <span class="availability-title">
+                                        Part time
+                                    </span>
+
+                                    <span class="availability-description">
+                                        Available during selected periods.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- EMERGENCY ONLY -->
+
+                            <div class="availability-option">
+
+                                <input
+                                    id="emergencyOnly"
+                                    type="radio"
+                                    name="availability"
+                                    value="EMERGENCY_ONLY">
+
+                                <label
+                                    for="emergencyOnly"
+                                    class="availability-label">
+
+                                    <span class="availability-title">
+                                        Emergency only
+                                    </span>
+
+                                    <span class="availability-description">
+                                        Available primarily during urgent situations.
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-divider">
+                    </div>
+
+
+                    <!-- =========================================
+                         SUBMIT
+                         ========================================= -->
+
+                    <div class="submit-area">
+
+                        <p class="submit-note">
+
+                            Please provide accurate information so
+                            coordinators can make appropriate
+                            volunteer assignments.
+
+                        </p>
+
+
+                        <button
+                            id="submitButton"
+                            class="submit-button"
+                            type="submit">
+
+                            <span
+                                class="submit-spinner">
+                            </span>
+
+                            <span id="submitText">
+                                Register as volunteer
+                            </span>
+
+                            <span id="submitArrow">
+                                →
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer class="volunteer-footer">
+
+        DisasterConnect
+        &nbsp;•&nbsp;
+        Volunteer coordination network
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    "use strict";
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const volunteerForm =
+        document.getElementById("volunteerForm");
+
+    const nameInput =
+        document.getElementById("name");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const contactInput =
+        document.getElementById("contactNumber");
+
+    const locationInput =
+        document.getElementById("location");
+
+    const skillsInput =
+        document.getElementById("skills");
+
+    const formAlert =
+        document.getElementById("formAlert");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const submitText =
+        document.getElementById("submitText");
+
+    const submitArrow =
+        document.getElementById("submitArrow");
+
+
+    /* =========================================================
+       ALERT
+       ========================================================= */
+
+    function showAlert(message) {
+
+        formAlert.textContent =
+            message;
+
+        formAlert.classList.add("show");
+
+        formAlert.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+    }
+
+
+    function hideAlert() {
+
+        formAlert.textContent =
+            "";
+
+        formAlert.classList.remove("show");
+
+    }
+
+
+    /* =========================================================
+       SKILL CHIPS
+       ========================================================= */
+
+    document
+        .querySelectorAll("[data-skill]")
+        .forEach(function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const skill =
+                        button.getAttribute("data-skill");
+
+                    const current =
+                        skillsInput.value
+                            .trim();
+
+                    if (!current) {
+
+                        skillsInput.value =
+                            skill;
+
+                    } else {
+
+                        const existingSkills =
+                            current
+                                .split(",")
+                                .map(function (item) {
+                                    return item.trim()
+                                        .toLowerCase();
+                                });
+
+                        if (
+                            !existingSkills.includes(
+                                skill.toLowerCase()
+                            )
+                        ) {
+
+                            skillsInput.value =
+                                current +
+                                ", " +
+                                skill;
+
+                        }
+
+                    }
+
+                    skillsInput.focus();
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       VALIDATION
+       ========================================================= */
+
+    function validateForm() {
+
+        hideAlert();
+
+
+        const name =
+            nameInput.value.trim();
+
+        const email =
+            emailInput.value.trim();
+
+        const contact =
+            contactInput.value.trim();
+
+        const location =
+            locationInput.value.trim();
+
+        const skills =
+            skillsInput.value.trim();
+
+        const availability =
+            document.querySelector(
+                'input[name="availability"]:checked'
+            );
+
+
+        /* NAME */
+
+        if (!name) {
+
+            showAlert(
+                "Please enter your full name."
+            );
+
+            nameInput.focus();
+
+            return false;
+
+        }
+
+
+        if (name.length < 2) {
+
+            showAlert(
+                "Please enter a valid name."
+            );
+
+            nameInput.focus();
+
+            return false;
+
+        }
+
+
+        /* EMAIL */
+
+        if (!email) {
+
+            showAlert(
+                "Please enter your email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+
+        }
+
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            showAlert(
+                "Please enter a valid email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+
+        }
+
+
+        /* CONTACT */
+
+        if (!contact) {
+
+            showAlert(
+                "Please enter your contact number."
+            );
+
+            contactInput.focus();
+
+            return false;
+
+        }
+
+
+        const contactPattern =
+            /^[0-9+\-\s()]{7,20}$/;
+
+        if (!contactPattern.test(contact)) {
+
+            showAlert(
+                "Please enter a valid contact number."
+            );
+
+            contactInput.focus();
+
+            return false;
+
+        }
+
+
+        /* LOCATION */
+
+        if (!location) {
+
+            showAlert(
+                "Please enter your location."
+            );
+
+            locationInput.focus();
+
+            return false;
+
+        }
+
+
+        /* SKILLS */
+
+        if (!skills) {
+
+            showAlert(
+                "Please enter at least one skill or capability."
+            );
+
+            skillsInput.focus();
+
+            return false;
+
+        }
+
+
+        if (skills.length < 2) {
+
+            showAlert(
+                "Please provide a little more information about your skills."
+            );
+
+            skillsInput.focus();
+
+            return false;
+
+        }
+
+
+        /* AVAILABILITY */
+
+        if (!availability) {
+
+            showAlert(
+                "Please select your availability."
+            );
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =========================================================
+       SUBMIT
+       ========================================================= */
+
+    volunteerForm.addEventListener(
+        "submit",
+        function (event) {
+
+            if (!validateForm()) {
+
+                event.preventDefault();
+
+                return;
+
+            }
+
+
+            submitButton.disabled =
+                true;
+
+            submitButton.classList.add(
+                "loading"
+            );
+
+            submitText.textContent =
+                "Registering...";
+
+            submitArrow.style.display =
+                "none";
+
+        }
+    );
+
+
+    /* =========================================================
+       CLEAR ALERT
+       ========================================================= */
+
+    [
+        nameInput,
+        emailInput,
+        contactInput,
+        locationInput,
+        skillsInput
+    ].forEach(function (input) {
+
+        input.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    formAlert.classList.contains("show")
+                ) {
+
+                    hideAlert();
+
+                }
+
+            }
+        );
+
+    });
+
+
+    document
+        .querySelectorAll(
+            'input[name="availability"]'
+        )
+        .forEach(function (radio) {
+
+            radio.addEventListener(
+                "change",
+                function () {
+
+                    if (
+                        formAlert.classList.contains("show")
+                    ) {
+
+                        hideAlert();
+
+                    }
+
+                }
+            );
+
+        });
+
+</script>
+
+</body>
+</html>

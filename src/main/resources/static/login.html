@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Sign in to DisasterConnect emergency response platform."
+    >
+
+    <title>Sign In | DisasterConnect</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            background: var(--dc-bg);
+        }
+
+        /* =================================================
+           BRAND PANEL
+           ================================================= */
+
+        .auth-brand-panel {
+            position: relative;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+
+            padding: 60px;
+
+            overflow: hidden;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0f172a 0%,
+                    #172554 55%,
+                    #1d4ed8 100%
+                );
+        }
+
+        .auth-brand-panel::before {
+            content: "";
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            top: -280px;
+            right: -260px;
+
+            border: 90px solid
+                rgba(255, 255, 255, 0.05);
+
+            border-radius: 50%;
+        }
+
+        .auth-brand-panel::after {
+            content: "";
+
+            position: absolute;
+
+            width: 400px;
+            height: 400px;
+
+            bottom: -230px;
+            left: -180px;
+
+            border: 70px solid
+                rgba(255, 255, 255, 0.05);
+
+            border-radius: 50%;
+        }
+
+        .auth-brand-content {
+            position: relative;
+            z-index: 2;
+
+            width: min(560px, 100%);
+            margin: 0 auto;
+        }
+
+        .auth-brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+
+            margin-bottom: 55px;
+
+            color: #ffffff;
+
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .auth-brand-mark {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            color: #1e3a8a;
+            background: #ffffff;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .auth-brand-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 18px;
+
+            color: rgba(255, 255, 255, 0.72);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .auth-brand-dot {
+            width: 7px;
+            height: 7px;
+
+            background: #60a5fa;
+
+            border-radius: 50%;
+        }
+
+        .auth-brand-title {
+            margin: 0 0 20px;
+
+            color: #ffffff;
+
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1.04;
+
+            font-weight: 850;
+
+            letter-spacing: -0.045em;
+        }
+
+        .auth-brand-description {
+            max-width: 500px;
+
+            margin: 0 0 38px;
+
+            color: rgba(255, 255, 255, 0.72);
+
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .auth-feature-list {
+            display: grid;
+            gap: 13px;
+        }
+
+        .auth-feature {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            color: rgba(255, 255, 255, 0.82);
+
+            font-size: 13px;
+        }
+
+        .auth-feature-icon {
+            width: 27px;
+            height: 27px;
+
+            display: grid;
+            place-items: center;
+
+            flex-shrink: 0;
+
+            color: #ffffff;
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 8px;
+
+            font-size: 12px;
+        }
+
+        /* =================================================
+           FORM PANEL
+           ================================================= */
+
+        .auth-form-panel {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 30px;
+
+            background: var(--dc-bg);
+        }
+
+        .auth-form-wrapper {
+            width: min(430px, 100%);
+        }
+
+        .auth-mobile-brand {
+            display: none;
+
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 35px;
+
+            color: var(--dc-text);
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .auth-mobile-mark {
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+            place-items: center;
+
+            color: #ffffff;
+
+            background:
+                var(--dc-primary);
+
+            border-radius: 9px;
+
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .auth-form-header {
+            margin-bottom: 30px;
+        }
+
+        .auth-form-eyebrow {
+            margin-bottom: 8px;
+
+            color: var(--dc-primary);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+        }
+
+        .auth-form-title {
+            margin: 0 0 8px;
+
+            color: var(--dc-text);
+
+            font-size: 30px;
+            font-weight: 820;
+
+            letter-spacing: -0.035em;
+        }
+
+        .auth-form-description {
+            margin: 0;
+
+            color: var(--dc-text-muted);
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .auth-input-group {
+            display: grid;
+            gap: 7px;
+        }
+
+        .auth-label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .auth-label {
+            color: var(--dc-text);
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .auth-required {
+            color: var(--dc-danger);
+        }
+
+        .auth-input-wrapper {
+            position: relative;
+        }
+
+        .auth-input-icon {
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--dc-text-muted);
+
+            pointer-events: none;
+        }
+
+        .auth-input {
+            width: 100%;
+
+            min-height: 47px;
+
+            padding:
+                11px
+                13px
+                11px
+                40px;
+
+            color: var(--dc-text);
+            background: var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border-dark);
+
+            border-radius: 9px;
+
+            outline: none;
+
+            transition:
+                border-color var(--dc-transition-fast),
+                box-shadow var(--dc-transition-fast);
+        }
+
+        .auth-input:focus {
+            border-color: var(--dc-primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(29, 78, 216, 0.11);
+        }
+
+        .auth-password-toggle {
+            position: absolute;
+
+            right: 9px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 32px;
+            height: 32px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--dc-text-muted);
+
+            background: transparent;
+            border: 0;
+
+            border-radius: 7px;
+        }
+
+        .auth-password-toggle:hover {
+            color: var(--dc-text);
+            background: var(--dc-surface-soft);
+        }
+
+        .auth-submit {
+            width: 100%;
+            min-height: 49px;
+
+            margin-top: 3px;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--dc-primary),
+                    var(--dc-primary-dark)
+                );
+
+            border: 0;
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 750;
+
+            box-shadow:
+                0 8px 20px
+                rgba(29, 78, 216, 0.20);
+
+            transition:
+                transform var(--dc-transition-fast),
+                box-shadow var(--dc-transition-fast);
+        }
+
+        .auth-submit:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 11px 24px
+                rgba(29, 78, 216, 0.25);
+        }
+
+        .auth-submit:active {
+            transform: translateY(0);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            margin: 3px 0;
+
+            color: var(--dc-text-muted);
+
+            font-size: 11px;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: "";
+
+            flex: 1;
+
+            height: 1px;
+
+            background: var(--dc-border);
+        }
+
+        .auth-register {
+            padding: 16px;
+
+            text-align: center;
+
+            background: var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius: 10px;
+
+            color: var(--dc-text-secondary);
+
+            font-size: 13px;
+        }
+
+        .auth-register a {
+            color: var(--dc-primary);
+
+            font-weight: 750;
+        }
+
+        .auth-register a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-home-link {
+            display: block;
+
+            margin-top: 20px;
+
+            color: var(--dc-text-muted);
+
+            text-align: center;
+
+            font-size: 12px;
+        }
+
+        .auth-home-link:hover {
+            color: var(--dc-primary);
+        }
+
+        /* =================================================
+           ERROR MESSAGE
+           ================================================= */
+
+        .auth-error {
+            display: none;
+
+            padding: 12px 13px;
+
+            color: var(--dc-danger);
+
+            background:
+                var(--dc-danger-light);
+
+            border:
+                1px solid
+                rgba(220, 38, 38, 0.15);
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* =================================================
+           RESPONSIVE
+           ================================================= */
+
+        @media (max-width: 900px) {
+            .auth-page {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-brand-panel {
+                display: none;
+            }
+
+            .auth-mobile-brand {
+                display: flex;
+            }
+
+            .auth-form-panel {
+                min-height: 100vh;
+                padding: 35px 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .auth-form-panel {
+                padding: 28px 18px;
+            }
+
+            .auth-form-title {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="auth-page">
+
+    <!-- =================================================
+         BRAND PANEL
+         ================================================= -->
+
+    <section class="auth-brand-panel">
+
+        <div class="auth-brand-content">
+
+            <a
+                href="/index.html"
+                class="auth-brand-logo"
+            >
+                <span class="auth-brand-mark">
+                    DC
+                </span>
+
+                DisasterConnect
+            </a>
+
+            <div class="auth-brand-eyebrow">
+
+                <span class="auth-brand-dot"></span>
+
+                Emergency operations platform
+
+            </div>
+
+            <h1 class="auth-brand-title">
+                Coordinate.
+                Respond.
+                Protect.
+            </h1>
+
+            <p class="auth-brand-description">
+
+                Access the DisasterConnect platform to
+                coordinate emergency requests, volunteers
+                and critical resources through one connected
+                system.
+
+            </p>
+
+            <div class="auth-feature-list">
+
+                <div class="auth-feature">
+
+                    <span class="auth-feature-icon">
+                        🚨
+                    </span>
+
+                    Emergency request management
+
+                </div>
+
+                <div class="auth-feature">
+
+                    <span class="auth-feature-icon">
+                        🤝
+                    </span>
+
+                    Volunteer coordination
+
+                </div>
+
+                <div class="auth-feature">
+
+                    <span class="auth-feature-icon">
+                        📦
+                    </span>
+
+                    Resource management
+
+                </div>
+
+                <div class="auth-feature">
+
+                    <span class="auth-feature-icon">
+                        🔐
+                    </span>
+
+                    Role-based access control
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         LOGIN FORM
+         ================================================= -->
+
+    <main class="auth-form-panel">
+
+        <div class="auth-form-wrapper">
+
+            <a
+                href="/index.html"
+                class="auth-mobile-brand"
+            >
+                <span class="auth-mobile-mark">
+                    DC
+                </span>
+
+                DisasterConnect
+            </a>
+
+
+            <div class="auth-form-header">
+
+                <div class="auth-form-eyebrow">
+                    Secure access
+                </div>
+
+                <h2 class="auth-form-title">
+                    Welcome back
+                </h2>
+
+                <p class="auth-form-description">
+                    Sign in to access your DisasterConnect
+                    workspace.
+                </p>
+
+            </div>
+
+
+            <div
+                id="loginError"
+                class="auth-error"
+            >
+                Invalid email or password. Please check
+                your credentials and try again.
+            </div>
+
+
+            <form
+                class="auth-form"
+                method="post"
+                action="/login"
+                id="loginForm"
+            >
+
+                <div class="auth-input-group">
+
+                    <div class="auth-label-row">
+
+                        <label
+                            class="auth-label"
+                            for="email"
+                        >
+                            Email
+                            <span class="auth-required">
+                                *
+                            </span>
+                        </label>
+
+                    </div>
+
+                    <div class="auth-input-wrapper">
+
+                        <span class="auth-input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                            id="email"
+                            name="username"
+                            type="email"
+                            class="auth-input"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="auth-input-group">
+
+                    <div class="auth-label-row">
+
+                        <label
+                            class="auth-label"
+                            for="password"
+                        >
+                            Password
+                            <span class="auth-required">
+                                *
+                            </span>
+                        </label>
+
+                    </div>
+
+                    <div class="auth-input-wrapper">
+
+                        <span class="auth-input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            class="auth-input"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="auth-password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Sign in to DisasterConnect
+                </button>
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>New to DisasterConnect?</span>
+            </div>
+
+
+            <div class="auth-register">
+
+                Create a volunteer account
+
+                <a href="/register.html">
+                    Register
+                </a>
+
+            </div>
+
+
+            <a
+                href="/index.html"
+                class="auth-home-link"
+            >
+                ← Back to DisasterConnect
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="/js/theme.js"></script>
+
+<script>
+    /* =====================================================
+       PASSWORD VISIBILITY
+       ===================================================== */
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+    if (passwordInput && togglePassword) {
+
+        togglePassword.addEventListener(
+            "click",
+            function () {
+
+                const isPassword =
+                    passwordInput.type === "password";
+
+                passwordInput.type =
+                    isPassword
+                        ? "text"
+                        : "password";
+
+                togglePassword.textContent =
+                    isPassword
+                        ? "🙈"
+                        : "👁";
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    isPassword
+                        ? "Hide password"
+                        : "Show password"
+                );
+            }
+        );
+    }
+
+    /* =====================================================
+       SPRING SECURITY ERROR
+       ===================================================== */
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    if (params.has("error")) {
+
+        const errorBox =
+            document.getElementById("loginError");
+
+        if (errorBox) {
+            errorBox.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

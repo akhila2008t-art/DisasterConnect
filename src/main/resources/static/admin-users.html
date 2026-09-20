@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DisasterConnect | User Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white;
+            padding: 22px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand h1 {
+            font-size: 25px;
+        }
+
+        .brand p {
+            margin-top: 5px;
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .page-title p {
+            margin-top: 6px;
+            color: #6b7280;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-card span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .stat-card h3 {
+            margin-top: 8px;
+            font-size: 26px;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .search {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search:focus {
+            border-color: #2563eb;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            text-align: left;
+            padding: 15px;
+            font-size: 13px;
+            color: #475569;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #fafcff;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .role-admin {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .role-coordinator {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .role-volunteer {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        select {
+            padding: 8px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            background: #dc2626;
+            color: white;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        .delete-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+
+        .message {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            padding: 14px 18px;
+            border-radius: 9px;
+            color: white;
+            display: none;
+            z-index: 1000;
+        }
+
+        .success {
+            background: #16a34a;
+        }
+
+        .error {
+            background: #dc2626;
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .table-card {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 800px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+        <h1>DisasterConnect</h1>
+        <p>Administrator Control Center</p>
+    </div>
+
+    <a href="/dashboard.html" class="back-btn">
+        ← Dashboard
+    </a>
+
+</header>
+
+<main class="container">
+
+    <section class="page-title">
+
+        <h2>User Management</h2>
+
+        <p>
+            Manage registered users, roles and administrator access.
+        </p>
+
+    </section>
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <span>Total Users</span>
+            <h3 id="totalUsers">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <span>Administrators</span>
+            <h3 id="adminCount">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <span>Coordinators</span>
+            <h3 id="coordinatorCount">0</h3>
+        </div>
+
+        <div class="stat-card">
+            <span>Volunteers</span>
+            <h3 id="volunteerCount">0</h3>
+        </div>
+
+    </section>
+
+    <!-- SEARCH -->
+
+    <section class="toolbar">
+
+        <input
+            type="text"
+            id="searchInput"
+            class="search"
+            placeholder="Search by name, email or role..."
+            oninput="filterUsers()"
+        >
+
+    </section>
+
+    <!-- USERS TABLE -->
+
+    <section class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Current Role</th>
+                    <th>Change Role</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="usersTable">
+
+                <tr>
+                    <td colspan="6" class="loading">
+                        Loading users...
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<div id="message" class="message"></div>
+
+<script>
+
+let users = [];
+let currentUser = null;
+
+
+// =========================================================
+// LOAD CURRENT USER
+// =========================================================
+
+async function loadCurrentUser() {
+
+    const response = await fetch("/api/me");
+
+    if (!response.ok) {
+        window.location.href = "/login.html";
+        return;
+    }
+
+    currentUser = await response.json();
+
+    if (currentUser.role !== "ADMIN") {
+        alert("Administrator access required.");
+        window.location.href = "/dashboard.html";
+        return;
+    }
+
+    loadUsers();
+}
+
+
+// =========================================================
+// LOAD USERS
+// =========================================================
+
+async function loadUsers() {
+
+    try {
+
+        const response =
+            await fetch("/api/admin/users");
+
+        if (!response.ok) {
+
+            if (response.status === 403) {
+                showMessage(
+                    "Administrator access required.",
+                    "error"
+                );
+            }
+
+            throw new Error("Unable to load users");
+        }
+
+        users = await response.json();
+
+        updateStatistics();
+
+        renderUsers(users);
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("usersTable").innerHTML = `
+            <tr>
+                <td colspan="6" class="loading">
+                    Failed to load users.
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// =========================================================
+// RENDER USERS
+// =========================================================
+
+function renderUsers(userList) {
+
+    const table =
+        document.getElementById("usersTable");
+
+    if (userList.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="loading">
+                    No users found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML = userList.map(user => {
+
+        const isCurrentUser =
+            currentUser &&
+            user.email.toLowerCase() ===
+            currentUser.email.toLowerCase();
+
+        const roleClass =
+            "role-" + user.role.toLowerCase();
+
+        return `
+
+            <tr>
+
+                <td>
+                    #${user.id}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(user.name)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHtml(user.email)}
+                </td>
+
+                <td>
+
+                    <span class="role ${roleClass}">
+                        ${formatRole(user.role)}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <select
+                        onchange="changeRole(${user.id}, this.value)"
+                        ${isCurrentUser ? "disabled" : ""}
+                    >
+
+                        <option
+                            value="VOLUNTEER"
+                            ${user.role === "VOLUNTEER" ? "selected" : ""}
+                        >
+                            Volunteer
+                        </option>
+
+                        <option
+                            value="COORDINATOR"
+                            ${user.role === "COORDINATOR" ? "selected" : ""}
+                        >
+                            Coordinator
+                        </option>
+
+                        <option
+                            value="ADMIN"
+                            ${user.role === "ADMIN" ? "selected" : ""}
+                        >
+                            Administrator
+                        </option>
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteUser(${user.id})"
+                        ${isCurrentUser ? "disabled" : ""}
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }).join("");
+}
+
+
+// =========================================================
+// CHANGE ROLE
+// =========================================================
+
+async function changeRole(id, role) {
+
+    const user =
+        users.find(u => u.id === id);
+
+    if (!user) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `Change ${user.name}'s role to ${formatRole(role)}?`
+        );
+
+    if (!confirmed) {
+
+        renderUsers(users);
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/admin/users/${id}/role?role=${encodeURIComponent(role)}`,
+                {
+                    method: "PUT"
+                }
+            );
+
+        if (!response.ok) {
+
+            const text =
+                await response.text();
+
+            throw new Error(
+                text || "Role update failed"
+            );
+        }
+
+        const updatedUser =
+            await response.json();
+
+        users =
+            users.map(u =>
+                u.id === updatedUser.id
+                    ? updatedUser
+                    : u
+            );
+
+        updateStatistics();
+
+        renderUsers(users);
+
+        showMessage(
+            "User role updated successfully.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Failed to update user role.",
+            "error"
+        );
+
+        renderUsers(users);
+    }
+}
+
+
+// =========================================================
+// DELETE USER
+// =========================================================
+
+async function deleteUser(id) {
+
+    const user =
+        users.find(u => u.id === id);
+
+    if (!user) {
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            `Delete ${user.name}? This action cannot be undone.`
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/admin/users/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        if (!response.ok) {
+
+            const text =
+                await response.text();
+
+            throw new Error(
+                text || "Delete failed"
+            );
+        }
+
+        users =
+            users.filter(u => u.id !== id);
+
+        updateStatistics();
+
+        filterUsers();
+
+        showMessage(
+            "User deleted successfully.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "Failed to delete user.",
+            "error"
+        );
+    }
+}
+
+
+// =========================================================
+// SEARCH / FILTER
+// =========================================================
+
+function filterUsers() {
+
+    const query =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+    const filtered =
+        users.filter(user =>
+
+            user.name.toLowerCase().includes(query) ||
+
+            user.email.toLowerCase().includes(query) ||
+
+            user.role.toLowerCase().includes(query)
+
+        );
+
+    renderUsers(filtered);
+}
+
+
+// =========================================================
+// STATISTICS
+// =========================================================
+
+function updateStatistics() {
+
+    document.getElementById("totalUsers")
+        .textContent = users.length;
+
+    document.getElementById("adminCount")
+        .textContent =
+        users.filter(
+            user => user.role === "ADMIN"
+        ).length;
+
+    document.getElementById("coordinatorCount")
+        .textContent =
+        users.filter(
+            user => user.role === "COORDINATOR"
+        ).length;
+
+    document.getElementById("volunteerCount")
+        .textContent =
+        users.filter(
+            user => user.role === "VOLUNTEER"
+        ).length;
+}
+
+
+// =========================================================
+// HELPERS
+// =========================================================
+
+function formatRole(role) {
+
+    if (role === "ADMIN") {
+        return "Administrator";
+    }
+
+    if (role === "COORDINATOR") {
+        return "Coordinator";
+    }
+
+    return "Volunteer";
+}
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function showMessage(text, type) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display = "block";
+
+    setTimeout(() => {
+
+        message.style.display = "none";
+
+    }, 3000);
+}
+
+
+// =========================================================
+// INITIALIZE
+// =========================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCurrentUser
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Create your DisasterConnect account and join a coordinated emergency response network.">
+
+    <title>Create Account | DisasterConnect</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <script src="/js/theme.js"></script>
+
+    <style>
+        /* =========================================================
+           DISASTERCONNECT — REGISTRATION PAGE
+           ========================================================= */
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 8% 15%,
+                    rgba(29, 78, 216, 0.08),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 90% 85%,
+                    rgba(14, 165, 233, 0.07),
+                    transparent 30%
+                ),
+                var(--dc-bg);
+        }
+
+        .register-page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(420px, 0.95fr) minmax(500px, 1.05fr);
+        }
+
+        /* =========================================================
+           BRAND PANEL
+           ========================================================= */
+
+        .register-brand {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #0f172a 0%,
+                    #172554 48%,
+                    #1d4ed8 100%
+                );
+            color: #ffffff;
+        }
+
+        .register-brand::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            top: -180px;
+            right: -140px;
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .register-brand::after {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            bottom: -160px;
+            left: -120px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+            width: min(100%, 540px);
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 46px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-logo-mark {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            font-size: 1.35rem;
+        }
+
+        .brand-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .brand-eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #60a5fa;
+            box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.14);
+        }
+
+        .brand-title {
+            margin: 0 0 20px;
+            color: #ffffff;
+            font-size: clamp(2.6rem, 4vw, 4.4rem);
+            line-height: 1.02;
+            letter-spacing: -0.055em;
+            font-weight: 850;
+        }
+
+        .brand-title span {
+            color: #93c5fd;
+        }
+
+        .brand-description {
+            max-width: 500px;
+            margin: 0 0 38px;
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+
+        /* =========================================================
+           FEATURE LIST
+           ========================================================= */
+
+        .brand-features {
+            display: grid;
+            gap: 15px;
+        }
+
+        .brand-feature {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-feature-icon {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            font-size: 1rem;
+        }
+
+        .brand-feature-text {
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 0.91rem;
+            line-height: 1.45;
+        }
+
+        /* =========================================================
+           FORM SIDE
+           ========================================================= */
+
+        .register-form-side {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            background: var(--dc-surface);
+        }
+
+        .register-top-actions {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .register-top-actions .theme-toggle {
+            min-height: 42px;
+            min-width: 42px;
+        }
+
+        .register-card {
+            width: min(100%, 520px);
+            animation: registerEnter 0.55s ease both;
+        }
+
+        @keyframes registerEnter {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .register-heading {
+            margin-bottom: 30px;
+        }
+
+        .register-heading h1 {
+            margin: 0 0 9px;
+            color: var(--dc-text);
+            font-size: clamp(1.9rem, 3vw, 2.45rem);
+            line-height: 1.12;
+            letter-spacing: -0.035em;
+        }
+
+        .register-heading p {
+            margin: 0;
+            color: var(--dc-text-muted);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           ALERT
+           ========================================================= */
+
+        .register-alert {
+            display: none;
+            margin-bottom: 22px;
+            padding: 13px 15px;
+            border-radius: 12px;
+            background: var(--dc-danger-soft);
+            border: 1px solid var(--dc-danger-border);
+            color: var(--dc-danger);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .register-alert.show {
+            display: block;
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .register-form {
+            display: grid;
+            gap: 19px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: var(--dc-text);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .required {
+            color: var(--dc-danger);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            min-height: 50px;
+            padding: 0 15px;
+            border: 1px solid var(--dc-border);
+            border-radius: 12px;
+            outline: none;
+            background: var(--dc-input-bg);
+            color: var(--dc-text);
+            font: inherit;
+            font-size: 0.92rem;
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--dc-text-subtle);
+        }
+
+        .form-input:hover {
+            border-color: var(--dc-border-strong);
+        }
+
+        .form-input:focus {
+            border-color: var(--dc-primary);
+            box-shadow:
+                0 0 0 4px var(--dc-primary-soft);
+            background: var(--dc-surface);
+        }
+
+        .password-input {
+            padding-right: 52px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            width: 38px;
+            height: 38px;
+            transform: translateY(-50%);
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--dc-text-muted);
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            background: var(--dc-surface-muted);
+            color: var(--dc-text);
+        }
+
+        .password-hint {
+            color: var(--dc-text-subtle);
+            font-size: 0.76rem;
+            line-height: 1.45;
+        }
+
+        /* =========================================================
+           PASSWORD STRENGTH
+           ========================================================= */
+
+        .password-strength {
+            display: none;
+            gap: 6px;
+            margin-top: 2px;
+        }
+
+        .password-strength.visible {
+            display: grid;
+        }
+
+        .strength-bars {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            border-radius: 999px;
+            background: var(--dc-border);
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .strength-label {
+            color: var(--dc-text-subtle);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           TERMS
+           ========================================================= */
+
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 1px;
+        }
+
+        .terms-row input {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            margin-top: 2px;
+            accent-color: var(--dc-primary);
+            cursor: pointer;
+        }
+
+        .terms-text {
+            color: var(--dc-text-muted);
+            font-size: 0.78rem;
+            line-height: 1.55;
+        }
+
+        .terms-text a {
+            color: var(--dc-primary);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================================================
+           SUBMIT BUTTON
+           ========================================================= */
+
+        .register-submit {
+            width: 100%;
+            min-height: 52px;
+            margin-top: 2px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--dc-primary);
+            color: #ffffff;
+            font: inherit;
+            font-size: 0.92rem;
+            font-weight: 750;
+            cursor: pointer;
+            box-shadow:
+                0 8px 20px rgba(29, 78, 216, 0.18);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .register-submit:hover {
+            background: var(--dc-primary-hover);
+            transform: translateY(-1px);
+            box-shadow:
+                0 12px 26px rgba(29, 78, 216, 0.24);
+        }
+
+        .register-submit:active {
+            transform: translateY(0);
+        }
+
+        .register-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-content {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .submit-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .register-submit.loading .submit-spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================================================
+           LOGIN LINK
+           ========================================================= */
+
+        .login-link {
+            margin-top: 25px;
+            text-align: center;
+            color: var(--dc-text-muted);
+            font-size: 0.86rem;
+        }
+
+        .login-link a {
+            color: var(--dc-primary);
+            font-weight: 750;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================================================
+           SECURITY NOTE
+           ========================================================= */
+
+        .security-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 22px;
+            color: var(--dc-text-subtle);
+            font-size: 0.73rem;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+            .register-page {
+                grid-template-columns: 1fr;
+            }
+
+            .register-brand {
+                min-height: 430px;
+                padding: 50px 32px;
+            }
+
+            .brand-content {
+                max-width: 650px;
+            }
+
+            .brand-logo {
+                margin-bottom: 30px;
+            }
+
+            .brand-title {
+                font-size: clamp(2.5rem, 8vw, 4rem);
+            }
+
+            .register-form-side {
+                min-height: 700px;
+                padding: 70px 28px 45px;
+            }
+
+            .register-top-actions {
+                top: 18px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .register-brand {
+                min-height: auto;
+                padding: 38px 22px 42px;
+            }
+
+            .brand-logo {
+                margin-bottom: 30px;
+                font-size: 1.08rem;
+            }
+
+            .brand-logo-mark {
+                width: 40px;
+                height: 40px;
+                border-radius: 11px;
+            }
+
+            .brand-title {
+                font-size: 2.55rem;
+            }
+
+            .brand-description {
+                margin-bottom: 28px;
+                font-size: 0.94rem;
+            }
+
+            .brand-features {
+                gap: 12px;
+            }
+
+            .brand-feature-icon {
+                width: 36px;
+                height: 36px;
+                flex-basis: 36px;
+            }
+
+            .brand-feature-text {
+                font-size: 0.83rem;
+            }
+
+            .register-form-side {
+                padding: 65px 20px 40px;
+            }
+
+            .register-card {
+                width: 100%;
+            }
+
+            .register-heading {
+                margin-bottom: 24px;
+            }
+
+            .register-heading h1 {
+                font-size: 1.85rem;
+            }
+
+            .register-form {
+                gap: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .register-card,
+            .register-submit,
+            .form-input,
+            .password-toggle {
+                animation: none;
+                transition: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-page">
+
+    <!-- =========================================================
+         BRAND PANEL
+         ========================================================= -->
+
+    <section class="register-brand">
+
+        <div class="brand-content">
+
+            <a href="/" class="brand-logo">
+                <span class="brand-logo-mark">🛡️</span>
+                <span>DisasterConnect</span>
+            </a>
+
+            <div class="brand-eyebrow">
+                <span class="brand-eyebrow-dot"></span>
+                Emergency response network
+            </div>
+
+            <h2 class="brand-title">
+                Be ready.<br>
+                <span>Respond faster.</span>
+            </h2>
+
+            <p class="brand-description">
+                Create your DisasterConnect account and become part of a
+                coordinated platform designed to connect people, volunteers,
+                resources, and emergency response teams.
+            </p>
+
+            <div class="brand-features">
+
+                <div class="brand-feature">
+                    <span class="brand-feature-icon">🚨</span>
+                    <span class="brand-feature-text">
+                        Report and coordinate emergency requests.
+                    </span>
+                </div>
+
+                <div class="brand-feature">
+                    <span class="brand-feature-icon">🤝</span>
+                    <span class="brand-feature-text">
+                        Connect with volunteers and response teams.
+                    </span>
+                </div>
+
+                <div class="brand-feature">
+                    <span class="brand-feature-icon">📦</span>
+                    <span class="brand-feature-text">
+                        Coordinate essential emergency resources.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         REGISTRATION FORM
+         ========================================================= -->
+
+    <main class="register-form-side">
+
+        <div class="register-top-actions">
+
+            <button
+                type="button"
+                class="theme-toggle"
+                data-theme-toggle
+                aria-label="Switch theme"
+                title="Switch theme">
+
+                <span data-theme-icon>🌙</span>
+            </button>
+
+        </div>
+
+
+        <div class="register-card">
+
+            <div class="register-heading">
+
+                <h1>Create your account</h1>
+
+                <p>
+                    Join DisasterConnect and get started with the emergency
+                    response network.
+                </p>
+
+            </div>
+
+
+            <!-- Error / validation message -->
+
+            <div
+                id="registerAlert"
+                class="register-alert"
+                role="alert">
+            </div>
+
+
+            <form
+                id="registerForm"
+                class="register-form"
+                method="post"
+                action="/register"
+                novalidate>
+
+                <!-- Full Name -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="name">
+
+                        Full name
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        type="text"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        maxlength="100"
+                        required>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="email">
+
+                        Email address
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        type="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        maxlength="150"
+                        required>
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="password">
+
+                        Password
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            id="password"
+                            name="password"
+                            class="form-input password-input"
+                            type="password"
+                            placeholder="Create a secure password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            maxlength="100"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-password-toggle="password"
+                            aria-label="Show password"
+                            title="Show password">
+
+                            👁️
+
+                        </button>
+
+                    </div>
+
+                    <div
+                        id="passwordStrength"
+                        class="password-strength">
+
+                        <div class="strength-bars">
+
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+
+                        </div>
+
+                        <span
+                            id="strengthLabel"
+                            class="strength-label">
+                            Password strength
+                        </span>
+
+                    </div>
+
+                    <div class="password-hint">
+                        Use at least 8 characters with a mix of letters,
+                        numbers, and symbols.
+                    </div>
+
+                </div>
+
+
+                <!-- Confirm Password -->
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="confirmPassword">
+
+                        Confirm password
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <input
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            class="form-input password-input"
+                            type="password"
+                            placeholder="Re-enter your password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            maxlength="100"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-password-toggle="confirmPassword"
+                            aria-label="Show password"
+                            title="Show password">
+
+                            👁️
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Terms -->
+
+                <div class="terms-row">
+
+                    <input
+                        id="terms"
+                        type="checkbox"
+                        required>
+
+                    <label
+                        for="terms"
+                        class="terms-text">
+
+                        I understand that DisasterConnect is an emergency
+                        coordination platform and agree to use the platform
+                        responsibly.
+
+                    </label>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    id="registerSubmit"
+                    class="register-submit"
+                    type="submit">
+
+                    <span class="submit-content">
+
+                        <span
+                            id="submitSpinner"
+                            class="submit-spinner">
+                        </span>
+
+                        <span id="submitText">
+                            Create account
+                        </span>
+
+                        <span id="submitArrow">
+                            →
+                        </span>
+
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="login-link">
+
+                Already have an account?
+                <a href="/login.html">
+                    Sign in
+                </a>
+
+            </div>
+
+
+            <div class="security-note">
+
+                🔒 Your account credentials are securely processed.
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+    "use strict";
+
+    /* =========================================================
+       REGISTRATION PAGE LOGIC
+       ========================================================= */
+
+    const registerForm =
+        document.getElementById("registerForm");
+
+    const nameInput =
+        document.getElementById("name");
+
+    const emailInput =
+        document.getElementById("email");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const confirmPasswordInput =
+        document.getElementById("confirmPassword");
+
+    const termsInput =
+        document.getElementById("terms");
+
+    const alertBox =
+        document.getElementById("registerAlert");
+
+    const registerSubmit =
+        document.getElementById("registerSubmit");
+
+    const submitText =
+        document.getElementById("submitText");
+
+    const submitArrow =
+        document.getElementById("submitArrow");
+
+    const passwordStrength =
+        document.getElementById("passwordStrength");
+
+    const strengthLabel =
+        document.getElementById("strengthLabel");
+
+    const strengthBars =
+        document.querySelectorAll(".strength-bar");
+
+
+    /* =========================================================
+       ALERT
+       ========================================================= */
+
+    function showAlert(message) {
+
+        alertBox.textContent = message;
+
+        alertBox.classList.add("show");
+
+    }
+
+
+    function hideAlert() {
+
+        alertBox.textContent = "";
+
+        alertBox.classList.remove("show");
+
+    }
+
+
+    /* =========================================================
+       PASSWORD VISIBILITY
+       ========================================================= */
+
+    document
+        .querySelectorAll("[data-password-toggle]")
+        .forEach(function (button) {
+
+            button.addEventListener("click", function () {
+
+                const inputId =
+                    button.getAttribute("data-password-toggle");
+
+                const input =
+                    document.getElementById(inputId);
+
+                if (!input) return;
+
+                const showing =
+                    input.type === "text";
+
+                input.type =
+                    showing ? "password" : "text";
+
+                button.textContent =
+                    showing ? "👁️" : "🙈";
+
+                button.setAttribute(
+                    "aria-label",
+                    showing
+                        ? "Show password"
+                        : "Hide password"
+                );
+
+                button.setAttribute(
+                    "title",
+                    showing
+                        ? "Show password"
+                        : "Hide password"
+                );
+
+            });
+
+        });
+
+
+    /* =========================================================
+       PASSWORD STRENGTH
+       ========================================================= */
+
+    function calculatePasswordStrength(password) {
+
+        let score = 0;
+
+        if (password.length >= 8) {
+            score++;
+        }
+
+        if (password.length >= 12) {
+            score++;
+        }
+
+        if (/[A-Z]/.test(password)) {
+            score++;
+        }
+
+        if (/[a-z]/.test(password)) {
+            score++;
+        }
+
+        if (/[0-9]/.test(password)) {
+            score++;
+        }
+
+        if (/[^A-Za-z0-9]/.test(password)) {
+            score++;
+        }
+
+        if (score <= 2) {
+            return {
+                level: 1,
+                label: "Weak"
+            };
+        }
+
+        if (score <= 4) {
+            return {
+                level: 2,
+                label: "Moderate"
+            };
+        }
+
+        if (score === 5) {
+            return {
+                level: 3,
+                label: "Strong"
+            };
+        }
+
+        return {
+            level: 4,
+            label: "Very strong"
+        };
+    }
+
+
+    function updatePasswordStrength() {
+
+        const password =
+            passwordInput.value;
+
+        if (!password) {
+
+            passwordStrength.classList.remove("visible");
+
+            strengthBars.forEach(function (bar) {
+                bar.style.background =
+                    "var(--dc-border)";
+            });
+
+            return;
+        }
+
+        passwordStrength.classList.add("visible");
+
+        const result =
+            calculatePasswordStrength(password);
+
+        strengthLabel.textContent =
+            result.label;
+
+        strengthBars.forEach(function (bar, index) {
+
+            if (index < result.level) {
+
+                bar.style.background =
+                    "var(--dc-primary)";
+
+                bar.style.transform =
+                    "scaleY(1.25)";
+
+            } else {
+
+                bar.style.background =
+                    "var(--dc-border)";
+
+                bar.style.transform =
+                    "scaleY(1)";
+
+            }
+
+        });
+
+    }
+
+
+    passwordInput.addEventListener(
+        "input",
+        updatePasswordStrength
+    );
+
+
+    /* =========================================================
+       VALIDATION
+       ========================================================= */
+
+    function validateForm() {
+
+        hideAlert();
+
+        const name =
+            nameInput.value.trim();
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        const confirmPassword =
+            confirmPasswordInput.value;
+
+
+        if (!name) {
+
+            showAlert("Please enter your full name.");
+
+            nameInput.focus();
+
+            return false;
+        }
+
+
+        if (name.length < 2) {
+
+            showAlert(
+                "Please enter a valid full name."
+            );
+
+            nameInput.focus();
+
+            return false;
+        }
+
+
+        if (!email) {
+
+            showAlert(
+                "Please enter your email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+        }
+
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            showAlert(
+                "Please enter a valid email address."
+            );
+
+            emailInput.focus();
+
+            return false;
+        }
+
+
+        if (!password) {
+
+            showAlert(
+                "Please create a password."
+            );
+
+            passwordInput.focus();
+
+            return false;
+        }
+
+
+        if (password.length < 8) {
+
+            showAlert(
+                "Your password must contain at least 8 characters."
+            );
+
+            passwordInput.focus();
+
+            return false;
+        }
+
+
+        if (password !== confirmPassword) {
+
+            showAlert(
+                "The passwords do not match."
+            );
+
+            confirmPasswordInput.focus();
+
+            return false;
+        }
+
+
+        if (!termsInput.checked) {
+
+            showAlert(
+                "Please confirm that you agree to use DisasterConnect responsibly."
+            );
+
+            termsInput.focus();
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    /* =========================================================
+       SUBMIT
+       ========================================================= */
+
+    registerForm.addEventListener(
+        "submit",
+        function (event) {
+
+            if (!validateForm()) {
+
+                event.preventDefault();
+
+                return;
+            }
+
+
+            registerSubmit.disabled = true;
+
+            registerSubmit.classList.add("loading");
+
+            submitText.textContent =
+                "Creating account...";
+
+            submitArrow.style.display =
+                "none";
+
+        }
+    );
+
+
+    /* =========================================================
+       CLEAR ALERT WHEN USER STARTS TYPING
+       ========================================================= */
+
+    [
+        nameInput,
+        emailInput,
+        passwordInput,
+        confirmPasswordInput
+    ].forEach(function (input) {
+
+        input.addEventListener(
+            "input",
+            function () {
+
+                if (alertBox.classList.contains("show")) {
+                    hideAlert();
+                }
+
+            }
+        );
+
+    });
+
+
+    /* =========================================================
+       PASSWORD MATCH FEEDBACK
+       ========================================================= */
+
+    confirmPasswordInput.addEventListener(
+        "input",
+        function () {
+
+            if (!confirmPasswordInput.value) {
+
+                confirmPasswordInput.style.borderColor =
+                    "";
+
+                return;
+            }
+
+            if (
+                confirmPasswordInput.value ===
+                passwordInput.value
+            ) {
+
+                confirmPasswordInput.style.borderColor =
+                    "var(--dc-success)";
+
+            } else {
+
+                confirmPasswordInput.style.borderColor =
+                    "var(--dc-danger)";
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

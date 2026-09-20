@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="DisasterConnect — A coordinated emergency response platform connecting people, volunteers, resources and emergency teams."
+    >
+
+    <title>DisasterConnect | Emergency Response Platform</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <style>
+        /* =====================================================
+           HOMEPAGE
+           ===================================================== */
+
+        .home-page {
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Navigation ---------- */
+
+        .home-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+
+            z-index: 1000;
+
+            background: color-mix(
+                in srgb,
+                var(--dc-surface) 90%,
+                transparent
+            );
+
+            border-bottom: 1px solid var(--dc-border);
+
+            backdrop-filter: blur(16px);
+        }
+
+        .home-nav-inner {
+            width: min(
+                calc(100% - 40px),
+                1240px
+            );
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .home-logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .home-logo-mark {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--dc-primary),
+                    var(--dc-primary-dark)
+                );
+
+            border-radius: 11px;
+
+            box-shadow:
+                0 6px 18px rgba(29, 78, 216, 0.22);
+        }
+
+        .home-logo-name {
+            color: var(--dc-text);
+        }
+
+        .home-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .home-nav-link {
+            padding: 8px 12px;
+
+            color: var(--dc-text-secondary);
+
+            border-radius: 8px;
+
+            font-size: 13px;
+            font-weight: 650;
+
+            transition:
+                color var(--dc-transition-fast),
+                background var(--dc-transition-fast);
+        }
+
+        .home-nav-link:hover {
+            color: var(--dc-primary);
+            background: var(--dc-primary-light);
+        }
+
+        .home-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ---------- Hero ---------- */
+
+        .home-hero {
+            position: relative;
+
+            min-height: 760px;
+
+            display: flex;
+            align-items: center;
+
+            padding:
+                140px 20px
+                90px;
+
+            overflow: hidden;
+        }
+
+        .home-hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 620px;
+            height: 620px;
+
+            top: -220px;
+            right: -180px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(29, 78, 216, 0.14),
+                    transparent 68%
+                );
+
+            pointer-events: none;
+        }
+
+        .home-hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            bottom: -260px;
+            left: -180px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(2, 132, 199, 0.10),
+                    transparent 70%
+                );
+
+            pointer-events: none;
+        }
+
+        .home-hero-inner {
+            position: relative;
+            z-index: 2;
+
+            width: min(
+                1200px,
+                100%
+            );
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.05fr)
+                minmax(420px, 0.95fr);
+
+            align-items: center;
+
+            gap: 70px;
+        }
+
+        .home-hero-content {
+            animation:
+                home-fade-up
+                0.7s ease both;
+        }
+
+        .home-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 20px;
+
+            padding: 7px 11px;
+
+            color: var(--dc-primary);
+
+            background: var(--dc-primary-light);
+
+            border: 1px solid
+                rgba(29, 78, 216, 0.12);
+
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .home-eyebrow-dot {
+            width: 7px;
+            height: 7px;
+
+            background: var(--dc-primary);
+
+            border-radius: 50%;
+
+            animation:
+                home-pulse
+                2s infinite;
+        }
+
+        .home-title {
+            max-width: 720px;
+
+            margin: 0 0 22px;
+
+            color: var(--dc-text);
+
+            font-size:
+                clamp(
+                    42px,
+                    6vw,
+                    72px
+                );
+
+            line-height: 1.02;
+
+            font-weight: 850;
+
+            letter-spacing: -0.055em;
+        }
+
+        .home-title-highlight {
+            color: var(--dc-primary);
+        }
+
+        .home-description {
+            max-width: 630px;
+
+            margin: 0 0 30px;
+
+            color: var(--dc-text-secondary);
+
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .home-actions {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-bottom: 36px;
+        }
+
+        .home-trust {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            color: var(--dc-text-muted);
+
+            font-size: 12px;
+        }
+
+        .home-trust-icon {
+            width: 28px;
+            height: 28px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--dc-success);
+
+            background:
+                var(--dc-success-light);
+
+            border-radius: 8px;
+        }
+
+        /* ---------- Hero Dashboard Preview ---------- */
+
+        .home-visual {
+            position: relative;
+
+            animation:
+                home-fade-up
+                0.8s
+                0.15s
+                ease
+                both;
+        }
+
+        .home-dashboard {
+            position: relative;
+
+            padding: 14px;
+
+            background:
+                var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 30px 80px
+                rgba(15, 23, 42, 0.14);
+
+            transform:
+                perspective(1200px)
+                rotateY(-3deg)
+                rotateX(2deg);
+
+            transition:
+                transform
+                0.5s
+                ease;
+        }
+
+        .home-dashboard:hover {
+            transform:
+                perspective(1200px)
+                rotateY(0)
+                rotateX(0)
+                translateY(-5px);
+        }
+
+        .home-dashboard-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 8px 8px 14px;
+        }
+
+        .home-dashboard-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .home-mini-mark {
+            width: 24px;
+            height: 24px;
+
+            display: grid;
+            place-items: center;
+
+            color: #ffffff;
+
+            background:
+                var(--dc-primary);
+
+            border-radius: 7px;
+
+            font-size: 11px;
+        }
+
+        .home-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            color: var(--dc-success);
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .home-live-dot {
+            width: 6px;
+            height: 6px;
+
+            background:
+                var(--dc-success);
+
+            border-radius: 50%;
+        }
+
+        .home-dashboard-body {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+        .home-mini-card {
+            padding: 14px;
+
+            background:
+                var(--dc-surface-soft);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius: 12px;
+        }
+
+        .home-mini-label {
+            color: var(--dc-text-muted);
+
+            font-size: 9px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .home-mini-number {
+            margin-top: 5px;
+
+            color: var(--dc-text);
+
+            font-size: 25px;
+            line-height: 1;
+
+            font-weight: 850;
+        }
+
+        .home-mini-number.danger {
+            color: var(--dc-danger);
+        }
+
+        .home-mini-number.success {
+            color: var(--dc-success);
+        }
+
+        .home-mini-number.primary {
+            color: var(--dc-primary);
+        }
+
+        .home-mini-number.warning {
+            color: var(--dc-warning);
+        }
+
+        .home-mini-wide {
+            grid-column: span 2;
+
+            padding: 15px;
+
+            background:
+                var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius: 12px;
+        }
+
+        .home-request {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px 0;
+
+            border-bottom:
+                1px solid
+                var(--dc-border);
+        }
+
+        .home-request:last-child {
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .home-request-icon {
+            width: 30px;
+            height: 30px;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--dc-danger);
+
+            background:
+                var(--dc-danger-light);
+
+            border-radius: 8px;
+
+            font-size: 12px;
+        }
+
+        .home-request-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .home-request-title {
+            color: var(--dc-text);
+
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .home-request-location {
+            color: var(--dc-text-muted);
+
+            font-size: 8px;
+        }
+
+        .home-request-status {
+            padding: 4px 7px;
+
+            color: var(--dc-warning);
+
+            background:
+                var(--dc-warning-light);
+
+            border-radius: 999px;
+
+            font-size: 7px;
+            font-weight: 800;
+        }
+
+        /* ---------- Impact Strip ---------- */
+
+        .home-impact {
+            padding: 24px 20px;
+
+            background:
+                var(--dc-secondary);
+        }
+
+        .home-impact-inner {
+            width: min(
+                1100px,
+                100%
+            );
+
+            margin: 0 auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 1px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+        }
+
+        .home-impact-item {
+            padding: 20px;
+
+            text-align: center;
+
+            background:
+                var(--dc-secondary);
+        }
+
+        .home-impact-number {
+            color: #ffffff;
+
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .home-impact-label {
+            margin-top: 3px;
+
+            color:
+                rgba(255, 255, 255, 0.6);
+
+            font-size: 10px;
+            font-weight: 650;
+        }
+
+        /* ---------- Features ---------- */
+
+        .home-features {
+            padding: 100px 20px;
+        }
+
+        .home-section-inner {
+            width: min(
+                1150px,
+                100%
+            );
+
+            margin: 0 auto;
+        }
+
+        .home-section-heading {
+            max-width: 650px;
+
+            margin-bottom: 50px;
+        }
+
+        .home-section-eyebrow {
+            margin-bottom: 10px;
+
+            color: var(--dc-primary);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .home-section-title {
+            margin: 0 0 12px;
+
+            color: var(--dc-text);
+
+            font-size:
+                clamp(28px, 4vw, 42px);
+
+            font-weight: 820;
+
+            letter-spacing: -0.04em;
+        }
+
+        .home-section-description {
+            margin: 0;
+
+            color: var(--dc-text-secondary);
+
+            font-size: 14px;
+            line-height: 1.75;
+        }
+
+        .home-feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .home-feature-card {
+            padding: 26px;
+
+            background:
+                var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius:
+                var(--dc-radius-lg);
+
+            box-shadow:
+                var(--dc-shadow-sm);
+
+            transition:
+                transform
+                var(--dc-transition),
+                box-shadow
+                var(--dc-transition),
+                border-color
+                var(--dc-transition);
+        }
+
+        .home-feature-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                var(--dc-shadow-md);
+
+            border-color:
+                var(--dc-border-dark);
+        }
+
+        .home-feature-icon {
+            width: 46px;
+            height: 46px;
+
+            display: grid;
+            place-items: center;
+
+            margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            font-size: 20px;
+        }
+
+        .home-feature-icon.blue {
+            color: var(--dc-primary);
+            background: var(--dc-primary-light);
+        }
+
+        .home-feature-icon.red {
+            color: var(--dc-danger);
+            background: var(--dc-danger-light);
+        }
+
+        .home-feature-icon.green {
+            color: var(--dc-success);
+            background: var(--dc-success-light);
+        }
+
+        .home-feature-icon.orange {
+            color: var(--dc-warning);
+            background: var(--dc-warning-light);
+        }
+
+        .home-feature-title {
+            margin: 0 0 8px;
+
+            color: var(--dc-text);
+
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+        .home-feature-text {
+            margin: 0;
+
+            color: var(--dc-text-secondary);
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* ---------- Workflow ---------- */
+
+        .home-workflow {
+            padding: 100px 20px;
+
+            background:
+                var(--dc-surface-soft);
+        }
+
+        .home-workflow-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+        }
+
+        .home-step {
+            position: relative;
+
+            padding: 24px;
+
+            background:
+                var(--dc-surface);
+
+            border:
+                1px solid
+                var(--dc-border);
+
+            border-radius:
+                var(--dc-radius-lg);
+        }
+
+        .home-step-number {
+            width: 34px;
+            height: 34px;
+
+            display: grid;
+            place-items: center;
+
+            margin-bottom: 17px;
+
+            color: #ffffff;
+
+            background:
+                var(--dc-primary);
+
+            border-radius: 10px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .home-step-title {
+            margin: 0 0 7px;
+
+            color: var(--dc-text);
+
+            font-size: 15px;
+            font-weight: 750;
+        }
+
+        .home-step-text {
+            margin: 0;
+
+            color: var(--dc-text-secondary);
+
+            font-size: 12px;
+            line-height: 1.65;
+        }
+
+        /* ---------- CTA ---------- */
+
+        .home-cta {
+            padding: 90px 20px;
+        }
+
+        .home-cta-card {
+            position: relative;
+
+            width: min(
+                1100px,
+                100%
+            );
+
+            margin: 0 auto;
+
+            padding: 55px 50px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--dc-primary-dark),
+                    var(--dc-primary)
+                );
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 24px 60px
+                rgba(29, 78, 216, 0.22);
+        }
+
+        .home-cta-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 400px;
+            height: 400px;
+
+            top: -220px;
+            right: -120px;
+
+            border:
+                70px solid
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 50%;
+        }
+
+        .home-cta-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+        .home-cta-title {
+            margin: 0 0 12px;
+
+            color: #ffffff;
+
+            font-size:
+                clamp(27px, 4vw, 40px);
+
+            font-weight: 820;
+
+            letter-spacing: -0.035em;
+        }
+
+        .home-cta-text {
+            margin: 0 0 24px;
+
+            color:
+                rgba(255, 255, 255, 0.78);
+
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .home-cta-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .home-cta .dc-btn-secondary {
+            color: var(--dc-primary-dark);
+
+            background: #ffffff;
+
+            border-color: #ffffff;
+        }
+
+        .home-cta .dc-btn-secondary:hover {
+            background: #f8fafc;
+        }
+
+        /* ---------- Footer ---------- */
+
+        .home-footer {
+            padding: 30px 20px;
+
+            background:
+                var(--dc-secondary);
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+        }
+
+        .home-footer-inner {
+            width: min(
+                1150px,
+                100%
+            );
+
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .home-footer-brand {
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .home-footer-text {
+            color:
+                rgba(255, 255, 255, 0.5);
+
+            font-size: 11px;
+        }
+
+        /* ---------- Animations ---------- */
+
+        @keyframes home-fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes home-pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.45;
+                transform: scale(0.8);
+            }
+        }
+
+        /* ---------- Responsive ---------- */
+
+        @media (max-width: 1000px) {
+            .home-nav-links {
+                display: none;
+            }
+
+            .home-hero {
+                min-height: auto;
+            }
+
+            .home-hero-inner {
+                grid-template-columns: 1fr;
+
+                gap: 50px;
+            }
+
+            .home-visual {
+                max-width: 650px;
+                margin: 0 auto;
+            }
+
+            .home-feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .home-workflow-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .home-nav-inner {
+                width:
+                    calc(100% - 24px);
+            }
+
+            .home-nav-actions .dc-btn {
+                display: none;
+            }
+
+            .home-hero {
+                padding:
+                    120px 16px
+                    65px;
+            }
+
+            .home-title {
+                font-size: 43px;
+            }
+
+            .home-description {
+                font-size: 15px;
+            }
+
+            .home-actions {
+                flex-direction: column;
+            }
+
+            .home-actions .dc-btn {
+                width: 100%;
+            }
+
+            .home-dashboard {
+                transform: none;
+            }
+
+            .home-impact-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .home-feature-grid,
+            .home-workflow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .home-features,
+            .home-workflow {
+                padding: 70px 16px;
+            }
+
+            .home-cta {
+                padding: 70px 16px;
+            }
+
+            .home-cta-card {
+                padding: 38px 25px;
+            }
+
+            .home-cta-actions {
+                flex-direction: column;
+            }
+
+            .home-cta-actions .dc-btn {
+                width: 100%;
+            }
+
+            .home-footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="home-page">
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <nav class="home-nav">
+
+        <div class="home-nav-inner">
+
+            <a
+                href="/index.html"
+                class="home-logo"
+                aria-label="DisasterConnect home"
+            >
+                <span class="home-logo-mark">DC</span>
+
+                <span class="home-logo-name">
+                    DisasterConnect
+                </span>
+            </a>
+
+            <div class="home-nav-links">
+
+                <a
+                    href="#features"
+                    class="home-nav-link"
+                >
+                    Platform
+                </a>
+
+                <a
+                    href="#workflow"
+                    class="home-nav-link"
+                >
+                    How It Works
+                </a>
+
+                <a
+                    href="/resources.html"
+                    class="home-nav-link"
+                >
+                    Resources
+                </a>
+
+            </div>
+
+            <div class="home-nav-actions">
+
+                <button
+                    type="button"
+                    class="dc-theme-toggle"
+                    data-theme-toggle
+                    aria-label="Switch to dark mode"
+                    title="Switch to dark mode"
+                >
+                    <span data-theme-icon>🌙</span>
+                    <span data-theme-label>Dark mode</span>
+                </button>
+
+                <a
+                    href="/login.html"
+                    class="dc-btn dc-btn-secondary dc-btn-sm"
+                >
+                    Sign in
+                </a>
+
+                <a
+                    href="/emergency-request.html"
+                    class="dc-btn dc-btn-primary dc-btn-sm"
+                >
+                    Report Emergency
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <main>
+
+        <section class="home-hero">
+
+            <div class="home-hero-inner">
+
+                <div class="home-hero-content">
+
+                    <div class="home-eyebrow">
+
+                        <span class="home-eyebrow-dot"></span>
+
+                        Emergency response platform
+
+                    </div>
+
+                    <h1 class="home-title">
+
+                        When every
+                        <span class="home-title-highlight">
+                            second
+                        </span>
+                        matters.
+
+                    </h1>
+
+                    <p class="home-description">
+
+                        DisasterConnect brings emergency requests,
+                        volunteers, resources and response teams
+                        together through one coordinated digital
+                        platform.
+
+                    </p>
+
+                    <div class="home-actions">
+
+                        <a
+                            href="/emergency-request.html"
+                            class="dc-btn dc-btn-primary dc-btn-lg"
+                        >
+                            🚨 Report an Emergency
+                        </a>
+
+                        <a
+                            href="/volunteer-register.html"
+                            class="dc-btn dc-btn-secondary dc-btn-lg"
+                        >
+                            🤝 Become a Volunteer
+                        </a>
+
+                    </div>
+
+                    <div class="home-trust">
+
+                        <span class="home-trust-icon">
+                            ✓
+                        </span>
+
+                        <span>
+                            Built for coordinated,
+                            transparent emergency response
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Dashboard Preview -->
+
+                <div class="home-visual">
+
+                    <div class="home-dashboard">
+
+                        <div class="home-dashboard-top">
+
+                            <div class="home-dashboard-brand">
+
+                                <span class="home-mini-mark">
+                                    DC
+                                </span>
+
+                                Emergency Operations
+
+                            </div>
+
+                            <div class="home-live">
+
+                                <span class="home-live-dot"></span>
+
+                                Live system
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="home-dashboard-body">
+
+                            <div class="home-mini-card">
+
+                                <div class="home-mini-label">
+                                    Active Emergencies
+                                </div>
+
+                               <div class="home-mini-number danger" id="activeEmergencies">
+    0
+</div>
+
+                            </div>
+
+                            <div class="home-mini-card">
+
+                                <div class="home-mini-label">
+                                    Available Volunteers
+                                </div>
+                                <div class="home-mini-number success" id="availableVolunteers">
+    0
+                                </div>
+                            </div>
+
+                            <div class="home-mini-card">
+
+                                <div class="home-mini-label">
+                                    Resources
+                                </div>
+
+                               <div class="home-mini-number primary" id="resourcesCount">
+    0
+                                </div>
+
+                            </div>
+
+                            div class="home-mini-card">
+
+                                <div class="home-mini-label">
+                                    Response Rate
+                                </div>
+
+                                <div class="home-mini-number warning" id="responseRate">
+    0%
+</div>
+
+                            </div>
+
+<
+                          <div class="home-request" id="priorityRequest">
+
+    <div class="home-request-icon">
+        !
+    </div>
+
+    <div class="home-request-content">
+
+        <div class="home-request-title" id="priorityTitle">
+            Loading...
+        </div>
+
+        <div class="home-request-location" id="priorityLocation">
+            Loading emergency requests...
+        </div>
+
+    </div>
+
+    <span class="home-request-status" id="priorityStatus">
+        Loading
+    </span>
+
+</div>
+
+
+                               <div class="home-request" id="priorityRequest">
+
+    <div class="home-request-icon">
+        !
+    </div>
+
+    <div class="home-request-content">
+
+        <div class="home-request-title" id="priorityTitle">
+            Loading...
+        </div>
+
+        <div class="home-request-location" id="priorityLocation">
+            Loading emergency requests...
+        </div>
+
+    </div>
+
+    <span class="home-request-status" id="priorityStatus">
+        Loading
+    </span>
+
+</div>
+
+<div id="additionalPriorityRequests">
+    <div class="home-request" id="priorityRequest">
+
+    <div class="home-request-icon">
+        !
+    </div>
+
+    <div class="home-request-content">
+
+        <div class="home-request-title" id="priorityTitle">
+            Loading...
+        </div>
+
+        <div class="home-request-location" id="priorityLocation">
+            Loading emergency requests...
+        </div>
+
+    </div>
+
+    <span class="home-request-status" id="priorityStatus">
+        Loading
+    </span>
+
+</div>
+
+<div id="additionalPriorityRequests"></div>
+
+        <!-- =================================================
+             IMPACT STRIP
+             ================================================= -->
+
+        <section class="home-impact">
+
+            <div class="home-impact-inner">
+
+                <div class="home-impact-item">
+
+                    <div class="home-impact-number">
+                        24/7
+                    </div>
+
+                    <div class="home-impact-label">
+                        Emergency readiness
+                    </div>
+
+                </div>
+
+                <div class="home-impact-item">
+
+                    <div class="home-impact-number">
+                        One Platform
+                    </div>
+
+                    <div class="home-impact-label">
+                        Coordinated response
+                    </div>
+
+                </div>
+
+                <div class="home-impact-item">
+
+                    <div class="home-impact-number">
+                        Real-Time
+                    </div>
+
+                    <div class="home-impact-label">
+                        Operational visibility
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FEATURES
+             ================================================= -->
+
+        <section
+            class="home-features"
+            id="features"
+        >
+
+            <div class="home-section-inner">
+
+                <div class="home-section-heading">
+
+                    <div class="home-section-eyebrow">
+                        One coordinated system
+                    </div>
+
+                    <h2 class="home-section-title">
+                        Everything response teams need.
+                    </h2>
+
+                    <p class="home-section-description">
+
+                        DisasterConnect organizes the critical
+                        information required during emergency
+                        response so teams can coordinate people,
+                        requests and resources more efficiently.
+
+                    </p>
+
+                </div>
+
+
+                <div class="home-feature-grid">
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon red">
+                            🚨
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Emergency Requests
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Capture emergency requests with
+                            location, disaster type, urgency,
+                            contact details and response status.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon blue">
+                            🤝
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Volunteer Coordination
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Register volunteers, manage their
+                            availability and connect suitable
+                            responders with active emergencies.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon green">
+                            📦
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Resource Management
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Track emergency resources, quantities,
+                            locations and availability from one
+                            centralized system.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon orange">
+                            📊
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Response Dashboard
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Monitor emergency activity,
+                            volunteers and operational status
+                            through a unified dashboard.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon blue">
+                            🔐
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Role-Based Access
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Separate access for administrators,
+                            coordinators and volunteers helps
+                            protect operational actions.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-feature-card">
+
+                        <div class="home-feature-icon red">
+                            ⚡
+                        </div>
+
+                        <h3 class="home-feature-title">
+                            Faster Coordination
+                        </h3>
+
+                        <p class="home-feature-text">
+
+                            Reduce fragmented communication by
+                            bringing important response information
+                            into one connected platform.
+
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORKFLOW
+             ================================================= -->
+
+        <section
+            class="home-workflow"
+            id="workflow"
+        >
+
+            <div class="home-section-inner">
+
+                <div class="home-section-heading">
+
+                    <div class="home-section-eyebrow">
+                        Response workflow
+                    </div>
+
+                    <h2 class="home-section-title">
+                        From request to response.
+                    </h2>
+
+                    <p class="home-section-description">
+
+                        A structured workflow helps emergency
+                        coordinators move from incoming requests
+                        to volunteer assignment and resource
+                        coordination.
+
+                    </p>
+
+                </div>
+
+
+                <div class="home-workflow-grid">
+
+                    <article class="home-step">
+
+                        <div class="home-step-number">
+                            01
+                        </div>
+
+                        <h3 class="home-step-title">
+                            Report
+                        </h3>
+
+                        <p class="home-step-text">
+
+                            A person submits an emergency request
+                            with the information required for
+                            response coordination.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-step">
+
+                        <div class="home-step-number">
+                            02
+                        </div>
+
+                        <h3 class="home-step-title">
+                            Assess
+                        </h3>
+
+                        <p class="home-step-text">
+
+                            Coordinators review the request,
+                            urgency and location before deciding
+                            the appropriate response.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-step">
+
+                        <div class="home-step-number">
+                            03
+                        </div>
+
+                        <h3 class="home-step-title">
+                            Coordinate
+                        </h3>
+
+                        <p class="home-step-text">
+
+                            Available volunteers and resources
+                            can be identified and assigned to
+                            active emergencies.
+
+                        </p>
+
+                    </article>
+
+
+                    <article class="home-step">
+
+                        <div class="home-step-number">
+                            04
+                        </div>
+
+                        <h3 class="home-step-title">
+                            Respond
+                        </h3>
+
+                        <p class="home-step-text">
+
+                            Response status can be tracked as
+                            the emergency moves toward
+                            completion.
+
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CTA
+             ================================================= -->
+
+        <section class="home-cta">
+
+            <div class="home-cta-card">
+
+                <div class="home-cta-content">
+
+                    <h2 class="home-cta-title">
+                        Help coordinate the response.
+                    </h2>
+
+                    <p class="home-cta-text">
+
+                        Whether you need to report an emergency,
+                        contribute as a volunteer or manage
+                        emergency resources, DisasterConnect
+                        provides a structured place to coordinate.
+
+                    </p>
+
+                    <div class="home-cta-actions">
+
+                        <a
+                            href="/emergency-request.html"
+                            class="dc-btn dc-btn-secondary dc-btn-lg"
+                        >
+                            Report Emergency
+                        </a>
+
+                        <a
+                            href="/volunteer-register.html"
+                            class="dc-btn dc-btn-secondary dc-btn-lg"
+                        >
+                            Register as Volunteer
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="home-footer">
+
+        <div class="home-footer-inner">
+
+            <div class="home-footer-brand">
+                DisasterConnect
+            </div>
+
+            <div class="home-footer-text">
+                Emergency response coordination platform
+            </div>
+
+            <div class="home-footer-text">
+                © 2026 DisasterConnect
+            </div>
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+<script src="/js/theme.js"></script>
+<script>
+async function loadHomepageStatistics() {
+
+    try {
+
+        const response =
+            await fetch("/api/statistics");
+
+        if (!response.ok) {
+            throw new Error("Failed to load statistics");
+        }
+
+        const data =
+            await response.json();
+
+        document.getElementById("activeEmergencies")
+            .textContent = data.activeEmergencies;
+
+        document.getElementById("availableVolunteers")
+            .textContent = data.availableVolunteers;
+
+        document.getElementById("resourcesCount")
+            .textContent = data.resources;
+
+        document.getElementById("responseRate")
+            .textContent = data.responseRate + "%";
+
+    } catch (error) {
+
+        console.error(
+            "Statistics loading error:",
+            error
+        );
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadHomepageStatistics
+);
+</script>
+<script>
+async function loadPriorityRequest() {
+
+    try {
+        const response =
+            await fetch("/api/emergency-requests");
+
+        if (!response.ok) {
+            throw new Error("Failed to load emergency requests");
+        }
+
+        const requests = await response.json();
+        console.log("Priority requests received:", requests);
+
+        const mainRequest =
+            document.getElementById("priorityRequest");
+
+        const additionalContainer =
+            document.getElementById("additionalPriorityRequests");
+
+        if (!requests || requests.length === 0) {
+
+            document.getElementById("priorityTitle")
+                .textContent = "No active emergency requests";
+
+            document.getElementById("priorityLocation")
+                .textContent = "All clear";
+
+            document.getElementById("priorityStatus")
+                .textContent = "Clear";
+
+            return;
+        }
+
+        // First request
+        const first = requests[0];
+
+        document.getElementById("priorityTitle")
+            .textContent =
+            first.disasterType || "Emergency assistance";
+
+        document.getElementById("priorityLocation")
+            .textContent =
+            `${first.location || "Location unavailable"} · ${first.urgency || "Priority"}`;
+
+        document.getElementById("priorityStatus")
+            .textContent =
+            first.status || "Pending";
+
+
+        // Additional requests
+        additionalContainer.innerHTML = "";
+
+        requests.slice(1, 4).forEach(request => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "home-request";
+
+            card.innerHTML = `
+                <div class="home-request-icon">
+                    !
+                </div>
+
+                <div class="home-request-content">
+
+                    <div class="home-request-title">
+                        ${request.disasterType || "Emergency assistance"}
+                    </div>
+
+                    <div class="home-request-location">
+                        ${request.location || "Location unavailable"}
+                        ·
+                        ${request.urgency || "Priority"}
+                    </div>
+
+                </div>
+
+                <span class="home-request-status">
+                    ${request.status || "Pending"}
+                </span>
+            `;
+
+            additionalContainer.appendChild(card);
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Priority request loading error:",
+            error
+        );
+    }
+}
+</script>
+<script>
+async function loadPriorityRequest() {
+    try {
+        const response = await fetch("/api/emergency-requests");
+
+        if (!response.ok) {
+            throw new Error("Failed to load emergency requests");
+        }
+
+        const requests = await response.json();
+
+        console.log("Priority requests received:", requests);
+
+        const title = document.getElementById("priorityTitle");
+        const location = document.getElementById("priorityLocation");
+        const status = document.getElementById("priorityStatus");
+        const additional = document.getElementById("additionalPriorityRequests");
+
+        if (!requests || requests.length === 0) {
+            title.textContent = "No active emergency requests";
+            location.textContent = "All clear";
+            status.textContent = "Clear";
+            return;
+        }
+
+        const first = requests[0];
+
+        title.textContent =
+            first.disasterType || "Emergency assistance";
+
+        location.textContent =
+            `${first.location || "Location unavailable"} · ${first.urgency || "Priority"}`;
+
+        status.textContent =
+            first.status || "Pending";
+
+        additional.innerHTML = "";
+
+        requests.slice(1, 4).forEach(request => {
+            const card = document.createElement("div");
+
+            card.className = "home-request";
+
+            card.innerHTML = `
+                <div class="home-request-icon">
+                    !
+                </div>
+
+                <div class="home-request-content">
+
+                    <div class="home-request-title">
+                        ${request.disasterType || "Emergency assistance"}
+                    </div>
+
+                    <div class="home-request-location">
+                        ${request.location || "Location unavailable"} ·
+                        ${request.urgency || "Priority"}
+                    </div>
+
+                </div>
+
+                <span class="home-request-status">
+                    ${request.status || "Pending"}
+                </span>
+            `;
+
+            additional.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Priority request loading error:", error);
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadPriorityRequest
+);
+
+console.log("Priority script loaded");
+</script>
+</body>
+</html>

@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Report an emergency to DisasterConnect and connect your request with coordinated response support.">
+
+    <title>Report Emergency | DisasterConnect</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+
+    <script src="/js/theme.js"></script>
+
+    <style>
+
+        /* =========================================================
+           DISASTERCONNECT — EMERGENCY REQUEST PAGE
+           ========================================================= */
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 5% 10%,
+                    rgba(220, 38, 38, 0.07),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 95% 90%,
+                    rgba(29, 78, 216, 0.07),
+                    transparent 32%
+                ),
+                var(--dc-bg);
+        }
+
+        .emergency-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================================
+           TOP NAVIGATION
+           ========================================================= */
+
+        .emergency-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 34px;
+
+            background: color-mix(
+                in srgb,
+                var(--dc-surface) 92%,
+                transparent
+            );
+
+            border-bottom: 1px solid var(--dc-border);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+
+            color: var(--dc-text);
+            text-decoration: none;
+
+            font-size: 1.08rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-brand-mark {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: var(--dc-primary);
+            color: #ffffff;
+
+            box-shadow:
+                0 7px 18px rgba(29, 78, 216, 0.20);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            min-height: 40px;
+            padding: 0 13px;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 10px;
+
+            color: var(--dc-text-muted);
+            background: var(--dc-surface);
+
+            font-size: 0.82rem;
+            font-weight: 650;
+            text-decoration: none;
+
+            transition:
+                border-color 0.2s ease,
+                color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-back:hover {
+            color: var(--dc-text);
+            border-color: var(--dc-border-strong);
+            background: var(--dc-surface-muted);
+            transform: translateY(-1px);
+        }
+
+        .theme-button {
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 10px;
+
+            background: var(--dc-surface);
+            color: var(--dc-text);
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .theme-button:hover {
+            border-color: var(--dc-border-strong);
+            background: var(--dc-surface-muted);
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           MAIN CONTENT
+           ========================================================= */
+
+        .emergency-main {
+            flex: 1;
+
+            width: min(
+                calc(100% - 40px),
+                1180px
+            );
+
+            margin: 0 auto;
+
+            padding: 55px 0 70px;
+        }
+
+        .emergency-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(280px, 0.72fr)
+                minmax(520px, 1.28fr);
+
+            gap: 34px;
+
+            align-items: start;
+        }
+
+        /* =========================================================
+           INTRO PANEL
+           ========================================================= */
+
+        .emergency-intro {
+            position: sticky;
+            top: 105px;
+
+            padding: 34px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111827 0%,
+                    #172554 58%,
+                    #1e40af 100%
+                );
+
+            color: #ffffff;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 22px 55px rgba(15, 23, 42, 0.18);
+        }
+
+        .emergency-intro::before {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            top: -125px;
+            right: -100px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+        }
+
+        .emergency-intro::after {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            border-radius: 50%;
+
+            bottom: -100px;
+            left: -90px;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 22px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.13);
+
+            color:
+                rgba(255, 255, 255, 0.88);
+
+            font-size: 0.72rem;
+            font-weight: 750;
+
+            text-transform: uppercase;
+            letter-spacing: 0.075em;
+        }
+
+        .intro-badge-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #f87171;
+
+            box-shadow:
+                0 0 0 5px rgba(248, 113, 113, 0.13);
+        }
+
+        .emergency-intro h1 {
+            margin: 0 0 17px;
+
+            color: #ffffff;
+
+            font-size:
+                clamp(2.2rem, 4vw, 3.55rem);
+
+            line-height: 1.03;
+
+            letter-spacing: -0.055em;
+        }
+
+        .emergency-intro h1 span {
+            color: #fca5a5;
+        }
+
+        .intro-description {
+            margin: 0 0 32px;
+
+            color:
+                rgba(255, 255, 255, 0.73);
+
+            font-size: 0.94rem;
+            line-height: 1.72;
+        }
+
+        /* =========================================================
+           SAFETY BOX
+           ========================================================= */
+
+        .safety-box {
+            display: flex;
+            gap: 12px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(220, 38, 38, 0.14);
+
+            border:
+                1px solid rgba(248, 113, 113, 0.20);
+        }
+
+        .safety-icon {
+            width: 34px;
+            height: 34px;
+
+            flex: 0 0 34px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(248, 113, 113, 0.14);
+
+            font-size: 0.95rem;
+        }
+
+        .safety-content strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #ffffff;
+
+            font-size: 0.78rem;
+        }
+
+        .safety-content p {
+            margin: 0;
+
+            color:
+                rgba(255, 255, 255, 0.67);
+
+            font-size: 0.74rem;
+            line-height: 1.55;
+        }
+
+        /* =========================================================
+           PROCESS STEPS
+           ========================================================= */
+
+        .response-process {
+            display: grid;
+            gap: 14px;
+
+            margin-top: 30px;
+        }
+
+        .process-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .process-number {
+            width: 28px;
+            height: 28px;
+
+            flex: 0 0 28px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
+            color: #ffffff;
+
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .process-text strong {
+            display: block;
+
+            margin-bottom: 2px;
+
+            color: rgba(255, 255, 255, 0.90);
+
+            font-size: 0.77rem;
+        }
+
+        .process-text span {
+            color:
+                rgba(255, 255, 255, 0.58);
+
+            font-size: 0.71rem;
+        }
+
+        /* =========================================================
+           FORM CARD
+           ========================================================= */
+
+        .emergency-form-card {
+            padding: 38px;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 22px;
+
+            background: var(--dc-surface);
+
+            box-shadow:
+                var(--dc-shadow-md);
+
+            animation:
+                emergencyCardEnter
+                0.55s
+                ease
+                both;
+        }
+
+        @keyframes emergencyCardEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .form-heading {
+            margin-bottom: 30px;
+        }
+
+        .form-heading-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .form-heading h2 {
+            margin: 0 0 7px;
+
+            color: var(--dc-text);
+
+            font-size: 1.55rem;
+
+            letter-spacing: -0.035em;
+        }
+
+        .form-heading p {
+            margin: 0;
+
+            color: var(--dc-text-muted);
+
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .required-note {
+            color: var(--dc-text-subtle);
+
+            font-size: 0.72rem;
+
+            white-space: nowrap;
+        }
+
+        .required-note span {
+            color: var(--dc-danger);
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .emergency-form {
+            display: grid;
+            gap: 22px;
+        }
+
+        .form-row {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 17px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: var(--dc-text);
+
+            font-size: 0.81rem;
+            font-weight: 750;
+        }
+
+        .required {
+            color: var(--dc-danger);
+        }
+
+        .field-hint {
+            margin-top: -2px;
+
+            color: var(--dc-text-subtle);
+
+            font-size: 0.70rem;
+            line-height: 1.45;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background: var(--dc-input-bg);
+            color: var(--dc-text);
+
+            font: inherit;
+
+            font-size: 0.87rem;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .form-input,
+        .form-select {
+            min-height: 48px;
+
+            padding:
+                0 13px;
+        }
+
+        .form-textarea {
+            min-height: 140px;
+
+            padding:
+                13px;
+
+            resize: vertical;
+
+            line-height: 1.55;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--dc-text-subtle);
+        }
+
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            border-color:
+                var(--dc-border-strong);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color:
+                var(--dc-primary);
+
+            box-shadow:
+                0 0 0 4px
+                var(--dc-primary-soft);
+
+            background:
+                var(--dc-surface);
+        }
+
+        /* =========================================================
+           SELECT
+           ========================================================= */
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           URGENCY SELECTOR
+           ========================================================= */
+
+        .urgency-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+        .urgency-option {
+            position: relative;
+        }
+
+        .urgency-option input {
+            position: absolute;
+
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .urgency-label {
+            min-height: 72px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding: 10px 12px;
+
+            border:
+                1px solid var(--dc-border);
+
+            border-radius: 11px;
+
+            background:
+                var(--dc-input-bg);
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .urgency-label:hover {
+            border-color:
+                var(--dc-border-strong);
+
+            transform: translateY(-1px);
+        }
+
+        .urgency-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: var(--dc-text);
+
+            font-size: 0.79rem;
+            font-weight: 800;
+        }
+
+        .urgency-description {
+            margin-top: 5px;
+
+            color: var(--dc-text-subtle);
+
+            font-size: 0.66rem;
+            line-height: 1.35;
+        }
+
+        .urgency-dot {
+            width: 8px;
+            height: 8px;
+
+            flex: 0 0 8px;
+
+            border-radius: 50%;
+        }
+
+        .urgency-low .urgency-dot {
+            background: #22c55e;
+        }
+
+        .urgency-medium .urgency-dot {
+            background: #f59e0b;
+        }
+
+        .urgency-high .urgency-dot {
+            background: #ef4444;
+        }
+
+        .urgency-option input:checked
+        + .urgency-label {
+            border-color:
+                var(--dc-primary);
+
+            background:
+                var(--dc-primary-soft);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(29, 78, 216, 0.06);
+        }
+
+        /* =========================================================
+           TEXTAREA COUNTER
+           ========================================================= */
+
+        .textarea-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-top: -2px;
+        }
+
+        .textarea-counter {
+            color: var(--dc-text-subtle);
+
+            font-size: 0.69rem;
+        }
+
+        /* =========================================================
+           FORM DIVIDER
+           ========================================================= */
+
+        .form-divider {
+            height: 1px;
+
+            background:
+                var(--dc-border);
+
+            margin: 2px 0;
+        }
+
+        /* =========================================================
+           SUBMIT AREA
+           ========================================================= */
+
+        .submit-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .submit-note {
+            max-width: 280px;
+
+            color: var(--dc-text-subtle);
+
+            font-size: 0.70rem;
+            line-height: 1.5;
+        }
+
+        .submit-button {
+            min-width: 190px;
+            min-height: 50px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            padding:
+                0 19px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background:
+                var(--dc-danger);
+
+            color: #ffffff;
+
+            font: inherit;
+
+            font-size: 0.84rem;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 22px
+                rgba(220, 38, 38, 0.19);
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .submit-button:hover {
+            background:
+                #b91c1c;
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 13px 28px
+                rgba(220, 38, 38, 0.25);
+        }
+
+        .submit-button:active {
+            transform:
+                translateY(0);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.65;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+
+            box-shadow:
+                none;
+        }
+
+        .submit-spinner {
+            display: none;
+
+            width: 16px;
+            height: 16px;
+
+            border:
+                2px solid
+                rgba(255, 255, 255, 0.35);
+
+            border-top-color:
+                #ffffff;
+
+            border-radius: 50%;
+
+            animation:
+                spin
+                0.7s
+                linear
+                infinite;
+        }
+
+        .submit-button.loading
+        .submit-spinner {
+            display: block;
+        }
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+        /* =========================================================
+           VALIDATION ALERT
+           ========================================================= */
+
+        .form-alert {
+            display: none;
+
+            padding:
+                13px 15px;
+
+            border-radius:
+                11px;
+
+            background:
+                var(--dc-danger-soft);
+
+            border:
+                1px solid
+                var(--dc-danger-border);
+
+            color:
+                var(--dc-danger);
+
+            font-size:
+                0.78rem;
+
+            line-height:
+                1.5;
+        }
+
+        .form-alert.show {
+            display: block;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .emergency-footer {
+            padding:
+                22px 30px;
+
+            border-top:
+                1px solid
+                var(--dc-border);
+
+            text-align:
+                center;
+
+            color:
+                var(--dc-text-subtle);
+
+            font-size:
+                0.70rem;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .emergency-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .emergency-intro {
+                position: relative;
+                top: auto;
+            }
+
+            .emergency-intro {
+                padding: 30px;
+            }
+
+            .response-process {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .emergency-nav {
+                padding:
+                    0 18px;
+            }
+
+            .nav-back span {
+                display: none;
+            }
+
+            .emergency-main {
+                width:
+                    min(
+                        calc(100% - 28px),
+                        620px
+                    );
+
+                padding:
+                    28px 0 45px;
+            }
+
+            .emergency-intro {
+                padding:
+                    27px 22px;
+            }
+
+            .emergency-intro h1 {
+                font-size:
+                    2.45rem;
+            }
+
+            .response-process {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .emergency-form-card {
+                padding:
+                    25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .urgency-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .urgency-label {
+                min-height:
+                    64px;
+            }
+
+            .form-heading-top {
+                flex-direction:
+                    column;
+            }
+
+            .required-note {
+                white-space:
+                    normal;
+            }
+
+            .submit-area {
+                flex-direction:
+                    column;
+                align-items:
+                    stretch;
+            }
+
+            .submit-note {
+                max-width:
+                    none;
+            }
+
+            .submit-button {
+                width:
+                    100%;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .nav-brand {
+                font-size:
+                    0.95rem;
+            }
+
+            .nav-brand-mark {
+                width:
+                    36px;
+                height:
+                    36px;
+            }
+
+            .emergency-main {
+                width:
+                    calc(100% - 20px);
+            }
+
+            .emergency-form-card {
+                padding:
+                    22px 16px;
+            }
+
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .emergency-form-card,
+            .submit-button,
+            .form-input,
+            .form-select,
+            .form-textarea,
+            .urgency-label,
+            .nav-back,
+            .theme-button {
+                animation:
+                    none;
+
+                transition:
+                    none;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="emergency-page">
+
+    <!-- =========================================================
+         NAVIGATION
+         ========================================================= -->
+
+    <header class="emergency-nav">
+
+        <a
+            href="/"
+            class="nav-brand">
+
+            <span class="nav-brand-mark">
+                🛡️
+            </span>
+
+            <span>
+                DisasterConnect
+            </span>
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <a
+                href="/"
+                class="nav-back">
+
+                <span>
+                    ← Back to home
+                </span>
+
+                <strong>
+                    ←
+                </strong>
+
+            </a>
+
+
+            <button
+                type="button"
+                class="theme-button"
+                data-theme-toggle
+                aria-label="Switch theme"
+                title="Switch theme">
+
+                <span data-theme-icon>
+                    🌙
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
+
+    <main class="emergency-main">
+
+        <div class="emergency-layout">
+
+            <!-- =================================================
+                 INTRODUCTION
+                 ================================================= -->
+
+            <aside class="emergency-intro">
+
+                <div class="intro-content">
+
+                    <div class="intro-badge">
+
+                        <span
+                            class="intro-badge-dot">
+                        </span>
+
+                        Emergency response
+
+                    </div>
+
+
+                    <h1>
+                        Report an
+                        <span>emergency.</span>
+                    </h1>
+
+
+                    <p class="intro-description">
+
+                        Provide the essential details about the
+                        situation. Your request can then be reviewed
+                        and coordinated through the DisasterConnect
+                        emergency response network.
+
+                    </p>
+
+
+                    <!-- Safety notice -->
+
+                    <div class="safety-box">
+
+                        <div class="safety-icon">
+                            ⚠️
+                        </div>
+
+                        <div class="safety-content">
+
+                            <strong>
+                                Immediate danger?
+                            </strong>
+
+                            <p>
+                                If someone is in immediate danger,
+                                contact the appropriate local emergency
+                                services first. DisasterConnect is a
+                                coordination platform.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Response process -->
+
+                    <div class="response-process">
+
+                        <div class="process-item">
+
+                            <div class="process-number">
+                                01
+                            </div>
+
+                            <div class="process-text">
+
+                                <strong>
+                                    Submit the request
+                                </strong>
+
+                                <span>
+                                    Provide accurate emergency details.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-number">
+                                02
+                            </div>
+
+                            <div class="process-text">
+
+                                <strong>
+                                    Request is reviewed
+                                </strong>
+
+                                <span>
+                                    Response teams can assess the situation.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-number">
+                                03
+                            </div>
+
+                            <div class="process-text">
+
+                                <strong>
+                                    Coordination begins
+                                </strong>
+
+                                <span>
+                                    Suitable volunteers and resources can be coordinated.
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 FORM
+                 ================================================= -->
+
+            <section class="emergency-form-card">
+
+                <div class="form-heading">
+
+                    <div class="form-heading-top">
+
+                        <div>
+
+                            <h2>
+                                Emergency request
+                            </h2>
+
+                            <p>
+                                Tell us what is happening and where
+                                assistance may be needed.
+                            </p>
+
+                        </div>
+
+                        <div class="required-note">
+
+                            <span>*</span>
+                            Required fields
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Validation alert -->
+
+                <div
+                    id="formAlert"
+                    class="form-alert"
+                    role="alert">
+                </div>
+
+
+                <form
+                    id="emergencyForm"
+                    class="emergency-form"
+                    method="post"
+                    action="/emergency-request"
+                    novalidate>
+<input type="hidden" id="latitude" name="latitude">
+<input type="hidden" id="longitude" name="longitude">
+
+                    <!-- =========================================
+                         REQUESTER DETAILS
+                         ========================================= -->
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="requesterName">
+
+                                Your name
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="requesterName"
+                                name="requesterName"
+                                class="form-input"
+                                type="text"
+                                placeholder="Enter your full name"
+                                autocomplete="name"
+                                maxlength="100"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label
+                                class="form-label"
+                                for="contactNumber">
+
+                                Contact number
+                                <span class="required">*</span>
+
+                            </label>
+
+                            <input
+                                id="contactNumber"
+                                name="contactNumber"
+                                class="form-input"
+                                type="tel"
+                                placeholder="Enter a reachable number"
+                                autocomplete="tel"
+                                maxlength="20"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         LOCATION
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="location">
+
+                            Emergency location
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <input
+                            id="location"
+                            name="location"
+                            class="form-input"
+                            type="text"
+                            placeholder="Area, town, district or other useful location details"
+                            maxlength="200"
+                            required>
+    <button
+                        type="button"
+                        class="btn-secondary"
+                         id="useCurrentLocationBtn">
+                        📍 Use My Current Location
+    </button>
+
+<div
+    id="locationStatus"
+    class="field-hint"
+    style="margin-top: 8px;">
+    You can enter the location manually or use your current location.
+</div>
+                        <span class="field-hint">
+                            Be as specific as possible without sharing unnecessary personal information.
+                        </span>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         DISASTER TYPE
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="disasterType">
+
+                            Type of emergency
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <select
+                            id="disasterType"
+                            name="disasterType"
+                            class="form-select"
+                            required>
+
+                            <option
+                                value=""
+                                selected
+                                disabled>
+
+                                Select the emergency type
+
+                            </option>
+
+                            <option value="FLOOD">
+                                Flood
+                            </option>
+
+                            <option value="EARTHQUAKE">
+                                Earthquake
+                            </option>
+
+                            <option value="LANDSLIDE">
+                                Landslide
+                            </option>
+
+                            <option value="CYCLONE">
+                                Cyclone / Severe storm
+                            </option>
+
+                            <option value="FIRE">
+                                Fire
+                            </option>
+
+                            <option value="ACCIDENT">
+                                Accident
+                            </option>
+
+                            <option value="MEDICAL">
+                                Medical emergency
+                            </option>
+
+                            <option value="MISSING_PERSON">
+                                Missing person
+                            </option>
+
+                            <option value="BUILDING_COLLAPSE">
+                                Building collapse
+                            </option>
+
+                            <option value="OTHER">
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         URGENCY
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label">
+
+                            Urgency
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <div class="urgency-grid">
+
+
+                            <!-- LOW -->
+
+                            <div class="urgency-option">
+
+                                <input
+                                    id="urgencyLow"
+                                    type="radio"
+                                    name="urgency"
+                                    value="LOW"
+                                    required>
+
+                                <label
+                                    for="urgencyLow"
+                                    class="urgency-label urgency-low">
+
+                                    <span class="urgency-title">
+
+                                        <span class="urgency-dot">
+                                        </span>
+
+                                        Low
+
+                                    </span>
+
+                                    <span class="urgency-description">
+
+                                        Assistance is needed but not immediately critical.
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- MEDIUM -->
+
+                            <div class="urgency-option">
+
+                                <input
+                                    id="urgencyMedium"
+                                    type="radio"
+                                    name="urgency"
+                                    value="MEDIUM">
+
+                                <label
+                                    for="urgencyMedium"
+                                    class="urgency-label urgency-medium">
+
+                                    <span class="urgency-title">
+
+                                        <span class="urgency-dot">
+                                        </span>
+
+                                        Medium
+
+                                    </span>
+
+                                    <span class="urgency-description">
+
+                                        The situation requires timely assistance.
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- HIGH -->
+
+                            <div class="urgency-option">
+
+                                <input
+                                    id="urgencyHigh"
+                                    type="radio"
+                                    name="urgency"
+                                    value="HIGH">
+
+                                <label
+                                    for="urgencyHigh"
+                                    class="urgency-label urgency-high">
+
+                                    <span class="urgency-title">
+
+                                        <span class="urgency-dot">
+                                        </span>
+
+                                        High
+
+                                    </span>
+
+                                    <span class="urgency-description">
+
+                                        Immediate coordination may be required.
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         DESCRIPTION
+                         ========================================= -->
+
+                    <div class="form-group">
+
+                        <label
+                            class="form-label"
+                            for="description">
+
+                            Describe the situation
+                            <span class="required">*</span>
+
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            class="form-textarea"
+                            placeholder="Briefly describe what happened, what assistance may be needed, and any important information responders should know..."
+                            maxlength="1000"
+                            required></textarea>
+
+                        <div class="textarea-meta">
+
+                            <span class="field-hint">
+                                Keep the description factual and concise.
+                            </span>
+
+                            <span
+                                id="characterCounter"
+                                class="textarea-counter">
+
+                                0 / 1000
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Divider -->
+
+                    <div class="form-divider">
+                    </div>
+
+
+                    <!-- =========================================
+                         SUBMIT
+                         ========================================= -->
+
+                    <div class="submit-area">
+
+                        <p class="submit-note">
+
+                            By submitting this request, you confirm that
+                            the information provided is accurate to the
+                            best of your knowledge.
+
+                        </p>
+
+
+                        <button
+                            id="submitButton"
+                            class="submit-button"
+                            type="submit">
+
+                            <span
+                                id="submitSpinner"
+                                class="submit-spinner">
+                            </span>
+
+                            <span id="submitText">
+                                Submit emergency request
+                            </span>
+
+                            <span id="submitArrow">
+                                →
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
+    <footer class="emergency-footer">
+
+        DisasterConnect
+        &nbsp;•&nbsp;
+        Emergency coordination platform
+
+    </footer>
+
+</div>
+
+
+<script>
+
+    "use strict";
+
+
+    /* =========================================================
+       ELEMENT REFERENCES
+       ========================================================= */
+
+    const emergencyForm =
+        document.getElementById("emergencyForm");
+
+    const requesterName =
+        document.getElementById("requesterName");
+
+    const contactNumber =
+        document.getElementById("contactNumber");
+
+    const locationInput =
+        document.getElementById("location");
+    const latitudeInput =
+    document.getElementById("latitude");
+
+const longitudeInput =
+    document.getElementById("longitude");
+
+const useCurrentLocationBtn =
+    document.getElementById("useCurrentLocationBtn");
+
+const locationStatus =
+    document.getElementById("locationStatus");
+
+    const disasterType =
+        document.getElementById("disasterType");
+
+    const description =
+        document.getElementById("description");
+
+    const formAlert =
+        document.getElementById("formAlert");
+
+    const characterCounter =
+        document.getElementById("characterCounter");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const submitText =
+        document.getElementById("submitText");
+
+    const submitArrow =
+        document.getElementById("submitArrow");
+    async function reverseGeocode(latitude, longitude) {
+
+    try {
+
+        const response = await fetch(
+            `/api/geocode/reverse?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Backend reverse geocoding failed");
+        }
+
+        const data = await response.json();
+
+        return data.placeName || null;
+
+    } catch (error) {
+
+        console.error(
+            "Reverse geocoding error:",
+            error
+        );
+
+        return null;
+    }
+}
+    useCurrentLocationBtn.addEventListener("click", () => {
+
+    if (!navigator.geolocation) {
+        locationStatus.textContent =
+            "Geolocation is not supported by this browser.";
+        return;
+    }
+
+    locationStatus.textContent =
+        "Getting your current location...";
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+            const accuracy =
+                position.coords.accuracy;
+
+            latitudeInput.value = latitude;
+longitudeInput.value = longitude;
+
+locationStatus.textContent =
+    "Finding your area name...";
+
+const placeName =
+    await reverseGeocode(latitude, longitude);
+
+if (placeName) {
+
+    locationInput.value = placeName;
+
+    locationStatus.textContent =
+        `Location detected successfully: ${placeName}`;
+
+} else {
+
+    locationInput.value =
+        `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+
+    locationStatus.textContent =
+        `Location detected. Coordinates: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+}
+
+console.log("Latitude:", latitude);
+console.log("Longitude:", longitude);
+
+console.log(
+    "Accuracy:",
+    accuracy,
+    "meters"
+);
+
+            locationStatus.textContent =
+                `GPS detected. Accuracy: ±${Math.round(accuracy)} meters`;
+        },
+
+        (error) => {
+
+            console.error(
+                "Geolocation error:",
+                error
+            );
+
+            switch (error.code) {
+
+                case error.PERMISSION_DENIED:
+                    locationStatus.textContent =
+                        "Location permission was denied. Please allow location access.";
+                    break;
+
+                case error.POSITION_UNAVAILABLE:
+                    locationStatus.textContent =
+                        "Your location could not be determined.";
+                    break;
+
+                case error.TIMEOUT:
+                    locationStatus.textContent =
+                        "Location request timed out. Please try again.";
+                    break;
+
+                default:
+                    locationStatus.textContent =
+                        "Unable to get your current location.";
+            }
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0
+        }
+    );
+});
+
+    /* =========================================================
+       ALERT
+       ========================================================= */
+
+    function showAlert(message) {
+
+        formAlert.textContent =
+            message;
+
+        formAlert.classList.add("show");
+
+        formAlert.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+    }
+
+
+    function hideAlert() {
+
+        formAlert.textContent =
+            "";
+
+        formAlert.classList.remove("show");
+
+    }
+
+
+    /* =========================================================
+       CHARACTER COUNTER
+       ========================================================= */
+
+    function updateCharacterCounter() {
+
+        const currentLength =
+            description.value.length;
+
+        characterCounter.textContent =
+            currentLength + " / 1000";
+
+
+        if (currentLength >= 900) {
+
+            characterCounter.style.color =
+                "var(--dc-danger)";
+
+        } else if (currentLength >= 750) {
+
+            characterCounter.style.color =
+                "var(--dc-warning)";
+
+        } else {
+
+            characterCounter.style.color =
+                "var(--dc-text-subtle)";
+
+        }
+
+    }
+
+
+    description.addEventListener(
+        "input",
+        updateCharacterCounter
+    );
+
+
+    /* =========================================================
+       VALIDATION
+       ========================================================= */
+
+    function validateForm() {
+
+        hideAlert();
+
+
+        const name =
+            requesterName.value.trim();
+
+        const contact =
+            contactNumber.value.trim();
+
+        const location =
+            locationInput.value.trim();
+
+        const type =
+            disasterType.value;
+
+        const selectedUrgency =
+            document.querySelector(
+                'input[name="urgency"]:checked'
+            );
+
+        const descriptionText =
+            description.value.trim();
+
+
+        /* NAME */
+
+        if (!name) {
+
+            showAlert(
+                "Please enter your name."
+            );
+
+            requesterName.focus();
+
+            return false;
+
+        }
+
+
+        if (name.length < 2) {
+
+            showAlert(
+                "Please enter a valid name."
+            );
+
+            requesterName.focus();
+
+            return false;
+
+        }
+
+
+        /* CONTACT */
+
+        if (!contact) {
+
+            showAlert(
+                "Please enter a contact number."
+            );
+
+            contactNumber.focus();
+
+            return false;
+
+        }
+
+
+        const contactPattern =
+            /^[0-9+\-\s()]{7,20}$/;
+
+        if (!contactPattern.test(contact)) {
+
+            showAlert(
+                "Please enter a valid contact number."
+            );
+
+            contactNumber.focus();
+
+            return false;
+
+        }
+
+
+        /* LOCATION */
+
+        if (!location) {
+
+            showAlert(
+                "Please enter the emergency location."
+            );
+
+            locationInput.focus();
+
+            return false;
+
+        }
+
+
+        /* DISASTER TYPE */
+
+        if (!type) {
+
+            showAlert(
+                "Please select the type of emergency."
+            );
+
+            disasterType.focus();
+
+            return false;
+
+        }
+
+
+        /* URGENCY */
+
+        if (!selectedUrgency) {
+
+            showAlert(
+                "Please select the urgency level."
+            );
+
+            return false;
+
+        }
+
+
+        /* DESCRIPTION */
+
+        if (!descriptionText) {
+
+            showAlert(
+                "Please describe the emergency situation."
+            );
+
+            description.focus();
+
+            return false;
+
+        }
+
+
+        if (descriptionText.length < 10) {
+
+            showAlert(
+                "Please provide a little more detail about the situation."
+            );
+
+            description.focus();
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =========================================================
+       FORM SUBMISSION
+       ========================================================= */
+
+    emergencyForm.addEventListener(
+        "submit",
+        function (event) {
+
+            if (!validateForm()) {
+
+                event.preventDefault();
+
+                return;
+
+            }
+
+
+            submitButton.disabled =
+                true;
+
+            submitButton.classList.add(
+                "loading"
+            );
+
+            submitText.textContent =
+                "Submitting request...";
+
+            submitArrow.style.display =
+                "none";
+
+        }
+    );
+
+
+    /* =========================================================
+       CLEAR VALIDATION ALERT
+       ========================================================= */
+
+    [
+        requesterName,
+        contactNumber,
+        locationInput,
+        disasterType,
+        description
+    ].forEach(function (element) {
+
+        element.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    formAlert.classList.contains("show")
+                ) {
+
+                    hideAlert();
+
+                }
+
+            }
+        );
+
+        element.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    formAlert.classList.contains("show")
+                ) {
+
+                    hideAlert();
+
+                }
+
+            }
+        );
+
+    });
+
+
+    document
+        .querySelectorAll(
+            'input[name="urgency"]'
+        )
+        .forEach(function (radio) {
+
+            radio.addEventListener(
+                "change",
+                function () {
+
+                    if (
+                        formAlert.classList.contains("show")
+                    ) {
+
+                        hideAlert();
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    updateCharacterCounter();
+
+</script>
+
+</body>
+</html>
