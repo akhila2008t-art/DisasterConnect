@@ -1,7 +1,6 @@
 package com.disasterconnect.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,8 +29,13 @@ public class EmergencyRequest {
     @Column(nullable = false)
     private String urgency;
 
+    // Overall emergency request status
     @Column(nullable = false)
     private String status;
+
+    // Separate status for the volunteer's action on this request
+    @Column(nullable = false)
+    private String volunteerActionStatus = "NOT_STARTED";
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -41,13 +45,23 @@ public class EmergencyRequest {
 
     @Column
     private Long assignedVolunteerId;
-    @Column
-private Double latitude;
 
-@Column
-private Double longitude;
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
+    // =========================================================
+    // DEFAULT CONSTRUCTOR
+    // =========================================================
+
     public EmergencyRequest() {
     }
+
+    // =========================================================
+    // CONVENIENCE CONSTRUCTOR WITHOUT COORDINATES
+    // =========================================================
 
     public EmergencyRequest(
             String requesterName,
@@ -65,12 +79,47 @@ private Double longitude;
         this.description = description;
         this.urgency = urgency;
         this.status = status;
+        this.volunteerActionStatus = "NOT_STARTED";
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
+    // =========================================================
+    // FULL CONSTRUCTOR WITH COORDINATES
+    // =========================================================
+
+    public EmergencyRequest(
+            String requesterName,
+            String contactNumber,
+            String location,
+            String disasterType,
+            String description,
+            String urgency,
+            String status,
+            Double latitude,
+            Double longitude) {
+
+        this(
+                requesterName,
+                contactNumber,
+                location,
+                disasterType,
+                description,
+                urgency,
+                status
+        );
+
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    // =========================================================
+    // JPA LIFECYCLE
+    // =========================================================
+
     @PrePersist
     protected void onCreate() {
+
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
         }
@@ -78,12 +127,29 @@ private Double longitude;
         if (updatedAt == null) {
             updatedAt = LocalDateTime.now();
         }
+
+        if (volunteerActionStatus == null ||
+                volunteerActionStatus.isBlank()) {
+
+            volunteerActionStatus = "NOT_STARTED";
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
+
         updatedAt = LocalDateTime.now();
+
+        if (volunteerActionStatus == null ||
+                volunteerActionStatus.isBlank()) {
+
+            volunteerActionStatus = "NOT_STARTED";
+        }
     }
+
+    // =========================================================
+    // GETTERS AND SETTERS
+    // =========================================================
 
     public Long getId() {
         return id;
@@ -149,6 +215,14 @@ private Double longitude;
         this.status = status;
     }
 
+    public String getVolunteerActionStatus() {
+        return volunteerActionStatus;
+    }
+
+    public void setVolunteerActionStatus(String volunteerActionStatus) {
+        this.volunteerActionStatus = volunteerActionStatus;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -165,27 +239,27 @@ private Double longitude;
         this.updatedAt = updatedAt;
     }
 
-   public Long getAssignedVolunteerId() {
-    return assignedVolunteerId;
-}
+    public Long getAssignedVolunteerId() {
+        return assignedVolunteerId;
+    }
 
-public void setAssignedVolunteerId(Long assignedVolunteerId) {
-    this.assignedVolunteerId = assignedVolunteerId;
-}
+    public void setAssignedVolunteerId(Long assignedVolunteerId) {
+        this.assignedVolunteerId = assignedVolunteerId;
+    }
 
-public Double getLatitude() {
-    return latitude;
-}
+    public Double getLatitude() {
+        return latitude;
+    }
 
-public void setLatitude(Double latitude) {
-    this.latitude = latitude;
-}
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
-public Double getLongitude() {
-    return longitude;
-}
+    public Double getLongitude() {
+        return longitude;
+    }
 
-public void setLongitude(Double longitude) {
-    this.longitude = longitude;
-}
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 }

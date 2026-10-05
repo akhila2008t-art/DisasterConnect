@@ -11,6 +11,8 @@
 
     <title>Report Emergency | DisasterConnect</title>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
 
@@ -697,7 +699,7 @@
                 var(--dc-border-strong);
 
             transform: translateY(-1px);
-        }
+                    }
 
         .urgency-title {
             display: flex;
@@ -963,6 +965,147 @@
 
             font-size:
                 0.70rem;
+        }
+
+        /* =========================================================
+           MAP LOCATION PICKER
+           ========================================================= */
+
+        .location-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .location-action-button {
+            min-height: 44px;
+            padding: 0 14px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 10px;
+
+            background: var(--dc-input-bg);
+            color: var(--dc-text);
+
+            font: inherit;
+            font-size: 0.78rem;
+            font-weight: 750;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .location-action-button:hover {
+            border-color: var(--dc-border-strong);
+            background: var(--dc-surface-muted);
+            transform: translateY(-1px);
+        }
+
+        .location-action-button.primary-map {
+            border-color: var(--dc-primary);
+            background: var(--dc-primary-soft);
+            color: var(--dc-primary);
+        }
+
+        .location-action-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .map-picker {
+            display: none;
+            margin-top: 4px;
+
+            overflow: hidden;
+
+            border: 1px solid var(--dc-border);
+            border-radius: 14px;
+
+            background: var(--dc-surface);
+
+            box-shadow: var(--dc-shadow-sm);
+        }
+
+        .map-picker.show {
+            display: block;
+        }
+
+        .map-picker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+
+            padding: 12px 14px;
+
+            border-bottom: 1px solid var(--dc-border);
+
+            background: var(--dc-surface-muted);
+        }
+
+        .map-picker-title {
+            color: var(--dc-text);
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .map-picker-hint {
+            margin-top: 2px;
+            color: var(--dc-text-subtle);
+            font-size: 0.67rem;
+            line-height: 1.4;
+        }
+
+        .map-close-button {
+            border: 0;
+            background: transparent;
+            color: var(--dc-text-muted);
+            font: inherit;
+            font-size: 0.76rem;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .map-close-button:hover {
+            color: var(--dc-text);
+        }
+
+        #locationMap {
+            width: 100%;
+            height: 360px;
+            min-height: 280px;
+            z-index: 1;
+        }
+
+        .map-coordinates {
+            padding: 9px 14px;
+
+            border-top: 1px solid var(--dc-border);
+
+            background: var(--dc-surface);
+
+            color: var(--dc-text-subtle);
+            font-size: 0.68rem;
+            line-height: 1.5;
+        }
+
+        .map-coordinates strong {
+            color: var(--dc-text);
+        }
+
+        .leaflet-control-attribution {
+            font-size: 9px;
         }
 
         /* =========================================================
@@ -1253,9 +1396,7 @@
                         </div>
 
                     </div>
-
-
-                    <!-- Response process -->
+                                        <!-- Response process -->
 
                     <div class="response-process">
 
@@ -1363,408 +1504,512 @@
                 </div>
 
 
-                <!-- Validation alert -->
-
-                <div
-                    id="formAlert"
-                    class="form-alert"
-                    role="alert">
-                </div>
-
-
-                <form
-                    id="emergencyForm"
-                    class="emergency-form"
-                    method="post"
-                    action="/emergency-request"
-                    novalidate>
-<input type="hidden" id="latitude" name="latitude">
-<input type="hidden" id="longitude" name="longitude">
-
-                    <!-- =========================================
-                         REQUESTER DETAILS
-                         ========================================= -->
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="requesterName">
-
-                                Your name
-                                <span class="required">*</span>
-
-                            </label>
-
-                            <input
-                                id="requesterName"
-                                name="requesterName"
-                                class="form-input"
-                                type="text"
-                                placeholder="Enter your full name"
-                                autocomplete="name"
-                                maxlength="100"
-                                required>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label
-                                class="form-label"
-                                for="contactNumber">
-
-                                Contact number
-                                <span class="required">*</span>
-
-                            </label>
-
-                            <input
-                                id="contactNumber"
-                                name="contactNumber"
-                                class="form-input"
-                                type="tel"
-                                placeholder="Enter a reachable number"
-                                autocomplete="tel"
-                                maxlength="20"
-                                required>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =========================================
-                         LOCATION
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label
-                            class="form-label"
-                            for="location">
-
-                            Emergency location
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <input
-                            id="location"
-                            name="location"
-                            class="form-input"
-                            type="text"
-                            placeholder="Area, town, district or other useful location details"
-                            maxlength="200"
-                            required>
-    <button
-                        type="button"
-                        class="btn-secondary"
-                         id="useCurrentLocationBtn">
-                        📍 Use My Current Location
-    </button>
+<!-- Validation alert -->
 
 <div
-    id="locationStatus"
-    class="field-hint"
-    style="margin-top: 8px;">
-    You can enter the location manually or use your current location.
+    id="formAlert"
+    class="form-alert"
+    role="alert">
 </div>
-                        <span class="field-hint">
-                            Be as specific as possible without sharing unnecessary personal information.
-                        </span>
 
+
+<!-- =================================================
+     EMERGENCY FORM
+     ================================================= -->
+
+<form
+    id="emergencyForm"
+    class="emergency-form"
+    method="post"
+    action="/emergency-request">
+
+
+    <!-- =========================================
+         REQUESTER DETAILS
+         ========================================= -->
+
+    <div class="form-row">
+
+        <!-- NAME -->
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="requesterName">
+
+                Your name
+                <span class="required">*</span>
+
+            </label>
+
+            <input
+                id="requesterName"
+                name="requesterName"
+                class="form-input"
+                type="text"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                maxlength="100"
+                required>
+
+        </div>
+
+
+        <!-- CONTACT NUMBER -->
+
+        <div class="form-group">
+
+            <label
+                class="form-label"
+                for="contactNumber">
+
+                Contact number
+                <span class="required">*</span>
+
+            </label>
+
+            <input
+                id="contactNumber"
+                name="contactNumber"
+                class="form-input"
+                type="tel"
+                placeholder="Enter a reachable number"
+                autocomplete="tel"
+                maxlength="20"
+                required>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         LOCATION
+         ========================================= -->
+
+    <div class="form-group">
+
+        <label
+            class="form-label"
+            for="location">
+
+            Emergency location
+            <span class="required">*</span>
+
+        </label>
+
+        <input
+            id="location"
+            name="location"
+            class="form-input"
+            type="text"
+            placeholder="Area, town, district or other useful location details"
+            maxlength="200"
+            required>
+
+        <!-- Coordinates are optional for manual location entry,
+             but are submitted when GPS or the map is used. -->
+
+        <input
+            type="hidden"
+            id="latitude"
+            name="latitude">
+
+        <input
+            type="hidden"
+            id="longitude"
+            name="longitude">
+
+
+        <div class="location-actions">
+
+            <button
+                type="button"
+                class="location-action-button"
+                id="useCurrentLocationBtn">
+
+                📍 Use My Current Location
+
+            </button>
+
+            <button
+                type="button"
+                class="location-action-button primary-map"
+                id="openMapBtn">
+
+                🗺️ Select Location on Map
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="mapPicker"
+            class="map-picker">
+
+            <div class="map-picker-header">
+
+                <div>
+
+                    <div class="map-picker-title">
+                        Select the emergency location
                     </div>
 
-
-                    <!-- =========================================
-                         DISASTER TYPE
-                         ========================================= -->
-
-                    <div class="form-group">
-
-                        <label
-                            class="form-label"
-                            for="disasterType">
-
-                            Type of emergency
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <select
-                            id="disasterType"
-                            name="disasterType"
-                            class="form-select"
-                            required>
-
-                            <option
-                                value=""
-                                selected
-                                disabled>
-
-                                Select the emergency type
-
-                            </option>
-
-                            <option value="FLOOD">
-                                Flood
-                            </option>
-
-                            <option value="EARTHQUAKE">
-                                Earthquake
-                            </option>
-
-                            <option value="LANDSLIDE">
-                                Landslide
-                            </option>
-
-                            <option value="CYCLONE">
-                                Cyclone / Severe storm
-                            </option>
-
-                            <option value="FIRE">
-                                Fire
-                            </option>
-
-                            <option value="ACCIDENT">
-                                Accident
-                            </option>
-
-                            <option value="MEDICAL">
-                                Medical emergency
-                            </option>
-
-                            <option value="MISSING_PERSON">
-                                Missing person
-                            </option>
-
-                            <option value="BUILDING_COLLAPSE">
-                                Building collapse
-                            </option>
-
-                            <option value="OTHER">
-                                Other
-                            </option>
-
-                        </select>
-
+                    <div class="map-picker-hint">
+                        Click the map where help is needed. You can drag the marker to adjust it.
                     </div>
 
+                </div>
 
-                    <!-- =========================================
-                         URGENCY
-                         ========================================= -->
+                <button
+                    type="button"
+                    class="map-close-button"
+                    id="closeMapBtn">
 
-                    <div class="form-group">
+                    Close
 
-                        <label
-                            class="form-label">
+                </button>
 
-                            Urgency
-                            <span class="required">*</span>
+            </div>
 
-                        </label>
+            <div id="locationMap"></div>
 
-                        <div class="urgency-grid">
+            <div
+                id="mapCoordinates"
+                class="map-coordinates">
 
+                No map location selected yet.
 
-                            <!-- LOW -->
+            </div>
 
-                            <div class="urgency-option">
+        </div>
 
-                                <input
-                                    id="urgencyLow"
-                                    type="radio"
-                                    name="urgency"
-                                    value="LOW"
-                                    required>
 
-                                <label
-                                    for="urgencyLow"
-                                    class="urgency-label urgency-low">
+        <div
+            id="locationStatus"
+            class="field-hint"
+            style="margin-top: 8px;">
 
-                                    <span class="urgency-title">
+            You can enter the location manually or use your current location.
 
-                                        <span class="urgency-dot">
-                                        </span>
+        </div>
 
-                                        Low
 
-                                    </span>
+        <span class="field-hint">
 
-                                    <span class="urgency-description">
+            Be as specific as possible without sharing unnecessary personal information.
 
-                                        Assistance is needed but not immediately critical.
+        </span>
 
-                                    </span>
+    </div>
 
-                                </label>
 
-                            </div>
+    <!-- =========================================
+         DISASTER TYPE
+         ========================================= -->
 
+    <div class="form-group">
 
-                            <!-- MEDIUM -->
+        <label
+            class="form-label"
+            for="disasterType">
 
-                            <div class="urgency-option">
+            Type of emergency
+            <span class="required">*</span>
 
-                                <input
-                                    id="urgencyMedium"
-                                    type="radio"
-                                    name="urgency"
-                                    value="MEDIUM">
+        </label>
 
-                                <label
-                                    for="urgencyMedium"
-                                    class="urgency-label urgency-medium">
 
-                                    <span class="urgency-title">
+        <select
+            id="disasterType"
+            name="disasterType"
+            class="form-select"
+            required>
 
-                                        <span class="urgency-dot">
-                                        </span>
+            <option
+                value=""
+                selected
+                disabled>
 
-                                        Medium
+                Select the emergency type
 
-                                    </span>
+            </option>
 
-                                    <span class="urgency-description">
 
-                                        The situation requires timely assistance.
+            <option value="FLOOD">
+                Flood
+            </option>
 
-                                    </span>
+            <option value="EARTHQUAKE">
+                Earthquake
+            </option>
 
-                                </label>
+            <option value="LANDSLIDE">
+                Landslide
+            </option>
 
-                            </div>
+            <option value="CYCLONE">
+                Cyclone / Severe storm
+            </option>
 
+            <option value="FIRE">
+                Fire
+            </option>
 
-                            <!-- HIGH -->
+            <option value="ACCIDENT">
+                Accident
+            </option>
 
-                            <div class="urgency-option">
+            <option value="MEDICAL">
+                Medical emergency
+            </option>
 
-                                <input
-                                    id="urgencyHigh"
-                                    type="radio"
-                                    name="urgency"
-                                    value="HIGH">
+            <option value="MISSING_PERSON">
+                Missing person
+            </option>
 
-                                <label
-                                    for="urgencyHigh"
-                                    class="urgency-label urgency-high">
+            <option value="BUILDING_COLLAPSE">
+                Building collapse
+            </option>
 
-                                    <span class="urgency-title">
+            <option value="OTHER">
+                Other
+            </option>
 
-                                        <span class="urgency-dot">
-                                        </span>
+        </select>
 
-                                        High
+    </div>
 
-                                    </span>
 
-                                    <span class="urgency-description">
+    <!-- =========================================
+         URGENCY
+         ========================================= -->
 
-                                        Immediate coordination may be required.
+    <div class="form-group">
 
-                                    </span>
+        <label class="form-label">
 
-                                </label>
+            Urgency
+            <span class="required">*</span>
 
-                            </div>
+        </label>
 
-                        </div>
 
-                    </div>
+        <div class="urgency-grid">
 
 
-                    <!-- =========================================
-                         DESCRIPTION
-                         ========================================= -->
+            <!-- LOW -->
 
-                    <div class="form-group">
+            <div class="urgency-option">
 
-                        <label
-                            class="form-label"
-                            for="description">
+                <input
+                    id="urgencyLow"
+                    type="radio"
+                    name="urgency"
+                    value="LOW"
+                    required>
 
-                            Describe the situation
-                            <span class="required">*</span>
 
-                        </label>
+                <label
+                    for="urgencyLow"
+                    class="urgency-label urgency-low">
 
-                        <textarea
-                            id="description"
-                            name="description"
-                            class="form-textarea"
-                            placeholder="Briefly describe what happened, what assistance may be needed, and any important information responders should know..."
-                            maxlength="1000"
-                            required></textarea>
+                    <span class="urgency-title">
 
-                        <div class="textarea-meta">
+                        <span class="urgency-dot"></span>
 
-                            <span class="field-hint">
-                                Keep the description factual and concise.
-                            </span>
+                        Low
 
-                            <span
-                                id="characterCounter"
-                                class="textarea-counter">
+                    </span>
 
-                                0 / 1000
 
-                            </span>
+                    <span class="urgency-description">
 
-                        </div>
+                        Assistance is needed but not immediately critical.
 
-                    </div>
+                    </span>
 
+                </label>
 
-                    <!-- Divider -->
+            </div>
 
-                    <div class="form-divider">
-                    </div>
 
+            <!-- MEDIUM -->
 
-                    <!-- =========================================
-                         SUBMIT
-                         ========================================= -->
+            <div class="urgency-option">
 
-                    <div class="submit-area">
+                <input
+                    id="urgencyMedium"
+                    type="radio"
+                    name="urgency"
+                    value="MEDIUM">
 
-                        <p class="submit-note">
 
-                            By submitting this request, you confirm that
-                            the information provided is accurate to the
-                            best of your knowledge.
+                <label
+                    for="urgencyMedium"
+                    class="urgency-label urgency-medium">
 
-                        </p>
+                    <span class="urgency-title">
 
+                        <span class="urgency-dot"></span>
 
-                        <button
-                            id="submitButton"
-                            class="submit-button"
-                            type="submit">
+                        Medium
 
-                            <span
-                                id="submitSpinner"
-                                class="submit-spinner">
-                            </span>
+                    </span>
 
-                            <span id="submitText">
-                                Submit emergency request
-                            </span>
 
-                            <span id="submitArrow">
-                                →
-                            </span>
+                    <span class="urgency-description">
 
-                        </button>
+                        The situation requires timely assistance.
 
-                    </div>
+                    </span>
 
-                </form>
+                </label>
+
+            </div>
+
+
+            <!-- HIGH -->
+
+            <div class="urgency-option">
+
+                <input
+                    id="urgencyHigh"
+                    type="radio"
+                    name="urgency"
+                    value="HIGH">
+
+
+                <label
+                    for="urgencyHigh"
+                    class="urgency-label urgency-high">
+
+                    <span class="urgency-title">
+
+                        <span class="urgency-dot"></span>
+
+                        High
+
+                    </span>
+
+
+                    <span class="urgency-description">
+
+                        Immediate coordination may be required.
+
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         DESCRIPTION
+         ========================================= -->
+
+    <div class="form-group">
+
+        <label
+            class="form-label"
+            for="description">
+
+            Describe the situation
+            <span class="required">*</span>
+
+        </label>
+
+
+        <textarea
+            id="description"
+            name="description"
+            class="form-textarea"
+            placeholder="Briefly describe what happened, what assistance may be needed, and any important information responders should know..."
+            maxlength="1000"
+            required></textarea>
+
+
+        <div class="textarea-meta">
+
+            <span class="field-hint">
+
+                Keep the description factual and concise.
+
+            </span>
+
+
+            <span
+                id="characterCounter"
+                class="textarea-counter">
+
+                0 / 1000
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         DIVIDER
+         ========================================= -->
+
+    <div class="form-divider"></div>
+
+
+    <!-- =========================================
+         SUBMIT
+         ========================================= -->
+
+    <div class="submit-area">
+
+        <p class="submit-note">
+
+            By submitting this request, you confirm that
+            the information provided is accurate to the
+            best of your knowledge.
+
+        </p>
+
+
+        <button
+            id="submitButton"
+            class="submit-button"
+            type="submit">
+
+            <span
+                id="submitSpinner"
+                class="submit-spinner">
+            </span>
+
+
+            <span id="submitText">
+
+                Submit emergency request
+
+            </span>
+
+
+            <span id="submitArrow">
+
+                →
+
+            </span>
+
+        </button>
+
+    </div>
+
+
+</form>
+
 
             </section>
 
@@ -1788,7 +2033,10 @@
 </div>
 
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
     "use strict";
 
@@ -1800,6 +2048,11 @@
     const emergencyForm =
         document.getElementById("emergencyForm");
 
+    console.log(
+        "EMERGENCY FORM:",
+        emergencyForm
+    );
+
     const requesterName =
         document.getElementById("requesterName");
 
@@ -1808,17 +2061,18 @@
 
     const locationInput =
         document.getElementById("location");
+
     const latitudeInput =
-    document.getElementById("latitude");
+        document.getElementById("latitude");
 
-const longitudeInput =
-    document.getElementById("longitude");
+    const longitudeInput =
+        document.getElementById("longitude");
 
-const useCurrentLocationBtn =
-    document.getElementById("useCurrentLocationBtn");
+    const useCurrentLocationBtn =
+        document.getElementById("useCurrentLocationBtn");
 
-const locationStatus =
-    document.getElementById("locationStatus");
+    const locationStatus =
+        document.getElementById("locationStatus");
 
     const disasterType =
         document.getElementById("disasterType");
@@ -1840,132 +2094,485 @@ const locationStatus =
 
     const submitArrow =
         document.getElementById("submitArrow");
-    async function reverseGeocode(latitude, longitude) {
 
-    try {
 
-        const response = await fetch(
-            `/api/geocode/reverse?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`
-        );
+    /* =========================================================
+       REVERSE GEOCODING
+       ========================================================= */
 
-        if (!response.ok) {
-            throw new Error("Backend reverse geocoding failed");
-        }
+    async function reverseGeocode(
+        latitude,
+        longitude
+    ) {
 
-        const data = await response.json();
+        try {
 
-        return data.placeName || null;
+            const response = await fetch(
+                `/api/geocode/reverse?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`
+            );
 
-    } catch (error) {
+            if (!response.ok) {
 
-        console.error(
-            "Reverse geocoding error:",
-            error
-        );
+                throw new Error(
+                    "Backend reverse geocoding failed"
+                );
 
-        return null;
-    }
-}
-    useCurrentLocationBtn.addEventListener("click", () => {
+            }
 
-    if (!navigator.geolocation) {
-        locationStatus.textContent =
-            "Geolocation is not supported by this browser.";
-        return;
-    }
+            const data =
+                await response.json();
 
-    locationStatus.textContent =
-        "Getting your current location...";
+            return data.placeName || null;
 
-    navigator.geolocation.getCurrentPosition(
-        async (position) => {
-
-            const latitude =
-                position.coords.latitude;
-
-            const longitude =
-                position.coords.longitude;
-
-            const accuracy =
-                position.coords.accuracy;
-
-            latitudeInput.value = latitude;
-longitudeInput.value = longitude;
-
-locationStatus.textContent =
-    "Finding your area name...";
-
-const placeName =
-    await reverseGeocode(latitude, longitude);
-
-if (placeName) {
-
-    locationInput.value = placeName;
-
-    locationStatus.textContent =
-        `Location detected successfully: ${placeName}`;
-
-} else {
-
-    locationInput.value =
-        `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-
-    locationStatus.textContent =
-        `Location detected. Coordinates: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-}
-
-console.log("Latitude:", latitude);
-console.log("Longitude:", longitude);
-
-console.log(
-    "Accuracy:",
-    accuracy,
-    "meters"
-);
-
-            locationStatus.textContent =
-                `GPS detected. Accuracy: ±${Math.round(accuracy)} meters`;
-        },
-
-        (error) => {
+        } catch (error) {
 
             console.error(
-                "Geolocation error:",
+                "Reverse geocoding error:",
                 error
             );
 
-            switch (error.code) {
-
-                case error.PERMISSION_DENIED:
-                    locationStatus.textContent =
-                        "Location permission was denied. Please allow location access.";
-                    break;
-
-                case error.POSITION_UNAVAILABLE:
-                    locationStatus.textContent =
-                        "Your location could not be determined.";
-                    break;
-
-                case error.TIMEOUT:
-                    locationStatus.textContent =
-                        "Location request timed out. Please try again.";
-                    break;
-
-                default:
-                    locationStatus.textContent =
-                        "Unable to get your current location.";
-            }
-        },
-
-        {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
+            return null;
         }
-    );
-});
+    }
+
 
     /* =========================================================
+       LOCATION / MAP
+       ========================================================= */
+
+    const openMapBtn =
+        document.getElementById("openMapBtn");
+
+    const closeMapBtn =
+        document.getElementById("closeMapBtn");
+
+    const mapPicker =
+        document.getElementById("mapPicker");
+
+    const mapCoordinates =
+        document.getElementById("mapCoordinates");
+
+    let locationMap = null;
+    let locationMarker = null;
+
+
+    /*
+     * Default map center only.
+     * It is NOT used as the user's location.
+     */
+
+    const DEFAULT_MAP_CENTER = [
+        10.20,
+        76.40
+    ];
+
+    const DEFAULT_MAP_ZOOM = 8;
+
+
+    /* =========================================================
+       UPDATE LOCATION FIELDS
+       ========================================================= */
+
+    async function setSelectedLocation(
+        latitude,
+        longitude,
+        source
+    ) {
+
+        latitudeInput.value =
+            Number(latitude).toFixed(6);
+
+        longitudeInput.value =
+            Number(longitude).toFixed(6);
+
+
+        mapCoordinates.innerHTML =
+            `<strong>Selected coordinates:</strong> ` +
+            `${Number(latitude).toFixed(6)}, ` +
+            `${Number(longitude).toFixed(6)}`;
+
+
+        locationStatus.textContent =
+            "Finding the selected area...";
+
+
+        const placeName =
+            await reverseGeocode(
+                latitude,
+                longitude
+            );
+
+
+        if (placeName) {
+
+            locationInput.value =
+                placeName;
+
+            locationStatus.textContent =
+                source === "map"
+                    ? `Map location selected: ${placeName}`
+                    : `Location detected: ${placeName}`;
+
+        } else {
+
+            locationInput.value =
+                `${Number(latitude).toFixed(6)}, ` +
+                `${Number(longitude).toFixed(6)}`;
+
+            locationStatus.textContent =
+                source === "map"
+                    ? "Map location selected. Coordinates saved."
+                    : "GPS location detected. Coordinates saved.";
+        }
+
+
+        if (locationMap) {
+
+            const selectedLatLng =
+                L.latLng(
+                    latitude,
+                    longitude
+                );
+
+
+            if (!locationMarker) {
+
+                locationMarker =
+                    L.marker(
+                        selectedLatLng,
+                        {
+                            draggable: true
+                        }
+                    ).addTo(
+                        locationMap
+                    );
+
+
+                locationMarker.on(
+                    "dragend",
+                    async function () {
+
+                        const position =
+                            locationMarker.getLatLng();
+
+                        await setSelectedLocation(
+                            position.lat,
+                            position.lng,
+                            "map"
+                        );
+                    }
+                );
+
+            } else {
+
+                locationMarker.setLatLng(
+                    selectedLatLng
+                );
+            }
+
+
+            locationMap.setView(
+                selectedLatLng,
+                Math.max(
+                    locationMap.getZoom(),
+                    15
+                )
+            );
+        }
+    }
+
+
+    /* =========================================================
+       MAP INITIALIZATION
+       ========================================================= */
+
+    function initializeLocationMap() {
+
+        if (locationMap) {
+
+            setTimeout(
+                () =>
+                    locationMap.invalidateSize(),
+                100
+            );
+
+            return;
+        }
+
+
+        locationMap =
+            L.map(
+                "locationMap"
+            ).setView(
+                DEFAULT_MAP_CENTER,
+                DEFAULT_MAP_ZOOM
+            );
+
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+
+                attribution:
+                    "&copy; OpenStreetMap contributors"
+            }
+        ).addTo(
+            locationMap
+        );
+
+
+        locationMap.on(
+            "click",
+            async function (event) {
+
+                await setSelectedLocation(
+                    event.latlng.lat,
+                    event.latlng.lng,
+                    "map"
+                );
+            }
+        );
+
+
+        setTimeout(
+            () =>
+                locationMap.invalidateSize(),
+            100
+        );
+    }
+
+
+    /* =========================================================
+       OPEN / CLOSE MAP
+       ========================================================= */
+
+    openMapBtn.addEventListener(
+        "click",
+        function () {
+
+            mapPicker.classList.add(
+                "show"
+            );
+
+
+            initializeLocationMap();
+
+
+            if (
+                latitudeInput.value &&
+                longitudeInput.value
+            ) {
+
+                const latitude =
+                    Number(
+                        latitudeInput.value
+                    );
+
+                const longitude =
+                    Number(
+                        longitudeInput.value
+                    );
+
+
+                if (
+                    Number.isFinite(latitude) &&
+                    Number.isFinite(longitude)
+                ) {
+
+                    setSelectedLocation(
+                        latitude,
+                        longitude,
+                        "map"
+                    );
+                }
+            }
+
+
+            locationStatus.textContent =
+                "Click the map to select the exact emergency location.";
+
+
+            setTimeout(
+                () => {
+
+                    if (locationMap) {
+
+                        locationMap.invalidateSize();
+
+                    }
+
+                },
+                150
+            );
+        }
+    );
+
+
+    closeMapBtn.addEventListener(
+        "click",
+        function () {
+
+            mapPicker.classList.remove(
+                "show"
+            );
+        }
+    );
+
+
+    /* =========================================================
+       CURRENT LOCATION / GPS
+       ========================================================= */
+
+    useCurrentLocationBtn.addEventListener(
+        "click",
+        function () {
+
+            if (!navigator.geolocation) {
+
+                locationStatus.textContent =
+                    "Geolocation is not supported by this browser. " +
+                    "Please select the location on the map.";
+
+                return;
+            }
+
+
+            locationStatus.textContent =
+                "Getting your current location...";
+
+
+            useCurrentLocationBtn.disabled =
+                true;
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                async function (position) {
+
+                    const latitude =
+                        position.coords.latitude;
+
+                    const longitude =
+                        position.coords.longitude;
+
+                    const accuracy =
+                        position.coords.accuracy;
+
+
+                    console.log(
+                        "Latitude:",
+                        latitude
+                    );
+
+                    console.log(
+                        "Longitude:",
+                        longitude
+                    );
+
+                    console.log(
+                        "GPS Accuracy:",
+                        accuracy,
+                        "meters"
+                    );
+
+
+                    /*
+                     * The browser has previously returned
+                     * very coarse readings on this computer.
+                     *
+                     * Do NOT silently save a 50–100 km estimate.
+                     */
+
+                    if (accuracy > 5000) {
+
+                        locationStatus.textContent =
+                            `Browser location is too approximate ` +
+                            `(±${Math.round(accuracy)} m). ` +
+                            `Please select the exact location on the map.`;
+
+                        useCurrentLocationBtn.disabled =
+                            false;
+
+                        return;
+                    }
+
+
+                    await setSelectedLocation(
+                        latitude,
+                        longitude,
+                        "gps"
+                    );
+
+
+                    locationStatus.textContent +=
+                        ` (GPS accuracy ±${Math.round(accuracy)} m)`;
+
+
+                    useCurrentLocationBtn.disabled =
+                        false;
+                },
+
+
+                function (error) {
+
+                    console.error(
+                        "Geolocation error:",
+                        error
+                    );
+
+
+                    switch (error.code) {
+
+                        case error.PERMISSION_DENIED:
+
+                            locationStatus.textContent =
+                                "Location permission was denied. " +
+                                "Please allow location access or select it on the map.";
+
+                            break;
+
+
+                        case error.POSITION_UNAVAILABLE:
+
+                            locationStatus.textContent =
+                                "Your location could not be determined. " +
+                                "Please select it on the map.";
+
+                            break;
+
+
+                        case error.TIMEOUT:
+
+                            locationStatus.textContent =
+                                "GPS request timed out. " +
+                                "Please select the location on the map.";
+
+                            break;
+
+
+                        default:
+
+                            locationStatus.textContent =
+                                "Unable to get your current location. " +
+                                "Please select it on the map.";
+                    }
+
+
+                    useCurrentLocationBtn.disabled =
+                        false;
+                },
+
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 30000,
+                    maximumAge: 0
+                }
+            );
+        }
+    );
+        /* =========================================================
        ALERT
        ========================================================= */
 
@@ -1974,13 +2581,14 @@ console.log(
         formAlert.textContent =
             message;
 
-        formAlert.classList.add("show");
+        formAlert.classList.add(
+            "show"
+        );
 
         formAlert.scrollIntoView({
             behavior: "smooth",
             block: "nearest"
         });
-
     }
 
 
@@ -1989,8 +2597,9 @@ console.log(
         formAlert.textContent =
             "";
 
-        formAlert.classList.remove("show");
-
+        formAlert.classList.remove(
+            "show"
+        );
     }
 
 
@@ -2002,6 +2611,7 @@ console.log(
 
         const currentLength =
             description.value.length;
+
 
         characterCounter.textContent =
             currentLength + " / 1000";
@@ -2021,9 +2631,7 @@ console.log(
 
             characterCounter.style.color =
                 "var(--dc-text-subtle)";
-
         }
-
     }
 
 
@@ -2074,7 +2682,6 @@ console.log(
             requesterName.focus();
 
             return false;
-
         }
 
 
@@ -2087,7 +2694,6 @@ console.log(
             requesterName.focus();
 
             return false;
-
         }
 
 
@@ -2102,12 +2708,12 @@ console.log(
             contactNumber.focus();
 
             return false;
-
         }
 
 
         const contactPattern =
             /^[0-9+\-\s()]{7,20}$/;
+
 
         if (!contactPattern.test(contact)) {
 
@@ -2118,7 +2724,6 @@ console.log(
             contactNumber.focus();
 
             return false;
-
         }
 
 
@@ -2133,7 +2738,6 @@ console.log(
             locationInput.focus();
 
             return false;
-
         }
 
 
@@ -2148,7 +2752,6 @@ console.log(
             disasterType.focus();
 
             return false;
-
         }
 
 
@@ -2161,7 +2764,6 @@ console.log(
             );
 
             return false;
-
         }
 
 
@@ -2176,7 +2778,6 @@ console.log(
             description.focus();
 
             return false;
-
         }
 
 
@@ -2189,12 +2790,10 @@ console.log(
             description.focus();
 
             return false;
-
         }
 
 
         return true;
-
     }
 
 
@@ -2211,23 +2810,24 @@ console.log(
                 event.preventDefault();
 
                 return;
-
             }
 
 
             submitButton.disabled =
                 true;
 
+
             submitButton.classList.add(
                 "loading"
             );
 
+
             submitText.textContent =
                 "Submitting request...";
 
+
             submitArrow.style.display =
                 "none";
-
         }
     );
 
@@ -2249,31 +2849,31 @@ console.log(
             function () {
 
                 if (
-                    formAlert.classList.contains("show")
+                    formAlert.classList.contains(
+                        "show"
+                    )
                 ) {
 
                     hideAlert();
-
                 }
-
             }
         );
+
 
         element.addEventListener(
             "change",
             function () {
 
                 if (
-                    formAlert.classList.contains("show")
+                    formAlert.classList.contains(
+                        "show"
+                    )
                 ) {
 
                     hideAlert();
-
                 }
-
             }
         );
-
     });
 
 
@@ -2288,16 +2888,15 @@ console.log(
                 function () {
 
                     if (
-                        formAlert.classList.contains("show")
+                        formAlert.classList.contains(
+                            "show"
+                        )
                     ) {
 
                         hideAlert();
-
                     }
-
                 }
             );
-
         });
 
 
@@ -2307,6 +2906,7 @@ console.log(
 
     updateCharacterCounter();
 
+});
 </script>
 
 </body>

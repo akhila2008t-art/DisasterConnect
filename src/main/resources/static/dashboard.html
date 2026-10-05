@@ -1,876 +1,1260 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dashboard | DisasterConnect</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-:root {
-    --navy: #102a43;
-    --navy2: #163b5c;
-    --accent: #ff684d;
-
-    --bg: #f4f7fb;
-    --card: #ffffff;
-    --border: #e4e7ec;
-
-    --muted: #667085;
-    --text: #172033;
-
-    --success: #18733c;
-    --successbg: #e6f4ea;
-
-    --warn: #8a6500;
-    --warnbg: #fff4cc;
-
-    --info: #2457b8;
-    --infobg: #e7f0ff;
-
-    --danger: #b42318;
-    --dangerbg: #fff0ed;
-
-    --neutral: #475467;
-    --neutralbg: #e8eaed;
-}
-
-body {
-    font-family: Inter, Arial, Helvetica, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-}
-
-button,
-select {
-    font: inherit;
-}
-
-.app {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* ================= SIDEBAR ================= */
 
-.sidebar {
-    width: 250px;
-    background: var(--navy);
-    color: #fff;
-    padding: 26px 16px;
-    position: fixed;
-    inset: 0 auto 0 0;
-    display: flex;
-    flex-direction: column;
-    z-index: 20;
-}
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | DisasterConnect</title>
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #102a43;
+            --navy2: #163b5c;
+            --accent: #ff684d;
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --border: #e4e7ec;
+            --muted: #667085;
+            --text: #172033;
+
+            --success: #18733c;
+            --successbg: #e6f4ea;
+
+            --warn: #8a6500;
+            --warnbg: #fff4cc;
+
+            --info: #2457b8;
+            --infobg: #e7f0ff;
+
+            --danger: #b42318;
+            --dangerbg: #fff0ed;
+
+            --neutral: #475467;
+            --neutralbg: #e8eaed;
+        }
+
+        body {
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        select {
+            font: inherit;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 250px;
+            background: var(--navy);
+            color: #fff;
+            padding: 26px 16px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            padding: 0 14px 30px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .brand small {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 1.4px;
+            color: #9fb3c8;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav a {
+            color: #d8e3ed;
+            text-decoration: none;
+            padding: 12px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: flex;
+            gap: 9px;
+            align-items: center;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, .1);
+            margin: 12px 10px;
+        }
+
+
+        /* =========================================================
+           LOGOUT
+        ========================================================= */
+
+        .logout {
+            margin-top: auto;
+        }
+
+        .logout form {
+            width: 100%;
+        }
+
+        .logout button {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 13px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ffb4a5;
+            text-align: left;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .logout button:hover {
+            background: rgba(220, 38, 38, 0.12);
+            color: #fecaca;
+        }
+
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+
+        /* =========================================================
+           TOP BAR
+        ========================================================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+
+        .topbar h1 {
+            font-size: 29px;
+            margin-bottom: 6px;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .role-pill,
+        .last-updated {
+            font-size: 12px;
+            padding: 8px 11px;
+            border-radius: 999px;
+            background: #fff;
+            border: 1px solid var(--border);
+            color: var(--neutral);
+            font-weight: 700;
+        }
+
+        .refresh-btn {
+            border: 1px solid #d0d5dd;
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .refresh-btn:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =========================================================
+           NOTIFICATIONS
+        ========================================================= */
+
+        .notification-wrapper {
+            position: relative;
+        }
+
+        .notification-btn {
+            position: relative;
+            border: 1px solid #d0d5dd;
+            background: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .15s ease,
+                        border-color .15s ease;
+        }
+
+        .notification-btn:hover {
+            background: #f8fafc;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            border-radius: 999px;
+            background: #d92d20;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff;
+        }
+
+        .notification-panel {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 360px;
+            max-height: 430px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, .15);
+            z-index: 100;
+            display: none;
+        }
+
+        .notification-panel.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 15px 17px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-header strong {
+            font-size: 14px;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notification-item {
+            padding: 14px 17px;
+            border-bottom: 1px solid #eef2f6;
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+
+        .notification-item.unread {
+            background: #f0f6ff;
+        }
+
+        .notification-title {
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .notification-time {
+            font-size: 10px;
+            color: #98a2b3;
+            margin-top: 7px;
+        }
+
+        .notification-empty {
+            padding: 28px 17px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           STATISTICS
+        ========================================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .04);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 9px;
+        }
+
+        .stat-value {
+            font-size: 29px;
+            font-weight: 800;
+        }
+
+        .stat-foot {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+
+        .section {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 21px;
+            margin-bottom: 22px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .04);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 17px;
+        }
+
+        .section-header h2 {
+            font-size: 19px;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+
+        /* =========================================================
+           TABLE
+        ========================================================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid #eef2f6;
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1250px;
+        }
+
+        th {
+            text-align: left;
+            background: #f8fafc;
+            color: #667085;
+            font-size: 11px;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+        }
+
+        td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #eef2f6;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .requester {
+            font-weight: 750;
+        }
+
+        .subtext {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+
+        /* =========================================================
+           BADGES
+        ========================================================= */
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 9px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .2px;
+            white-space: nowrap;
+        }
+
+        .badge-pending {
+            background: var(--warnbg);
+            color: var(--warn);
+        }
+
+        .badge-accepted {
+            background: var(--successbg);
+            color: var(--success);
+        }
+
+        .badge-progress {
+            background: var(--infobg);
+            color: var(--info);
+        }
+
+        .badge-resolved {
+            background: var(--neutralbg);
+            color: var(--neutral);
+        }
+
+        .badge-cancelled {
+            background: var(--dangerbg);
+            color: var(--danger);
+        }
+
+        .badge-available {
+            background: var(--successbg);
+            color: var(--success);
+        }
+
+        .badge-assigned {
+            background: #fff0ed;
+            color: #c2412d;
+        }
+
+        /* Volunteer Action Status */
+
+        .badge-not-started {
+            background: var(--neutralbg);
+            color: var(--neutral);
+        }
+
+        .badge-action-progress {
+            background: var(--infobg);
+            color: var(--info);
+        }
+
+        .badge-action-completed {
+            background: var(--successbg);
+            color: var(--success);
+        }
+
+
+        /* =========================================================
+           CONTROLS
+        ========================================================= */
+
+        .control {
+            padding: 8px 9px;
+            border: 1px solid #d0d5dd;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 12px;
+            min-width: 120px;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 10px;
+            background: var(--navy);
+            color: #fff;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            background: var(--navy2);
+        }
+
+        .action-btn.secondary {
+            background: #fff;
+            color: var(--navy);
+            border: 1px solid #d0d5dd;
+        }
+
+        .action-btn.secondary:hover {
+            background: #f8fafc;
+        }
+
+        .action-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .assign-box {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .assigned-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .assigned-name {
+            font-weight: 750;
+            max-width: 155px;
+        }
+
+        .volunteer-action-box {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 145px;
+        }
+
+        .volunteer-action-box .control {
+            width: 100%;
+            min-width: 145px;
+        }
+
+        .volunteer-action-current {
+            margin-bottom: 1px;
+        }
+
+        .action-help {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+
+        /* =========================================================
+           STATES
+        ========================================================= */
+
+        .empty,
+        .loading {
+            padding: 28px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .error {
+            padding: 13px;
+            border-radius: 10px;
+            background: var(--dangerbg);
+            color: var(--danger);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+
+        /* =========================================================
+           VOLUNTEERS
+        ========================================================= */
+
+        .volunteer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .volunteer-card {
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 17px;
+            background: #fff;
+        }
+
+        .volunteer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 9px;
+        }
+
+        .volunteer-name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .volunteer-location {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .volunteer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            font-size: 12px;
+            color: #475467;
+        }
+
+        .skills {
+            line-height: 1.45;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer-note {
+            text-align: center;
+            color: #98a2b3;
+            font-size: 11px;
+            padding: 3px 0 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media(max-width:1100px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .volunteer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 20px;
+            }
+        }
+
+        @media(max-width:650px) {
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .app {
+                flex-direction: column;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .volunteer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .top-actions {
+                width: 100%;
+            }
+
+            .refresh-btn {
+                width: 100%;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .notification-panel {
+                position: fixed;
+                top: 70px;
+                left: 16px;
+                right: 16px;
+                width: auto;
+                max-height: 430px;
+            }
+        }
+
+    </style>
 
-.brand {
-    font-size: 24px;
-    font-weight: 800;
-    padding: 0 14px 30px;
-}
-
-.brand span {
-    color: var(--accent);
-}
-
-.brand small {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 1.4px;
-    color: #9fb3c8;
-    text-transform: uppercase;
-    margin-top: 5px;
-}
-
-.nav {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.nav a {
-    color: #d8e3ed;
-    text-decoration: none;
-    padding: 12px 13px;
-    border-radius: 10px;
-    font-size: 14px;
-    display: flex;
-    gap: 9px;
-    align-items: center;
-}
-
-.nav a:hover,
-.nav a.active {
-    background: rgba(255,255,255,.1);
-    color: #fff;
-}
-
-.nav-icon {
-    width: 22px;
-    text-align: center;
-}
-
-.nav-divider {
-    height: 1px;
-    background: rgba(255,255,255,.1);
-    margin: 12px 10px;
-}
-
-/* ================= LOGOUT ================= */
-
-.logout {
-    margin-top: auto;
-}
-
-.logout form {
-    width: 100%;
-}
-
-.logout button {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-    padding: 11px 13px;
-
-    width: 100%;
-
-    background: transparent;
-
-    border: none;
-
-    color: #ffb4a5;
-
-    text-align: left;
-
-    font-family: inherit;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.logout button:hover {
-
-    background: rgba(220, 38, 38, 0.12);
-
-    color: #fecaca;
-}
-
-/* ================= MAIN ================= */
-
-.main {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-    padding: 30px;
-}
-
-/* ================= TOP BAR ================= */
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 24px;
-}
-
-.eyebrow {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-}
-
-.topbar h1 {
-    font-size: 29px;
-    margin-bottom: 6px;
-}
-
-.topbar p {
-    color: var(--muted);
-    font-size: 14px;
-}
-
-.top-actions {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    flex-wrap: wrap;
-}
-
-.role-pill,
-.last-updated {
-    font-size: 12px;
-    padding: 8px 11px;
-    border-radius: 999px;
-    background: #fff;
-    border: 1px solid var(--border);
-    color: var(--neutral);
-    font-weight: 700;
-}
-
-.refresh-btn {
-    border: 1px solid #d0d5dd;
-    background: #fff;
-    padding: 10px 15px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-weight: 700;
-}
-
-.refresh-btn:hover {
-    background: #f8fafc;
-}
-
-/* ================= STATISTICS ================= */
-
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 22px;
-}
-
-.stat-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 5px 18px rgba(15,23,42,.04);
-}
-
-.stat-label {
-    color: var(--muted);
-    font-size: 12px;
-    margin-bottom: 9px;
-}
-
-.stat-value {
-    font-size: 29px;
-    font-weight: 800;
-}
-
-.stat-foot {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 6px;
-}
-
-/* ================= SECTIONS ================= */
-
-.section {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 21px;
-    margin-bottom: 22px;
-    box-shadow: 0 5px 18px rgba(15,23,42,.04);
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 17px;
-}
-
-.section-header h2 {
-    font-size: 19px;
-}
-
-.section-header p {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 4px;
-}
-
-/* ================= TABLE ================= */
-
-.table-wrapper {
-    overflow-x: auto;
-    border: 1px solid #eef2f6;
-    border-radius: 12px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1180px;
-}
-
-th {
-    text-align: left;
-    background: #f8fafc;
-    color: #667085;
-    font-size: 11px;
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: .35px;
-}
-
-td {
-    padding: 13px 12px;
-    border-bottom: 1px solid #eef2f6;
-    font-size: 13px;
-    vertical-align: middle;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-.requester {
-    font-weight: 750;
-}
-
-.subtext {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-}
-
-/* ================= BADGES ================= */
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 9px;
-    border-radius: 999px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .2px;
-    white-space: nowrap;
-}
-
-.badge-pending {
-    background: var(--warnbg);
-    color: var(--warn);
-}
-
-.badge-accepted {
-    background: var(--successbg);
-    color: var(--success);
-}
-
-.badge-progress {
-    background: var(--infobg);
-    color: var(--info);
-}
-
-.badge-resolved {
-    background: var(--neutralbg);
-    color: var(--neutral);
-}
-
-.badge-cancelled {
-    background: var(--dangerbg);
-    color: var(--danger);
-}
-
-.badge-available {
-    background: var(--successbg);
-    color: var(--success);
-}
-
-.badge-assigned {
-    background: #fff0ed;
-    color: #c2412d;
-}
-
-/* ================= CONTROLS ================= */
-
-.control {
-    padding: 8px 9px;
-    border: 1px solid #d0d5dd;
-    border-radius: 8px;
-    background: #fff;
-    font-size: 12px;
-    min-width: 120px;
-}
-
-.action-btn {
-    border: none;
-    border-radius: 8px;
-    padding: 8px 10px;
-    background: var(--navy);
-    color: #fff;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.action-btn:hover {
-    background: var(--navy2);
-}
-
-.action-btn.secondary {
-    background: #fff;
-    color: var(--navy);
-    border: 1px solid #d0d5dd;
-}
-
-.action-btn.secondary:hover {
-    background: #f8fafc;
-}
-
-.action-btn:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.assign-box {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.assigned-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.assigned-name {
-    font-weight: 750;
-    max-width: 155px;
-}
-
-/* ================= STATES ================= */
-
-.empty,
-.loading {
-    padding: 28px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.error {
-    padding: 13px;
-    border-radius: 10px;
-    background: var(--dangerbg);
-    color: var(--danger);
-    font-size: 13px;
-    margin-bottom: 12px;
-}
-
-/* ================= VOLUNTEERS ================= */
-
-.volunteer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.volunteer-card {
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 17px;
-    background: #fff;
-}
-
-.volunteer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 9px;
-}
-
-.volunteer-name {
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.volunteer-location {
-    color: var(--muted);
-    font-size: 12px;
-    margin-bottom: 12px;
-}
-
-.volunteer-info {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    font-size: 12px;
-    color: #475467;
-}
-
-.skills {
-    line-height: 1.45;
-}
-
-/* ================= FOOTER ================= */
-
-.footer-note {
-    text-align: center;
-    color: #98a2b3;
-    font-size: 11px;
-    padding: 3px 0 10px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:1100px) {
-
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .volunteer-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(max-width:800px) {
-
-    .sidebar {
-        width: 210px;
-    }
-
-    .main {
-        margin-left: 210px;
-        width: calc(100% - 210px);
-        padding: 20px;
-    }
-}
-
-@media(max-width:650px) {
-
-    .sidebar {
-        position: static;
-        width: 100%;
-        min-height: auto;
-    }
-
-    .app {
-        flex-direction: column;
-    }
-
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 16px;
-    }
-
-    .stats {
-        grid-template-columns: 1fr;
-    }
-
-    .volunteer-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .top-actions {
-        width: 100%;
-    }
-
-    .refresh-btn {
-        width: 100%;
-    }
-
-    .section {
-        padding: 15px;
-    }
-}
-
-</style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-<!-- ================= SIDEBAR ================= -->
 
-<aside class="sidebar">
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
-    <div class="brand">
-        Disaster<span>Connect</span>
-        <small>Response Platform</small>
-    </div>
+    <aside class="sidebar">
 
-    <nav class="nav">
+        <div class="brand">
 
-        <a href="/dashboard.html" class="active">
-            <span class="nav-icon">📊</span>
-            <span>Dashboard</span>
-        </a>
+            Disaster<span>Connect</span>
 
-        <a href="#emergency-section">
-            <span class="nav-icon">🚨</span>
-            <span>Emergency Requests</span>
-        </a>
-
-        <a href="#volunteer-section">
-            <span class="nav-icon">👥</span>
-            <span>Volunteers</span>
-        </a>
-
-        <a href="/resources.html" id="resourcesNavLink">
-            <span class="nav-icon">📦</span>
-            <span>Resources</span>
-        </a>
-
-        <a href="/admin-users.html"
-           id="adminUsersNavLink"
-           class="hidden">
-
-            <span class="nav-icon">👤</span>
-            <span>User Management</span>
-
-        </a>
-
-        <a href="/index.html">
-
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-
-        </a>
-
-    </nav>
-
-    <!-- IMPORTANT: POST logout -->
-
-    <div class="logout">
-
-        <form action="/logout" method="post">
-
-            <button type="submit">
-
-                <span class="nav-icon">↪</span>
-
-                <span>Logout</span>
-
-            </button>
-
-        </form>
-
-    </div>
-
-</aside>
-
-
-<!-- ================= MAIN ================= -->
-
-<main class="main">
-
-    <div class="topbar">
-
-        <div>
-
-            <div class="eyebrow">
-                Live response command center
-            </div>
-
-            <h1>
-                DisasterConnect Dashboard
-            </h1>
-
-            <p>
-                Monitor emergencies, coordinate volunteers,
-                and manage disaster response.
-            </p>
-
-        </div>
-
-        <div class="top-actions">
-
-            <span class="role-pill" id="rolePill">
-                Loading role…
-            </span>
-
-            <span class="last-updated" id="lastUpdated">
-                Not updated yet
-            </span>
-
-            <button
-                class="refresh-btn"
-                onclick="loadDashboard()">
-
-                ↻ Refresh
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= STATISTICS ================= -->
-
-    <section class="stats">
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                Active Emergencies
-            </div>
-
-            <div
-                class="stat-value"
-                id="activeEmergencies">
-
-                0
-
-            </div>
-
-            <div class="stat-foot">
-                Requests not resolved
-            </div>
+            <small>
+                Response Platform
+            </small>
 
         </div>
 
 
-        <div class="stat-card">
+        <nav class="nav">
 
-            <div class="stat-label">
-                Registered Volunteers
-            </div>
+            <a href="/dashboard.html"
+               class="active">
 
-            <div
-                class="stat-value"
-                id="registeredVolunteers">
+                <span class="nav-icon">
+                    📊
+                </span>
 
-                0
+                <span>
+                    Dashboard
+                </span>
 
-            </div>
+            </a>
 
-            <div class="stat-foot">
-                Volunteer network
-            </div>
+
+            <a href="#emergency-section">
+
+                <span class="nav-icon">
+                    🚨
+                </span>
+
+                <span>
+                    Emergency Requests
+                </span>
+
+            </a>
+
+
+            <a href="#volunteer-section">
+
+                <span class="nav-icon">
+                    👥
+                </span>
+
+                <span>
+                    Volunteers
+                </span>
+
+            </a>
+
+
+            <a href="/resources.html"
+               id="resourcesNavLink">
+
+                <span class="nav-icon">
+                    📦
+                </span>
+
+                <span>
+                    Resources
+                </span>
+
+            </a>
+
+
+            <a href="/admin-users.html"
+               id="adminUsersNavLink"
+               class="hidden">
+
+                <span class="nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    User Management
+                </span>
+
+            </a>
+
+
+            <a href="/index.html">
+
+                <span class="nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Home
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <div class="logout">
+
+            <form action="/logout"
+                  method="post">
+
+                <button type="submit">
+
+                    <span class="nav-icon">
+                        ↪
+                    </span>
+
+                    <span>
+                        Logout
+                    </span>
+
+                </button>
+
+            </form>
 
         </div>
 
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                Available Volunteers
-            </div>
-
-            <div
-                class="stat-value"
-                id="availableVolunteers">
-
-                0
-
-            </div>
-
-            <div class="stat-foot">
-                Ready for assignment
-            </div>
-
-        </div>
+    </aside>
 
 
-        <div class="stat-card">
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
-            <div class="stat-label">
-                Accepted Requests
-            </div>
-
-            <div
-                class="stat-value"
-                id="acceptedRequests">
-
-                0
-
-            </div>
-
-            <div class="stat-foot">
-                Currently accepted
-            </div>
-
-        </div>
-
-    </section>
+    <main class="main">
 
 
-    <!-- ================= EMERGENCY REQUESTS ================= -->
+        <!-- =================================================
+             TOP BAR
+        ================================================== -->
 
-    <section
-        class="section"
-        id="emergency-section">
-
-        <div class="section-header">
+        <div class="topbar">
 
             <div>
 
-                <h2>
-                    Emergency Requests
-                </h2>
+                <div class="eyebrow">
+                    Live response command center
+                </div>
+
+                <h1>
+                    DisasterConnect Dashboard
+                </h1>
 
                 <p>
-                    Monitor and coordinate incoming
-                    emergency situations.
+                    Monitor emergencies, coordinate volunteers,
+                    and manage disaster response.
                 </p>
 
             </div>
 
+
+            <!-- TOP ACTIONS -->
+
+            <div class="top-actions">
+
+
+                <!-- NOTIFICATIONS -->
+
+                <div class="notification-wrapper">
+
+                    <button
+                        type="button"
+                        class="notification-btn"
+                        id="notificationButton"
+                        title="Notifications"
+                        aria-label="Open notifications">
+
+                        🔔
+
+                        <span
+                            class="notification-badge hidden"
+                            id="notificationBadge">
+
+                            0
+
+                        </span>
+
+                    </button>
+
+
+                    <!-- NOTIFICATION PANEL -->
+
+                    <div
+                        class="notification-panel"
+                        id="notificationPanel">
+
+                        <div class="notification-header">
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <button
+                                type="button"
+                                class="action-btn secondary"
+                                id="refreshNotificationsBtn">
+
+                                Refresh
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="notification-list"
+                            id="notificationList">
+
+                            <div class="notification-empty">
+                                Loading notifications…
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <span
+                    class="role-pill"
+                    id="rolePill">
+
+                    Loading role…
+
+                </span>
+
+
+                <!-- LAST UPDATED -->
+
+                <span
+                    class="last-updated"
+                    id="lastUpdated">
+
+                    Not updated yet
+
+                </span>
+
+
+                <!-- REFRESH -->
+
+                <button
+                    type="button"
+                    class="refresh-btn"
+                    onclick="loadDashboard()">
+
+                    ↻ Refresh
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div id="emergencyError"></div>
 
-        <div class="table-wrapper">
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
 
-            <table>
+        <section class="stats">
 
-                <thead>
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Active Emergencies
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="activeEmergencies">
+
+                    0
+
+                </div>
+
+                <div class="stat-foot">
+                    Requests not resolved
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Registered Volunteers
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="registeredVolunteers">
+
+                    0
+
+                </div>
+
+                <div class="stat-foot">
+                    Volunteer network
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Available Volunteers
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="availableVolunteers">
+
+                    0
+
+                </div>
+
+                <div class="stat-foot">
+                    Ready for assignment
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Accepted Requests
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="acceptedRequests">
+
+                    0
+
+                </div>
+
+                <div class="stat-foot">
+                    Currently accepted
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EMERGENCY REQUESTS
+        ================================================== -->
+
+        <section
+            class="section"
+            id="emergency-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Emergency Requests
+                    </h2>
+
+                    <p>
+                        Monitor and coordinate incoming
+                        emergency situations.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div id="emergencyError"></div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
 
                     <tr>
 
                         <th>ID</th>
-                        <th>Requester</th>
-                        <th>Location</th>
-                        <th>Disaster</th>
-                        <th>Urgency</th>
-                        <th>Status</th>
-                        <th>Assigned Volunteer</th>
-                        <th>Volunteer Action</th>
-                        <th>Update Status</th>
+
+                        <th>
+                            Requester
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Disaster
+                        </th>
+
+                        <th>
+                            Urgency
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Assigned Volunteer
+                        </th>
+
+                        <th>
+                            Volunteer Action
+                        </th>
+
+                        <th>
+                            Update Status
+                        </th>
 
                     </tr>
 
-                </thead>
+                    </thead>
 
-                <tbody id="emergencyTableBody">
+
+                    <tbody
+                        id="emergencyTableBody">
 
                     <tr>
 
@@ -884,60 +1268,62 @@ tr:last-child td {
 
                     </tr>
 
-                </tbody>
+                    </tbody>
 
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= VOLUNTEERS ================= -->
-
-    <section
-        class="section"
-        id="volunteer-section">
-
-        <div class="section-header">
-
-            <div>
-
-                <h2>
-                    Volunteer Network
-                </h2>
-
-                <p>
-                    View registered volunteers and
-                    their current availability.
-                </p>
+                </table>
 
             </div>
 
-        </div>
+        </section>
 
-        <div id="volunteerError"></div>
 
-        <div
-            class="volunteer-grid"
-            id="volunteerGrid">
+        <!-- =================================================
+             VOLUNTEERS
+        ================================================== -->
 
-            <div class="loading">
-                Loading volunteers…
+        <section
+            class="section"
+            id="volunteer-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Volunteer Network
+                    </h2>
+
+                    <p>
+                        View registered volunteers and
+                        their current availability.
+                    </p>
+
+                </div>
+
             </div>
 
+
+            <div id="volunteerError"></div>
+
+
+            <div
+                class="volunteer-grid"
+                id="volunteerGrid">
+
+                <div class="loading">
+                    Loading volunteers…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="footer-note">
+            DisasterConnect • Emergency coordination platform
         </div>
 
-    </section>
-
-
-    <div class="footer-note">
-
-        DisasterConnect • Emergency coordination platform
-
-    </div>
-
-</main>
+    </main>
 
 </div>
 
@@ -949,12 +1335,11 @@ tr:last-child td {
 ========================================================= */
 
 let emergencyRequests = [];
-
 let volunteers = [];
-
 let currentUser = null;
-
 let canManage = false;
+let canUpdateVolunteerAction = false;
+let notifications = [];
 
 
 /* =========================================================
@@ -963,7 +1348,10 @@ let canManage = false;
 
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
@@ -983,23 +1371,31 @@ function escapeHtml(value) {
 function statusBadge(status) {
 
     const normalized =
-        String(status || "").toUpperCase();
+        String(status || "")
+            .toUpperCase();
 
     let cssClass = "badge-pending";
 
     if (normalized === "ACCEPTED") {
+
         cssClass = "badge-accepted";
-    }
 
-    else if (normalized === "IN_PROGRESS") {
+    } else if (
+        normalized === "IN_PROGRESS"
+    ) {
+
         cssClass = "badge-progress";
-    }
 
-    else if (normalized === "RESOLVED") {
+    } else if (
+        normalized === "RESOLVED"
+    ) {
+
         cssClass = "badge-resolved";
-    }
 
-    else if (normalized === "CANCELLED") {
+    } else if (
+        normalized === "CANCELLED"
+    ) {
+
         cssClass = "badge-cancelled";
     }
 
@@ -1018,7 +1414,8 @@ function statusBadge(status) {
 function volunteerStatusBadge(status) {
 
     const normalized =
-        String(status || "").toUpperCase();
+        String(status || "")
+            .toUpperCase();
 
     const cssClass =
         normalized === "AVAILABLE"
@@ -1028,6 +1425,50 @@ function volunteerStatusBadge(status) {
     return `
         <span class="badge ${cssClass}">
             ● ${escapeHtml(normalized)}
+        </span>
+    `;
+}
+
+
+/* =========================================================
+   VOLUNTEER ACTION STATUS BADGE
+========================================================= */
+
+function volunteerActionStatusBadge(status) {
+
+    const normalized =
+        String(
+            status || "NOT_STARTED"
+        ).toUpperCase();
+
+    let cssClass =
+        "badge-not-started";
+
+    let displayText =
+        "NOT STARTED";
+
+    if (normalized === "IN_PROGRESS") {
+
+        cssClass =
+            "badge-action-progress";
+
+        displayText =
+            "IN PROGRESS";
+
+    } else if (
+        normalized === "COMPLETED"
+    ) {
+
+        cssClass =
+            "badge-action-completed";
+
+        displayText =
+            "COMPLETED";
+    }
+
+    return `
+        <span class="badge ${cssClass}">
+            ${escapeHtml(displayText)}
         </span>
     `;
 }
@@ -1061,24 +1502,50 @@ async function loadCurrentUser() {
         await response.json();
 
     const role =
-        String(currentUser.role || "")
-            .toUpperCase();
+        String(
+            currentUser.role || ""
+        ).toUpperCase();
 
     canManage =
         role === "ADMIN" ||
         role === "COORDINATOR";
 
-    document.getElementById("rolePill")
-        .textContent =
-        role || "USER";
+    /*
+     * Volunteer Action Status can be updated by:
+     * - ADMIN
+     * - COORDINATOR
+     * - VOLUNTEER
+     *
+     * The backend endpoint remains the actual
+     * authorization boundary.
+     */
+    canUpdateVolunteerAction =
+        canManage ||
+        role === "VOLUNTEER";
+
+    const rolePill =
+        document.getElementById(
+            "rolePill"
+        );
+
+    if (rolePill) {
+
+        rolePill.textContent =
+            role || "USER";
+    }
 
     if (role === "ADMIN") {
 
-        document
-            .getElementById("adminUsersNavLink")
-            .classList
-            .remove("hidden");
+        const adminLink =
+            document.getElementById(
+                "adminUsersNavLink"
+            );
 
+        if (adminLink) {
+
+            adminLink.classList
+                .remove("hidden");
+        }
     }
 
     return true;
@@ -1105,27 +1572,34 @@ async function loadDashboard() {
             loadEmergencies()
         ]);
 
-        document.getElementById("lastUpdated")
-            .textContent =
-            "Updated " +
-            new Date().toLocaleTimeString(
-                [],
-                {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                }
+        const lastUpdated =
+            document.getElementById(
+                "lastUpdated"
             );
 
-    }
+        if (lastUpdated) {
 
-    catch (error) {
+            lastUpdated.textContent =
+                "Updated " +
+                new Date()
+                    .toLocaleTimeString(
+                        [],
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+        }
+
+        await loadNotificationCount();
+
+    } catch (error) {
 
         console.error(error);
 
         showGlobalError(
             error.message
         );
-
     }
 }
 
@@ -1136,9 +1610,16 @@ async function loadDashboard() {
 
 function showGlobalError(message) {
 
-    document.getElementById(
-        "emergencyError"
-    ).innerHTML = `
+    const errorBox =
+        document.getElementById(
+            "emergencyError"
+        );
+
+    if (!errorBox) {
+        return;
+    }
+
+    errorBox.innerHTML = `
         <div class="error">
             ${escapeHtml(message)}
         </div>
@@ -1162,7 +1643,9 @@ async function loadEmergencies() {
             "emergencyError"
         );
 
-    errorBox.innerHTML = "";
+    if (errorBox) {
+        errorBox.innerHTML = "";
+    }
 
     try {
 
@@ -1193,27 +1676,31 @@ async function loadEmergencies() {
 
         updateEmergencyStats();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
-        body.innerHTML = `
-            <tr>
-                <td colspan="9">
-                    <div class="error">
-                        Unable to load emergency requests.
-                    </div>
-                </td>
-            </tr>
-        `;
+        if (body) {
 
-        errorBox.innerHTML = `
-            <div class="error">
-                ${escapeHtml(error.message)}
-            </div>
-        `;
+            body.innerHTML = `
+                <tr>
+                    <td colspan="9">
+                        <div class="error">
+                            Unable to load emergency requests.
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        if (errorBox) {
+
+            errorBox.innerHTML = `
+                <div class="error">
+                    ${escapeHtml(error.message)}
+                </div>
+            `;
+        }
     }
 }
 
@@ -1234,7 +1721,9 @@ async function loadVolunteers() {
             "volunteerError"
         );
 
-    errorBox.innerHTML = "";
+    if (errorBox) {
+        errorBox.innerHTML = "";
+    }
 
     try {
 
@@ -1265,23 +1754,27 @@ async function loadVolunteers() {
 
         updateVolunteerStats();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
-        grid.innerHTML = `
-            <div class="error">
-                Unable to load volunteers.
-            </div>
-        `;
+        if (grid) {
 
-        errorBox.innerHTML = `
-            <div class="error">
-                ${escapeHtml(error.message)}
-            </div>
-        `;
+            grid.innerHTML = `
+                <div class="error">
+                    Unable to load volunteers.
+                </div>
+            `;
+        }
+
+        if (errorBox) {
+
+            errorBox.innerHTML = `
+                <div class="error">
+                    ${escapeHtml(error.message)}
+                </div>
+            `;
+        }
     }
 }
 
@@ -1296,6 +1789,10 @@ function renderEmergencyRequests() {
         document.getElementById(
             "emergencyTableBody"
         );
+
+    if (!body) {
+        return;
+    }
 
     if (!emergencyRequests.length) {
 
@@ -1313,228 +1810,450 @@ function renderEmergencyRequests() {
     }
 
     body.innerHTML =
-        emergencyRequests.map(request => {
+        emergencyRequests
+            .map(request => {
 
-            const assigned =
-                volunteers.find(
-                    volunteer =>
-                        Number(volunteer.id) ===
-                        Number(request.assignedVolunteerId)
-                );
+                const assigned =
+                    volunteers.find(
+                        volunteer =>
+                            Number(
+                                volunteer.id
+                            ) ===
+                            Number(
+                                request.assignedVolunteerId
+                            )
+                    );
 
-            const assignedName =
-                assigned
-                    ? assigned.name
-                    : request.assignedVolunteerId
-                        ? `Volunteer #${request.assignedVolunteerId}`
-                        : "Not assigned";
+                const assignedName =
+                    assigned
+                        ? assigned.name
+                        : request.assignedVolunteerId
+                            ? `Volunteer #${request.assignedVolunteerId}`
+                            : "Not assigned";
 
 
-            const management =
-                canManage
+                /* =================================================
+                   VOLUNTEER ASSIGNMENT / MANAGEMENT
+                ================================================== */
 
-                ? request.assignedVolunteerId
+                const management =
+                    canManage
 
-                    ? `
-                        <div class="assigned-wrap">
+                        ? request.assignedVolunteerId
 
-                            <span class="badge badge-assigned">
-                                Assigned
+                            ? `
+                                <div
+                                    class="assigned-wrap">
+
+                                    <span
+                                        class="badge badge-assigned">
+
+                                        Assigned
+
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        class="action-btn secondary"
+                                        onclick="showReassign(
+                                            ${request.id}
+                                        )">
+
+                                        Change Volunteer
+
+                                    </button>
+
+                                </div>
+                            `
+
+                            : `
+                                <div
+                                    class="assign-box">
+
+                                    <select
+                                        class="control"
+                                        id="assign-${request.id}">
+
+                                        <option value="">
+                                            Select volunteer
+                                        </option>
+
+                                        ${
+                                            getAvailableVolunteerOptions()
+                                        }
+
+                                    </select>
+
+                                    <button
+                                        type="button"
+                                        class="action-btn"
+                                        onclick="assignVolunteer(
+                                            ${request.id}
+                                        )">
+
+                                        Assign
+
+                                    </button>
+
+                                </div>
+                            `
+
+                        : `
+                            <span class="subtext">
+
+                                ${
+                                    request.assignedVolunteerId
+                                        ? "Assigned"
+                                        : "Awaiting assignment"
+                                }
+
+                            </span>
+                        `;
+
+
+                /* =================================================
+                   VOLUNTEER ACTION STATUS
+                ================================================== */
+
+                const volunteerActionStatus =
+                    String(
+                        request.volunteerActionStatus ||
+                        "NOT_STARTED"
+                    ).toUpperCase();
+
+
+                let volunteerActionControls;
+
+
+                /*
+                 * If no volunteer has been assigned,
+                 * the action cannot meaningfully begin.
+                 */
+                if (!request.assignedVolunteerId) {
+
+                    volunteerActionControls = `
+                        <div class="volunteer-action-box">
+
+                            ${volunteerActionStatusBadge(
+                                volunteerActionStatus
+                            )}
+
+                            <span class="action-help">
+                                Assign a volunteer first.
                             </span>
 
-                            <button
-                                class="action-btn secondary"
-                                onclick="showReassign(${request.id})">
-
-                                Change Volunteer
-
-                            </button>
-
                         </div>
-                    `
+                    `;
 
-                    : `
-                        <div class="assign-box">
+                } else if (
+                    canUpdateVolunteerAction
+                ) {
+
+                    volunteerActionControls = `
+                        <div class="volunteer-action-box">
+
+                            <div class="volunteer-action-current">
+                                ${volunteerActionStatusBadge(
+                                    volunteerActionStatus
+                                )}
+                            </div>
 
                             <select
                                 class="control"
-                                id="assign-${request.id}">
+                                id="volunteer-status-${request.id}">
 
-                                <option value="">
-                                    Select volunteer
+                                <option
+                                    value="NOT_STARTED"
+                                    ${
+                                        volunteerActionStatus ===
+                                        "NOT_STARTED"
+                                            ? "selected"
+                                            : ""
+                                    }>
+
+                                    Not Started
+
                                 </option>
 
-                                ${getAvailableVolunteerOptions()}
+                                <option
+                                    value="IN_PROGRESS"
+                                    ${
+                                        volunteerActionStatus ===
+                                        "IN_PROGRESS"
+                                            ? "selected"
+                                            : ""
+                                    }>
+
+                                    In Progress
+
+                                </option>
+
+                                <option
+                                    value="COMPLETED"
+                                    ${
+                                        volunteerActionStatus ===
+                                        "COMPLETED"
+                                            ? "selected"
+                                            : ""
+                                    }>
+
+                                    Completed
+
+                                </option>
 
                             </select>
 
                             <button
+                                type="button"
                                 class="action-btn"
-                                onclick="assignVolunteer(${request.id})">
+                                onclick="updateVolunteerActionStatus(
+                                    ${request.id}
+                                )">
 
-                                Assign
+                                Update
 
                             </button>
 
                         </div>
-                    `
+                    `;
 
-                : `
-                    <span class="subtext">
-                        ${
-                            request.assignedVolunteerId
-                                ? "Assigned"
-                                : "Awaiting assignment"
-                        }
-                    </span>
+                } else {
+
+                    volunteerActionControls = `
+                        <div class="volunteer-action-box">
+
+                            ${volunteerActionStatusBadge(
+                                volunteerActionStatus
+                            )}
+
+                        </div>
+                    `;
+                }
+
+
+                /* =================================================
+                   EMERGENCY STATUS
+                ================================================== */
+
+                const statusControls =
+                    canManage
+
+                        ? `
+                            <div
+                                class="assign-box">
+
+                                <select
+                                    class="control"
+                                    id="status-${request.id}">
+
+                                    <option
+                                        value="PENDING"
+                                        ${
+                                            String(
+                                                request.status
+                                            ).toUpperCase() ===
+                                            "PENDING"
+                                                ? "selected"
+                                                : ""
+                                        }>
+
+                                        PENDING
+
+                                    </option>
+
+                                    <option
+                                        value="ACCEPTED"
+                                        ${
+                                            String(
+                                                request.status
+                                            ).toUpperCase() ===
+                                            "ACCEPTED"
+                                                ? "selected"
+                                                : ""
+                                        }>
+
+                                        ACCEPTED
+
+                                    </option>
+
+                                    <option
+                                        value="IN_PROGRESS"
+                                        ${
+                                            String(
+                                                request.status
+                                            ).toUpperCase() ===
+                                            "IN_PROGRESS"
+                                                ? "selected"
+                                                : ""
+                                        }>
+
+                                        IN_PROGRESS
+
+                                    </option>
+
+                                    <option
+                                        value="RESOLVED"
+                                        ${
+                                            String(
+                                                request.status
+                                            ).toUpperCase() ===
+                                            "RESOLVED"
+                                                ? "selected"
+                                                : ""
+                                        }>
+
+                                        RESOLVED
+
+                                    </option>
+
+                                    <option
+                                        value="CANCELLED"
+                                        ${
+                                            String(
+                                                request.status
+                                            ).toUpperCase() ===
+                                            "CANCELLED"
+                                                ? "selected"
+                                                : ""
+                                        }>
+
+                                        CANCELLED
+
+                                    </option>
+
+                                </select>
+
+                                <button
+                                    type="button"
+                                    class="action-btn"
+                                    onclick="updateEmergencyStatus(
+                                        ${request.id}
+                                    )">
+
+                                    Update
+
+                                </button>
+
+                            </div>
+                        `
+
+                        : statusBadge(
+                            request.status
+                        );
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            #${escapeHtml(request.id)}
+                        </td>
+
+
+                        <td>
+
+                            <div class="requester">
+
+                                ${escapeHtml(
+                                    request.requesterName
+                                )}
+
+                            </div>
+
+                            <div class="subtext">
+
+                                ${escapeHtml(
+                                    request.contactNumber
+                                )}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                request.location
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                request.disasterType
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                request.urgency
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${statusBadge(
+                                request.status
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <div
+                                class="assigned-name">
+
+                                ${escapeHtml(
+                                    assignedName
+                                )}
+
+                            </div>
+
+                        </td>
+
+
+                        <td
+                            id="assignment-${request.id}">
+
+                            ${management}
+
+                            <div
+                                style="
+                                    margin-top: 10px;
+                                    padding-top: 10px;
+                                    border-top: 1px solid #eef2f6;
+                                ">
+
+                                ${volunteerActionControls}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${statusControls}
+
+                        </td>
+
+
+                    </tr>
+
                 `;
 
-
-            const statusControls =
-                canManage
-
-                ? `
-                    <div class="assign-box">
-
-                        <select
-                            class="control"
-                            id="status-${request.id}">
-
-                            <option
-                                value="PENDING"
-                                ${
-                                    request.status === "PENDING"
-                                        ? "selected"
-                                        : ""
-                                }>
-
-                                PENDING
-
-                            </option>
-
-                            <option
-                                value="ACCEPTED"
-                                ${
-                                    request.status === "ACCEPTED"
-                                        ? "selected"
-                                        : ""
-                                }>
-
-                                ACCEPTED
-
-                            </option>
-
-                            <option
-                                value="IN_PROGRESS"
-                                ${
-                                    request.status === "IN_PROGRESS"
-                                        ? "selected"
-                                        : ""
-                                }>
-
-                                IN_PROGRESS
-
-                            </option>
-
-                            <option
-                                value="RESOLVED"
-                                ${
-                                    request.status === "RESOLVED"
-                                        ? "selected"
-                                        : ""
-                                }>
-
-                                RESOLVED
-
-                            </option>
-
-                            <option
-                                value="CANCELLED"
-                                ${
-                                    request.status === "CANCELLED"
-                                        ? "selected"
-                                        : ""
-                                }>
-
-                                CANCELLED
-
-                            </option>
-
-                        </select>
-
-                        <button
-                            class="action-btn"
-                            onclick="updateEmergencyStatus(${request.id})">
-
-                            Update
-
-                        </button>
-
-                    </div>
-                `
-
-                : statusBadge(request.status);
-
-
-            return `
-                <tr>
-
-                    <td>
-                        #${escapeHtml(request.id)}
-                    </td>
-
-                    <td>
-
-                        <div class="requester">
-                            ${escapeHtml(request.requesterName)}
-                        </div>
-
-                        <div class="subtext">
-                            ${escapeHtml(request.contactNumber)}
-                        </div>
-
-                    </td>
-
-                    <td>
-                        ${escapeHtml(request.location)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(request.disasterType)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(request.urgency)}
-                    </td>
-
-                    <td>
-                        ${statusBadge(request.status)}
-                    </td>
-
-                    <td>
-
-                        <div class="assigned-name">
-                            ${escapeHtml(assignedName)}
-                        </div>
-
-                    </td>
-
-                    <td id="assignment-${request.id}">
-
-                        ${management}
-
-                    </td>
-
-                    <td>
-
-                        ${statusControls}
-
-                    </td>
-
-                </tr>
-            `;
-
-        }).join("");
+            })
+            .join("");
 }
 
 
@@ -1549,14 +2268,13 @@ function getAvailableVolunteerOptions(
     const available =
         volunteers.filter(
             volunteer =>
-
-                String(volunteer.status || "")
-                    .toUpperCase() === "AVAILABLE"
-
+                String(
+                    volunteer.status || ""
+                ).toUpperCase() ===
+                "AVAILABLE"
                 &&
-
                 Number(volunteer.id) !==
-                    Number(excludeId)
+                Number(excludeId)
         );
 
     if (!available.length) {
@@ -1568,19 +2286,29 @@ function getAvailableVolunteerOptions(
         `;
     }
 
-    return available.map(
-        volunteer => `
+    return available
+        .map(
+            volunteer => `
 
-            <option value="${escapeHtml(volunteer.id)}">
+                <option
+                    value="${escapeHtml(
+                        volunteer.id
+                    )}">
 
-                ${escapeHtml(volunteer.name)}
-                —
-                ${escapeHtml(volunteer.location)}
+                    ${escapeHtml(
+                        volunteer.name
+                    )}
 
-            </option>
+                    —
+                    ${escapeHtml(
+                        volunteer.location
+                    )}
 
-        `
-    ).join("");
+                </option>
+
+            `
+        )
+        .join("");
 }
 
 
@@ -1588,7 +2316,9 @@ function getAvailableVolunteerOptions(
    REASSIGN VOLUNTEER
 ========================================================= */
 
-function showReassign(emergencyId) {
+function showReassign(
+    emergencyId
+) {
 
     if (!canManage) {
         return;
@@ -1610,6 +2340,12 @@ function showReassign(emergencyId) {
         return;
     }
 
+
+    /*
+     * Preserve the volunteer action section
+     * when opening the reassignment control.
+     */
+
     cell.innerHTML = `
 
         <div class="assign-box">
@@ -1622,21 +2358,29 @@ function showReassign(emergencyId) {
                     Select volunteer
                 </option>
 
-                ${getAvailableVolunteerOptions(
-                    request.assignedVolunteerId
-                )}
+                ${
+                    getAvailableVolunteerOptions(
+                        request.assignedVolunteerId
+                    )
+                }
 
             </select>
 
+
             <button
+                type="button"
                 class="action-btn"
-                onclick="assignVolunteer(${emergencyId})">
+                onclick="assignVolunteer(
+                    ${emergencyId}
+                )">
 
                 Reassign
 
             </button>
 
+
             <button
+                type="button"
                 class="action-btn secondary"
                 onclick="renderEmergencyRequests()">
 
@@ -1660,7 +2404,9 @@ async function assignVolunteer(
 
     if (!canManage) {
 
-        alert("Access denied.");
+        alert(
+            "Access denied."
+        );
 
         return;
     }
@@ -1683,7 +2429,11 @@ async function assignVolunteer(
 
         const response =
             await fetch(
-                `/api/emergency-requests/${emergencyId}/assign?volunteerId=${encodeURIComponent(select.value)}`,
+                `/api/emergency-requests/${emergencyId}/assign?volunteerId=${
+                    encodeURIComponent(
+                        select.value
+                    )
+                }`,
                 {
                     method: "PUT"
                 }
@@ -1723,14 +2473,144 @@ async function assignVolunteer(
 
         await loadDashboard();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
         alert(
             "Assignment failed: " +
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   UPDATE VOLUNTEER ACTION STATUS
+========================================================= */
+
+async function updateVolunteerActionStatus(
+    emergencyId
+) {
+
+    if (!canUpdateVolunteerAction) {
+
+        alert(
+            "Access denied."
+        );
+
+        return;
+    }
+
+    const select =
+        document.getElementById(
+            `volunteer-status-${emergencyId}`
+        );
+
+    if (!select) {
+        return;
+    }
+
+    const selectedStatus =
+        String(
+            select.value || ""
+        ).toUpperCase();
+
+    const validStatuses = [
+        "NOT_STARTED",
+        "IN_PROGRESS",
+        "COMPLETED"
+    ];
+
+    if (
+        !validStatuses.includes(
+            selectedStatus
+        )
+    ) {
+
+        alert(
+            "Invalid volunteer action status."
+        );
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/emergency-requests/${emergencyId}/volunteer-status?status=${
+                    encodeURIComponent(
+                        selectedStatus
+                    )
+                }`,
+                {
+                    method: "PUT"
+                }
+            );
+
+        if (response.status === 401) {
+
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+        if (response.status === 403) {
+
+            alert(
+                "Access denied. Your account cannot update volunteer action status."
+            );
+
+            return;
+        }
+
+        if (!response.ok) {
+
+            const message =
+                await response.text();
+
+            throw new Error(
+                message ||
+                "Unable to update volunteer action status."
+            );
+        }
+
+        /*
+         * Update the local request immediately so the UI
+         * stays synchronized before the full refresh.
+         */
+
+        const updatedRequest =
+            await response.json();
+
+        const requestIndex =
+            emergencyRequests.findIndex(
+                request =>
+                    Number(request.id) ===
+                    Number(emergencyId)
+            );
+
+        if (requestIndex !== -1) {
+
+            emergencyRequests[
+                requestIndex
+            ] = updatedRequest;
+        }
+
+        renderEmergencyRequests();
+
+        alert(
+            "Volunteer action status updated successfully."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Volunteer action update failed: " +
             error.message
         );
     }
@@ -1747,7 +2627,9 @@ async function updateEmergencyStatus(
 
     if (!canManage) {
 
-        alert("Access denied.");
+        alert(
+            "Access denied."
+        );
 
         return;
     }
@@ -1765,7 +2647,11 @@ async function updateEmergencyStatus(
 
         const response =
             await fetch(
-                `/api/emergency-requests/${emergencyId}/status?status=${encodeURIComponent(select.value)}`,
+                `/api/emergency-requests/${emergencyId}/status?status=${
+                    encodeURIComponent(
+                        select.value
+                    )
+                }`,
                 {
                     method: "PUT"
                 }
@@ -1805,9 +2691,7 @@ async function updateEmergencyStatus(
 
         await loadDashboard();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -1830,6 +2714,10 @@ function renderVolunteers() {
             "volunteerGrid"
         );
 
+    if (!grid) {
+        return;
+    }
+
     if (!volunteers.length) {
 
         grid.innerHTML = `
@@ -1842,59 +2730,84 @@ function renderVolunteers() {
     }
 
     grid.innerHTML =
-        volunteers.map(
-            volunteer => `
+        volunteers
+            .map(
+                volunteer => `
 
-                <div class="volunteer-card">
+                    <div
+                        class="volunteer-card">
 
-                    <div class="volunteer-top">
+                        <div
+                            class="volunteer-top">
 
-                        <div>
+                            <div>
 
-                            <div class="volunteer-name">
-                                ${escapeHtml(volunteer.name)}
+                                <div
+                                    class="volunteer-name">
+
+                                    ${escapeHtml(
+                                        volunteer.name
+                                    )}
+
+                                </div>
+
+                                <div
+                                    class="volunteer-location">
+
+                                    📍
+                                    ${escapeHtml(
+                                        volunteer.location
+                                    )}
+
+                                </div>
+
                             </div>
 
-                            <div class="volunteer-location">
-                                📍
-                                ${escapeHtml(volunteer.location)}
-                            </div>
+                            ${volunteerStatusBadge(
+                                volunteer.status
+                            )}
 
                         </div>
 
-                        ${volunteerStatusBadge(
-                            volunteer.status
-                        )}
+
+                        <div
+                            class="volunteer-info">
+
+                            <div
+                                class="skills">
+
+                                🛠
+                                ${escapeHtml(
+                                    volunteer.skills
+                                )}
+
+                            </div>
+
+                            <div>
+
+                                📞
+                                ${escapeHtml(
+                                    volunteer.contactNumber
+                                )}
+
+                            </div>
+
+                            <div>
+
+                                Availability:
+                                ${escapeHtml(
+                                    volunteer.availability
+                                )}
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-                    <div class="volunteer-info">
-
-                        <div class="skills">
-                            🛠
-                            ${escapeHtml(volunteer.skills)}
-                        </div>
-
-                        <div>
-                            📞
-                            ${escapeHtml(
-                                volunteer.contactNumber
-                            )}
-                        </div>
-
-                        <div>
-                            Availability:
-                            ${escapeHtml(
-                                volunteer.availability
-                            )}
-                        </div>
-
-                    </div>
-
-                </div>
-
-            `
-        ).join("");
+                `
+            )
+            .join("");
 }
 
 
@@ -1917,7 +2830,6 @@ function updateEmergencyStats() {
                     status !== "RESOLVED" &&
                     status !== "CANCELLED"
                 );
-
             }
         ).length;
 
@@ -1932,14 +2844,28 @@ function updateEmergencyStats() {
         ).length;
 
 
-    document.getElementById(
-        "activeEmergencies"
-    ).textContent = active;
+    const activeElement =
+        document.getElementById(
+            "activeEmergencies"
+        );
+
+    const acceptedElement =
+        document.getElementById(
+            "acceptedRequests"
+        );
 
 
-    document.getElementById(
-        "acceptedRequests"
-    ).textContent = accepted;
+    if (activeElement) {
+
+        activeElement.textContent =
+            active;
+    }
+
+    if (acceptedElement) {
+
+        acceptedElement.textContent =
+            accepted;
+    }
 }
 
 
@@ -1959,16 +2885,427 @@ function updateVolunteerStats() {
         ).length;
 
 
-    document.getElementById(
-        "registeredVolunteers"
-    ).textContent =
-        volunteers.length;
+    const registeredElement =
+        document.getElementById(
+            "registeredVolunteers"
+        );
+
+    const availableElement =
+        document.getElementById(
+            "availableVolunteers"
+        );
 
 
-    document.getElementById(
-        "availableVolunteers"
-    ).textContent =
-        available;
+    if (registeredElement) {
+
+        registeredElement.textContent =
+            volunteers.length;
+    }
+
+    if (availableElement) {
+
+        availableElement.textContent =
+            available;
+    }
+}
+
+
+/* =========================================================
+   NOTIFICATION COUNT
+========================================================= */
+
+async function loadNotificationCount() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/notifications/unread-count"
+            );
+
+        if (response.status === 401) {
+            return;
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load notification count."
+            );
+        }
+
+        const count =
+            await response.json();
+
+        const badge =
+            document.getElementById(
+                "notificationBadge"
+            );
+
+        if (!badge) {
+            return;
+        }
+
+        const numericCount =
+            Number(count);
+
+        if (numericCount > 0) {
+
+            badge.textContent =
+                numericCount > 99
+                    ? "99+"
+                    : String(numericCount);
+
+            badge.classList
+                .remove("hidden");
+
+        } else {
+
+            badge.classList
+                .add("hidden");
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Notification count error:",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   LOAD NOTIFICATIONS
+========================================================= */
+
+async function loadNotifications() {
+
+    const list =
+        document.getElementById(
+            "notificationList"
+        );
+
+    if (!list) {
+        return;
+    }
+
+    list.innerHTML = `
+        <div class="notification-empty">
+            Loading notifications…
+        </div>
+    `;
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/notifications"
+            );
+
+        if (response.status === 401) {
+
+            window.location.href =
+                "/login.html";
+
+            return;
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load notifications."
+            );
+        }
+
+        notifications =
+            await response.json();
+
+        renderNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Notification loading error:",
+            error
+        );
+
+        list.innerHTML = `
+            <div class="notification-empty">
+                Unable to load notifications.
+            </div>
+        `;
+    }
+}
+
+
+/* =========================================================
+   RENDER NOTIFICATIONS
+========================================================= */
+
+function renderNotifications() {
+
+    const list =
+        document.getElementById(
+            "notificationList"
+        );
+
+    if (!list) {
+        return;
+    }
+
+    if (!notifications.length) {
+
+        list.innerHTML = `
+            <div class="notification-empty">
+                No notifications.
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML =
+        notifications
+            .map(
+                notification => {
+
+                    const unread =
+                        !notification.isRead;
+
+                    const createdAt =
+                        notification.createdAt
+                            ? new Date(
+                                notification.createdAt
+                            ).toLocaleString()
+                            : "";
+
+                    return `
+
+                        <div
+                            class="notification-item ${
+                                unread
+                                    ? "unread"
+                                    : ""
+                            }"
+                            data-id="${
+                                escapeHtml(
+                                    notification.id
+                                )
+                            }">
+
+                            <div
+                                class="notification-title">
+
+                                ${
+                                    escapeHtml(
+                                        notification.title
+                                    )
+                                }
+
+                            </div>
+
+                            <div
+                                class="notification-message">
+
+                                ${
+                                    escapeHtml(
+                                        notification.message
+                                    )
+                                }
+
+                            </div>
+
+                            <div
+                                class="notification-time">
+
+                                ${
+                                    escapeHtml(
+                                        createdAt
+                                    )
+                                }
+
+                            </div>
+
+                        </div>
+
+                    `;
+                }
+            )
+            .join("");
+
+
+    document
+        .querySelectorAll(
+            ".notification-item"
+        )
+        .forEach(item => {
+
+            item.addEventListener(
+                "click",
+                async () => {
+
+                    const id =
+                        item.dataset.id;
+
+                    await markNotificationAsRead(
+                        id
+                    );
+                }
+            );
+        });
+}
+
+
+/* =========================================================
+   MARK NOTIFICATION AS READ
+========================================================= */
+
+async function markNotificationAsRead(
+    id
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/notifications/${
+                    encodeURIComponent(id)
+                }/read`,
+                {
+                    method: "PUT"
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to mark notification as read."
+            );
+        }
+
+        const notification =
+            notifications.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+        if (notification) {
+
+            notification.isRead = true;
+        }
+
+        renderNotifications();
+
+        await loadNotificationCount();
+
+    } catch (error) {
+
+        console.error(
+            "Mark notification as read error:",
+            error
+        );
+    }
+}
+
+
+/* =========================================================
+   NOTIFICATION BUTTON
+========================================================= */
+
+function setupNotificationButton() {
+
+    const button =
+        document.getElementById(
+            "notificationButton"
+        );
+
+    const panel =
+        document.getElementById(
+            "notificationPanel"
+        );
+
+    const refreshButton =
+        document.getElementById(
+            "refreshNotificationsBtn"
+        );
+
+    if (!button || !panel) {
+
+        console.error(
+            "Notification UI elements not found."
+        );
+
+        return;
+    }
+
+
+    /* OPEN / CLOSE */
+
+    button.addEventListener(
+        "click",
+        async event => {
+
+            event.stopPropagation();
+
+            panel.classList.toggle(
+                "show"
+            );
+
+            if (
+                panel.classList.contains(
+                    "show"
+                )
+            ) {
+
+                await loadNotifications();
+            }
+        }
+    );
+
+
+    /* REFRESH */
+
+    if (refreshButton) {
+
+        refreshButton.addEventListener(
+            "click",
+            async event => {
+
+                event.stopPropagation();
+
+                await loadNotifications();
+
+            }
+        );
+    }
+
+
+    /* CLOSE WHEN CLICKING OUTSIDE */
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            if (
+                !panel.contains(
+                    event.target
+                )
+                &&
+                !button.contains(
+                    event.target
+                )
+            ) {
+
+                panel.classList.remove(
+                    "show"
+                );
+            }
+        }
+    );
 }
 
 
@@ -1978,10 +3315,19 @@ function updateVolunteerStats() {
 
 document.addEventListener(
     "DOMContentLoaded",
-    loadDashboard
+    async () => {
+
+        setupNotificationButton();
+
+        await loadDashboard();
+
+        await loadNotificationCount();
+
+    }
 );
 
 </script>
 
 </body>
+
 </html>

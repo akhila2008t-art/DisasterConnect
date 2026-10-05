@@ -30,8 +30,13 @@ public class Volunteer {
     @Column(nullable = false)
     private String availability;
 
+    // General volunteer status
     @Column(nullable = false)
     private String status;
+
+    // Work completion status
+    @Column(nullable = false)
+    private String workStatus;
 
     @Column(nullable = false)
     private LocalDateTime registeredAt;
@@ -56,7 +61,12 @@ public class Volunteer {
         this.skills = skills;
         this.location = location;
         this.availability = availability;
+
         this.status = "AVAILABLE";
+
+        // New work status
+        this.workStatus = "NOT_STARTED";
+
         this.registeredAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -74,6 +84,10 @@ public class Volunteer {
 
         if (status == null || status.isBlank()) {
             status = "AVAILABLE";
+        }
+
+        if (workStatus == null || workStatus.isBlank()) {
+            workStatus = "NOT_STARTED";
         }
     }
 
@@ -148,6 +162,18 @@ public class Volunteer {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    // =========================================================
+    // WORK STATUS
+    // =========================================================
+
+    public String getWorkStatus() {
+        return workStatus;
+    }
+
+    public void setWorkStatus(String workStatus) {
+        this.workStatus = workStatus;
     }
 
     public LocalDateTime getRegisteredAt() {

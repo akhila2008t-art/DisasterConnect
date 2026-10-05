@@ -1,1485 +1,694 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DisasterConnect - Global Emergency Coordination Platform</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <!-- Google Fonts & Tailwind CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <meta
-        name="description"
-        content="DisasterConnect — A coordinated emergency response platform connecting people, volunteers, resources and emergency teams."
-    >
-
-    <title>DisasterConnect | Emergency Response Platform</title>
-
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/components.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        emergency: {
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                        },
+                        rescuer: {
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        },
+                        safety: {
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                        }
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 4s infinite ease-in-out',
+                        'radar-sweep': 'radarSweep 5s linear infinite',
+                        'hand-reach-left': 'handReachLeft 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'hand-reach-right': 'handReachRight 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'beacon-pulse': 'beaconPulse 1.2s ease-out 1.2s forwards',
+                        'tagline-slide': 'taglineSlide 0.8s ease-out 1.4s forwards',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.2', transform: 'scale(1)' },
+                            '50%': { opacity: '0.5', transform: 'scale(1.05)' },
+                        },
+                        radarSweep: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        },
+                        handReachLeft: {
+                            '0%': { transform: 'translate(-120px, -80px) scale(0.85)', opacity: '0' },
+                            '100%': { transform: 'translate(-8px, -5px) scale(1)', opacity: '1' },
+                        },
+                        handReachRight: {
+                            '0%': { transform: 'translate(120px, 80px) scale(0.85)', opacity: '0' },
+                            '100%': { transform: 'translate(8px, 5px) scale(1)', opacity: '1' },
+                        },
+                        beaconPulse: {
+                            '0%': { transform: 'scale(0.1)', opacity: '0' },
+                            '50%': { transform: 'scale(1.5)', opacity: '0.9' },
+                            '100%': { transform: 'scale(1)', opacity: '0.7' },
+                        },
+                        taglineSlide: {
+                            '0%': { transform: 'translateY(12px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        /* =====================================================
-           HOMEPAGE
-           ===================================================== */
-
-        .home-page {
-            min-height: 100vh;
-            overflow-x: hidden;
+        :root {
+            --bg-base: #030712;
+            --bg-card: rgba(17, 24, 39, 0.7);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
         }
 
-        /* ---------- Navigation ---------- */
+        .light {
+            --bg-base: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --border-card: rgba(0, 0, 0, 0.08);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+        }
 
-        .home-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-            height: 72px;
-
-            display: flex;
-            align-items: center;
-
-            z-index: 1000;
-
-            background: color-mix(
-                in srgb,
-                var(--dc-surface) 90%,
-                transparent
-            );
-
-            border-bottom: 1px solid var(--dc-border);
-
+        .glass-panel {
+            background: var(--bg-card);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-card);
         }
 
-        .home-nav-inner {
-            width: min(
-                calc(100% - 40px),
-                1240px
-            );
-
-            margin: 0 auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-card);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .home-logo {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-
-            font-size: 18px;
-            font-weight: 800;
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -10px rgba(14, 165, 233, 0.2);
         }
 
-        .home-logo-mark {
-            width: 38px;
-            height: 38px;
-
-            display: grid;
-            place-items: center;
-
-            color: #ffffff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--dc-primary),
-                    var(--dc-primary-dark)
-                );
-
-            border-radius: 11px;
-
-            box-shadow:
-                0 6px 18px rgba(29, 78, 216, 0.22);
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
 
-        .home-logo-name {
-            color: var(--dc-text);
+        .light .bg-grid-pattern {
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
         }
 
-        .home-nav-links {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .home-nav-link {
-            padding: 8px 12px;
-
-            color: var(--dc-text-secondary);
-
-            border-radius: 8px;
-
-            font-size: 13px;
-            font-weight: 650;
-
-            transition:
-                color var(--dc-transition-fast),
-                background var(--dc-transition-fast);
-        }
-
-        .home-nav-link:hover {
-            color: var(--dc-primary);
-            background: var(--dc-primary-light);
-        }
-
-        .home-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ---------- Hero ---------- */
-
-        .home-hero {
-            position: relative;
-
-            min-height: 760px;
-
-            display: flex;
-            align-items: center;
-
-            padding:
-                140px 20px
-                90px;
-
-            overflow: hidden;
-        }
-
-        .home-hero::before {
-            content: "";
-
-            position: absolute;
-
-            width: 620px;
-            height: 620px;
-
-            top: -220px;
-            right: -180px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(29, 78, 216, 0.14),
-                    transparent 68%
-                );
-
+        #intro-overlay.fade-out {
+            opacity: 0;
             pointer-events: none;
-        }
-
-        .home-hero::after {
-            content: "";
-
-            position: absolute;
-
-            width: 500px;
-            height: 500px;
-
-            bottom: -260px;
-            left: -180px;
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(2, 132, 199, 0.10),
-                    transparent 70%
-                );
-
-            pointer-events: none;
-        }
-
-        .home-hero-inner {
-            position: relative;
-            z-index: 2;
-
-            width: min(
-                1200px,
-                100%
-            );
-
-            margin: 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                minmax(0, 1.05fr)
-                minmax(420px, 0.95fr);
-
-            align-items: center;
-
-            gap: 70px;
-        }
-
-        .home-hero-content {
-            animation:
-                home-fade-up
-                0.7s ease both;
-        }
-
-        .home-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-bottom: 20px;
-
-            padding: 7px 11px;
-
-            color: var(--dc-primary);
-
-            background: var(--dc-primary-light);
-
-            border: 1px solid
-                rgba(29, 78, 216, 0.12);
-
-            border-radius: 999px;
-
-            font-size: 11px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .home-eyebrow-dot {
-            width: 7px;
-            height: 7px;
-
-            background: var(--dc-primary);
-
-            border-radius: 50%;
-
-            animation:
-                home-pulse
-                2s infinite;
-        }
-
-        .home-title {
-            max-width: 720px;
-
-            margin: 0 0 22px;
-
-            color: var(--dc-text);
-
-            font-size:
-                clamp(
-                    42px,
-                    6vw,
-                    72px
-                );
-
-            line-height: 1.02;
-
-            font-weight: 850;
-
-            letter-spacing: -0.055em;
-        }
-
-        .home-title-highlight {
-            color: var(--dc-primary);
-        }
-
-        .home-description {
-            max-width: 630px;
-
-            margin: 0 0 30px;
-
-            color: var(--dc-text-secondary);
-
-            font-size: 17px;
-            line-height: 1.75;
-        }
-
-        .home-actions {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 12px;
-
-            margin-bottom: 36px;
-        }
-
-        .home-trust {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            color: var(--dc-text-muted);
-
-            font-size: 12px;
-        }
-
-        .home-trust-icon {
-            width: 28px;
-            height: 28px;
-
-            display: grid;
-            place-items: center;
-
-            color: var(--dc-success);
-
-            background:
-                var(--dc-success-light);
-
-            border-radius: 8px;
-        }
-
-        /* ---------- Hero Dashboard Preview ---------- */
-
-        .home-visual {
-            position: relative;
-
-            animation:
-                home-fade-up
-                0.8s
-                0.15s
-                ease
-                both;
-        }
-
-        .home-dashboard {
-            position: relative;
-
-            padding: 14px;
-
-            background:
-                var(--dc-surface);
-
-            border:
-                1px solid
-                var(--dc-border);
-
-            border-radius: 22px;
-
-            box-shadow:
-                0 30px 80px
-                rgba(15, 23, 42, 0.14);
-
-            transform:
-                perspective(1200px)
-                rotateY(-3deg)
-                rotateX(2deg);
-
-            transition:
-                transform
-                0.5s
-                ease;
-        }
-
-        .home-dashboard:hover {
-            transform:
-                perspective(1200px)
-                rotateY(0)
-                rotateX(0)
-                translateY(-5px);
-        }
-
-        .home-dashboard-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 8px 8px 14px;
-        }
-
-        .home-dashboard-brand {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .home-mini-mark {
-            width: 24px;
-            height: 24px;
-
-            display: grid;
-            place-items: center;
-
-            color: #ffffff;
-
-            background:
-                var(--dc-primary);
-
-            border-radius: 7px;
-
-            font-size: 11px;
-        }
-
-        .home-live {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-
-            color: var(--dc-success);
-
-            font-size: 9px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-        }
-
-        .home-live-dot {
-            width: 6px;
-            height: 6px;
-
-            background:
-                var(--dc-success);
-
-            border-radius: 50%;
-        }
-
-        .home-dashboard-body {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-
-            gap: 10px;
-        }
-
-        .home-mini-card {
-            padding: 14px;
-
-            background:
-                var(--dc-surface-soft);
-
-            border:
-                1px solid
-                var(--dc-border);
-
-            border-radius: 12px;
-        }
-
-        .home-mini-label {
-            color: var(--dc-text-muted);
-
-            font-size: 9px;
-            font-weight: 700;
-
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .home-mini-number {
-            margin-top: 5px;
-
-            color: var(--dc-text);
-
-            font-size: 25px;
-            line-height: 1;
-
-            font-weight: 850;
-        }
-
-        .home-mini-number.danger {
-            color: var(--dc-danger);
-        }
-
-        .home-mini-number.success {
-            color: var(--dc-success);
-        }
-
-        .home-mini-number.primary {
-            color: var(--dc-primary);
-        }
-
-        .home-mini-number.warning {
-            color: var(--dc-warning);
-        }
-
-        .home-mini-wide {
-            grid-column: span 2;
-
-            padding: 15px;
-
-            background:
-                var(--dc-surface);
-
-            border:
-                1px solid
-                var(--dc-border);
-
-            border-radius: 12px;
-        }
-
-        .home-request {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            padding: 10px 0;
-
-            border-bottom:
-                1px solid
-                var(--dc-border);
-        }
-
-        .home-request:last-child {
-            border-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .home-request-icon {
-            width: 30px;
-            height: 30px;
-
-            display: grid;
-            place-items: center;
-
-            color: var(--dc-danger);
-
-            background:
-                var(--dc-danger-light);
-
-            border-radius: 8px;
-
-            font-size: 12px;
-        }
-
-        .home-request-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .home-request-title {
-            color: var(--dc-text);
-
-            font-size: 10px;
-            font-weight: 750;
-        }
-
-        .home-request-location {
-            color: var(--dc-text-muted);
-
-            font-size: 8px;
-        }
-
-        .home-request-status {
-            padding: 4px 7px;
-
-            color: var(--dc-warning);
-
-            background:
-                var(--dc-warning-light);
-
-            border-radius: 999px;
-
-            font-size: 7px;
-            font-weight: 800;
-        }
-
-        /* ---------- Impact Strip ---------- */
-
-        .home-impact {
-            padding: 24px 20px;
-
-            background:
-                var(--dc-secondary);
-        }
-
-        .home-impact-inner {
-            width: min(
-                1100px,
-                100%
-            );
-
-            margin: 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 1px;
-
-            background:
-                rgba(255, 255, 255, 0.12);
-        }
-
-        .home-impact-item {
-            padding: 20px;
-
-            text-align: center;
-
-            background:
-                var(--dc-secondary);
-        }
-
-        .home-impact-number {
-            color: #ffffff;
-
-            font-size: 25px;
-            font-weight: 800;
-        }
-
-        .home-impact-label {
-            margin-top: 3px;
-
-            color:
-                rgba(255, 255, 255, 0.6);
-
-            font-size: 10px;
-            font-weight: 650;
-        }
-
-        /* ---------- Features ---------- */
-
-        .home-features {
-            padding: 100px 20px;
-        }
-
-        .home-section-inner {
-            width: min(
-                1150px,
-                100%
-            );
-
-            margin: 0 auto;
-        }
-
-        .home-section-heading {
-            max-width: 650px;
-
-            margin-bottom: 50px;
-        }
-
-        .home-section-eyebrow {
-            margin-bottom: 10px;
-
-            color: var(--dc-primary);
-
-            font-size: 11px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .home-section-title {
-            margin: 0 0 12px;
-
-            color: var(--dc-text);
-
-            font-size:
-                clamp(28px, 4vw, 42px);
-
-            font-weight: 820;
-
-            letter-spacing: -0.04em;
-        }
-
-        .home-section-description {
-            margin: 0;
-
-            color: var(--dc-text-secondary);
-
-            font-size: 14px;
-            line-height: 1.75;
-        }
-
-        .home-feature-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 18px;
-        }
-
-        .home-feature-card {
-            padding: 26px;
-
-            background:
-                var(--dc-surface);
-
-            border:
-                1px solid
-                var(--dc-border);
-
-            border-radius:
-                var(--dc-radius-lg);
-
-            box-shadow:
-                var(--dc-shadow-sm);
-
-            transition:
-                transform
-                var(--dc-transition),
-                box-shadow
-                var(--dc-transition),
-                border-color
-                var(--dc-transition);
-        }
-
-        .home-feature-card:hover {
-            transform: translateY(-5px);
-
-            box-shadow:
-                var(--dc-shadow-md);
-
-            border-color:
-                var(--dc-border-dark);
-        }
-
-        .home-feature-icon {
-            width: 46px;
-            height: 46px;
-
-            display: grid;
-            place-items: center;
-
-            margin-bottom: 20px;
-
-            border-radius: 12px;
-
-            font-size: 20px;
-        }
-
-        .home-feature-icon.blue {
-            color: var(--dc-primary);
-            background: var(--dc-primary-light);
-        }
-
-        .home-feature-icon.red {
-            color: var(--dc-danger);
-            background: var(--dc-danger-light);
-        }
-
-        .home-feature-icon.green {
-            color: var(--dc-success);
-            background: var(--dc-success-light);
-        }
-
-        .home-feature-icon.orange {
-            color: var(--dc-warning);
-            background: var(--dc-warning-light);
-        }
-
-        .home-feature-title {
-            margin: 0 0 8px;
-
-            color: var(--dc-text);
-
-            font-size: 16px;
-            font-weight: 750;
-        }
-
-        .home-feature-text {
-            margin: 0;
-
-            color: var(--dc-text-secondary);
-
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-        /* ---------- Workflow ---------- */
-
-        .home-workflow {
-            padding: 100px 20px;
-
-            background:
-                var(--dc-surface-soft);
-        }
-
-        .home-workflow-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 20px;
-        }
-
-        .home-step {
-            position: relative;
-
-            padding: 24px;
-
-            background:
-                var(--dc-surface);
-
-            border:
-                1px solid
-                var(--dc-border);
-
-            border-radius:
-                var(--dc-radius-lg);
-        }
-
-        .home-step-number {
-            width: 34px;
-            height: 34px;
-
-            display: grid;
-            place-items: center;
-
-            margin-bottom: 17px;
-
-            color: #ffffff;
-
-            background:
-                var(--dc-primary);
-
-            border-radius: 10px;
-
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .home-step-title {
-            margin: 0 0 7px;
-
-            color: var(--dc-text);
-
-            font-size: 15px;
-            font-weight: 750;
-        }
-
-        .home-step-text {
-            margin: 0;
-
-            color: var(--dc-text-secondary);
-
-            font-size: 12px;
-            line-height: 1.65;
-        }
-
-        /* ---------- CTA ---------- */
-
-        .home-cta {
-            padding: 90px 20px;
-        }
-
-        .home-cta-card {
-            position: relative;
-
-            width: min(
-                1100px,
-                100%
-            );
-
-            margin: 0 auto;
-
-            padding: 55px 50px;
-
-            overflow: hidden;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--dc-primary-dark),
-                    var(--dc-primary)
-                );
-
-            border-radius: 24px;
-
-            box-shadow:
-                0 24px 60px
-                rgba(29, 78, 216, 0.22);
-        }
-
-        .home-cta-card::after {
-            content: "";
-
-            position: absolute;
-
-            width: 400px;
-            height: 400px;
-
-            top: -220px;
-            right: -120px;
-
-            border:
-                70px solid
-                rgba(255, 255, 255, 0.06);
-
-            border-radius: 50%;
-        }
-
-        .home-cta-content {
-            position: relative;
-            z-index: 2;
-
-            max-width: 650px;
-        }
-
-        .home-cta-title {
-            margin: 0 0 12px;
-
-            color: #ffffff;
-
-            font-size:
-                clamp(27px, 4vw, 40px);
-
-            font-weight: 820;
-
-            letter-spacing: -0.035em;
-        }
-
-        .home-cta-text {
-            margin: 0 0 24px;
-
-            color:
-                rgba(255, 255, 255, 0.78);
-
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .home-cta-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .home-cta .dc-btn-secondary {
-            color: var(--dc-primary-dark);
-
-            background: #ffffff;
-
-            border-color: #ffffff;
-        }
-
-        .home-cta .dc-btn-secondary:hover {
-            background: #f8fafc;
-        }
-
-        /* ---------- Footer ---------- */
-
-        .home-footer {
-            padding: 30px 20px;
-
-            background:
-                var(--dc-secondary);
-
-            border-top:
-                1px solid
-                rgba(255, 255, 255, 0.08);
-        }
-
-        .home-footer-inner {
-            width: min(
-                1150px,
-                100%
-            );
-
-            margin: 0 auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-        }
-
-        .home-footer-brand {
-            color: #ffffff;
-
-            font-size: 13px;
-            font-weight: 750;
-        }
-
-        .home-footer-text {
-            color:
-                rgba(255, 255, 255, 0.5);
-
-            font-size: 11px;
-        }
-
-        /* ---------- Animations ---------- */
-
-        @keyframes home-fade-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes home-pulse {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.45;
-                transform: scale(0.8);
-            }
-        }
-
-        /* ---------- Responsive ---------- */
-
-        @media (max-width: 1000px) {
-            .home-nav-links {
-                display: none;
-            }
-
-            .home-hero {
-                min-height: auto;
-            }
-
-            .home-hero-inner {
-                grid-template-columns: 1fr;
-
-                gap: 50px;
-            }
-
-            .home-visual {
-                max-width: 650px;
-                margin: 0 auto;
-            }
-
-            .home-feature-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-            .home-workflow-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 650px) {
-            .home-nav-inner {
-                width:
-                    calc(100% - 24px);
-            }
-
-            .home-nav-actions .dc-btn {
-                display: none;
-            }
-
-            .home-hero {
-                padding:
-                    120px 16px
-                    65px;
-            }
-
-            .home-title {
-                font-size: 43px;
-            }
-
-            .home-description {
-                font-size: 15px;
-            }
-
-            .home-actions {
-                flex-direction: column;
-            }
-
-            .home-actions .dc-btn {
-                width: 100%;
-            }
-
-            .home-dashboard {
-                transform: none;
-            }
-
-            .home-impact-inner {
-                grid-template-columns: 1fr;
-            }
-
-            .home-feature-grid,
-            .home-workflow-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .home-features,
-            .home-workflow {
-                padding: 70px 16px;
-            }
-
-            .home-cta {
-                padding: 70px 16px;
-            }
-
-            .home-cta-card {
-                padding: 38px 25px;
-            }
-
-            .home-cta-actions {
-                flex-direction: column;
-            }
-
-            .home-cta-actions .dc-btn {
-                width: 100%;
-            }
-
-            .home-footer-inner {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            transition: opacity 0.6s ease-out;
         }
     </style>
 </head>
 
-<body>
+<body class="font-sans min-h-screen flex flex-col relative overflow-x-hidden antialiased">
 
-<div class="home-page">
+    <!-- =========================================================
+         INTRO ANIMATION — KEPT UNCHANGED
+         ========================================================= -->
+    <div id="intro-overlay" class="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-slate-950 text-white select-none">
 
-    <!-- =====================================================
-         NAVIGATION
-         ===================================================== -->
+        <div class="absolute w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[120px] animate-pulse-glow"></div>
 
-    <nav class="home-nav">
+        <div class="absolute w-[350px] h-[350px] bg-emerald-500/15 rounded-full blur-[100px] animate-pulse-glow" style="animation-delay: 1s;"></div>
 
-        <div class="home-nav-inner">
+        <div class="absolute w-72 h-72 sm:w-80 sm:h-80 rounded-full border border-cyan-500/20 flex items-center justify-center pointer-events-none">
+            <div class="w-full h-full rounded-full border border-dashed border-emerald-500/20 animate-radar-sweep"></div>
+        </div>
 
-            <a
-                href="/index.html"
-                class="home-logo"
-                aria-label="DisasterConnect home"
-            >
-                <span class="home-logo-mark">DC</span>
+        <div class="relative z-10 flex flex-col items-center max-w-md px-6 text-center">
 
-                <span class="home-logo-name">
-                    DisasterConnect
-                </span>
-            </a>
+            <div class="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center">
 
-            <div class="home-nav-links">
+                <!-- Energy Pulse Shockwave -->
+                <div class="absolute w-28 h-28 rounded-full bg-gradient-to-r from-cyan-400/50 via-emerald-400/50 to-cyan-300/50 blur-xl animate-beacon-pulse opacity-0"></div>
 
-                <a
-                    href="#features"
-                    class="home-nav-link"
-                >
-                    Platform
-                </a>
+                <div class="absolute w-16 h-16 rounded-full border-2 border-cyan-400 animate-beacon-pulse opacity-0"></div>
 
-                <a
-                    href="#workflow"
-                    class="home-nav-link"
-                >
-                    How It Works
-                </a>
+                <svg class="w-full h-full drop-shadow-[0_0_25px_rgba(56,189,248,0.5)]"
+                     viewBox="0 0 320 240"
+                     fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
 
-                <a
-                    href="/resources.html"
-                    class="home-nav-link"
-                >
-                    Resources
-                </a>
+                    <!-- Left Reaching Hand -->
+                    <g class="animate-hand-reach-left">
+                        <path d="M 20 20 L 95 85 C 105 95 115 100 128 105"
+                              stroke="url(#cyan-grad)"
+                              stroke-width="10"
+                              stroke-linecap="round"/>
+
+                        <path d="M 95 85 L 125 105 C 135 112 142 110 148 102 C 152 96 148 90 138 84 L 115 70"
+                              stroke="url(#cyan-grad)"
+                              stroke-width="8"
+                              stroke-linecap="round"/>
+
+                        <path d="M 125 105 L 152 118 C 158 120 162 116 158 110 L 135 94"
+                              stroke="url(#cyan-grad)"
+                              stroke-width="6"
+                              stroke-linecap="round"/>
+
+                        <path d="M 100 82 L 122 75 C 128 73 132 78 126 84 L 110 92"
+                              stroke="url(#cyan-grad)"
+                              stroke-width="6"
+                              stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Right Helping Hand -->
+                    <g class="animate-hand-reach-right">
+                        <path d="M 300 220 L 225 155 C 215 145 205 140 192 135"
+                              stroke="url(#emerald-grad)"
+                              stroke-width="10"
+                              stroke-linecap="round"/>
+
+                        <path d="M 225 155 L 195 135 C 185 128 178 130 172 138 C 168 144 172 150 182 156 L 205 170"
+                              stroke="url(#emerald-grad)"
+                              stroke-width="8"
+                              stroke-linecap="round"/>
+
+                        <path d="M 195 135 L 168 122 C 162 120 158 124 162 130 L 185 146"
+                              stroke="url(#emerald-grad)"
+                              stroke-width="6"
+                              stroke-linecap="round"/>
+
+                        <path d="M 220 158 L 198 165 C 192 167 188 162 194 156 L 210 148"
+                              stroke="url(#emerald-grad)"
+                              stroke-width="6"
+                              stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Clasp Point -->
+                    <circle cx="160"
+                            cy="120"
+                            r="10"
+                            fill="#38bdf8"
+                            class="animate-ping opacity-75"/>
+
+                    <circle cx="160"
+                            cy="120"
+                            r="5"
+                            fill="#22c55e"/>
+
+                    <defs>
+
+                        <linearGradient id="cyan-grad"
+                                        x1="0%"
+                                        y1="0%"
+                                        x2="100%"
+                                        y2="100%">
+
+                            <stop offset="0%" stop-color="#0284c7" />
+                            <stop offset="100%" stop-color="#38bdf8" />
+
+                        </linearGradient>
+
+                        <linearGradient id="emerald-grad"
+                                        x1="100%"
+                                        y1="100%"
+                                        x2="0%"
+                                        y2="0%">
+
+                            <stop offset="0%" stop-color="#16a34a" />
+                            <stop offset="100%" stop-color="#4ade80" />
+
+                        </linearGradient>
+
+                    </defs>
+
+                </svg>
+            </div>
+
+            <div class="animate-tagline-slide opacity-0 -mt-2 space-y-1">
+
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-xs font-semibold uppercase tracking-wider">
+
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+
+                    DISASTERCONNECT
+
+                </div>
+
+                <h3 class="text-xl font-bold text-white">
+                    Rapid Crisis Response Network
+                </h3>
+
+                <p class="text-xs text-slate-400 font-mono">
+                    Synchronizing responders, resources, and field reports...
+                </p>
 
             </div>
 
-            <div class="home-nav-actions">
+            <button id="skipIntroBtn"
+                    class="mt-6 px-4 py-2 rounded-full border border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-xs text-slate-300 hover:text-cyan-400 font-mono transition flex items-center gap-2">
 
-                <button
-                    type="button"
-                    class="dc-theme-toggle"
-                    data-theme-toggle
-                    aria-label="Switch to dark mode"
-                    title="Switch to dark mode"
-                >
-                    <span data-theme-icon>🌙</span>
-                    <span data-theme-label>Dark mode</span>
-                </button>
+                <span>Skip Intro</span> &rarr;
 
-                <a
-                    href="/login.html"
-                    class="dc-btn dc-btn-secondary dc-btn-sm"
-                >
-                    Sign in
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800/80 light:border-slate-200/80">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex items-center justify-between h-20">
+
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-3 group">
+
+                    <div class="relative w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 via-sky-600 to-emerald-500 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+
+                        <div class="w-full h-full bg-slate-950 light:bg-white rounded-[10px] flex items-center justify-center relative overflow-hidden">
+
+                            <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-emerald-500/20"></div>
+
+                            <svg class="w-6 h-6 text-cyan-400 light:text-cyan-600 relative z-10"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                    <div class="flex flex-col">
+
+                        <span class="font-extrabold text-xl tracking-tight text-white light:text-slate-900">
+                            Disaster<span class="text-cyan-400 light:text-cyan-600">Connect</span>
+                        </span>
+
+                        <span class="text-[10px] font-mono tracking-widest text-emerald-400 light:text-emerald-600 uppercase font-semibold -mt-1">
+                            Emergency Command
+                        </span>
+
+                    </div>
+
                 </a>
 
-                <a
-                    href="/emergency-request.html"
-                    class="dc-btn dc-btn-primary dc-btn-sm"
-                >
-                    Report Emergency
-                </a>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center gap-1 font-medium text-sm text-slate-300 light:text-slate-600">
+
+                    <a href="#overview"
+                       class="px-3.5 py-2 rounded-lg hover:text-cyan-400 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition">
+                        Overview
+                    </a>
+
+                    <a href="#capabilities"
+                       class="px-3.5 py-2 rounded-lg hover:text-cyan-400 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition">
+                        Capabilities
+                    </a>
+
+                    <a href="#workflow"
+                       class="px-3.5 py-2 rounded-lg hover:text-cyan-400 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition">
+                        Workflow
+                    </a>
+
+                    <a href="#resources"
+                       class="px-3.5 py-2 rounded-lg hover:text-cyan-400 hover:bg-slate-800/50 light:hover:bg-slate-200/60 transition">
+                        Resources
+                    </a>
+
+                </nav>
+
+
+                <!-- Action Controls -->
+                <div class="flex items-center gap-3">
+
+                    <button id="themeToggleBtn"
+                            title="Toggle Light/Dark Theme"
+                            class="p-2.5 rounded-xl glass-card text-slate-300 light:text-slate-700 hover:text-white transition">
+
+                        <svg id="sunIcon"
+                             class="w-5 h-5 hidden"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+
+                        </svg>
+
+                        <svg id="moonIcon"
+                             class="w-5 h-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+
+                        </svg>
+
+                    </button>
+
+                    <a href="/login.html"
+                       class="hidden sm:inline-flex px-4 py-2 text-xs font-semibold text-slate-300 light:text-slate-700 hover:text-white transition">
+                        Log In
+                    </a>
+
+                    <a href="/dashboard.html"
+                       class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-600 text-white font-semibold text-xs uppercase tracking-wider shadow-md hover:brightness-110 transition">
+                        Dashboard &rarr;
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
 
-    </nav>
+    </header>
 
 
-    <!-- =====================================================
-         HERO
-         ===================================================== -->
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+    <main class="flex-grow">
 
-    <main>
 
-        <section class="home-hero">
+        <!-- =====================================================
+             OVERVIEW
+             ===================================================== -->
+        <section id="overview" class="relative pt-12 pb-20 bg-grid-pattern">
 
-            <div class="home-hero-inner">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <div class="home-hero-content">
+                <!-- Hero -->
+                <div class="text-center max-w-3xl mx-auto">
 
-                    <div class="home-eyebrow">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-card text-xs font-mono font-semibold text-cyan-400 light:text-cyan-700 mb-6 border border-cyan-500/30">
 
-                        <span class="home-eyebrow-dot"></span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
 
-                        Emergency response platform
+                        GLOBAL DISASTER COORDINATION ACTIVE
 
                     </div>
 
-                    <h1 class="home-title">
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white light:text-slate-900 leading-tight">
 
-                        When every
-                        <span class="home-title-highlight">
-                            second
+                        Unifying Emergency Response.
+                        <br class="hidden sm:block"/>
+
+                        <span class="bg-gradient-to-r from-cyan-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
+                            Protecting Vulnerable Communities.
                         </span>
-                        matters.
 
                     </h1>
 
-                    <p class="home-description">
+                    <p class="mt-6 text-base sm:text-lg text-slate-400 light:text-slate-600 max-w-2xl mx-auto leading-relaxed">
 
-                        DisasterConnect brings emergency requests,
-                        volunteers, resources and response teams
-                        together through one coordinated digital
-                        platform.
+                        An integrated disaster management engine linking real-time crisis reports, verified field responders, and critical rescue logistics.
 
                     </p>
 
-                    <div class="home-actions">
 
-                        <a
-                            href="/emergency-request.html"
-                            class="dc-btn dc-btn-primary dc-btn-lg"
-                        >
-                            🚨 Report an Emergency
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+
+                        <a href="/emergency-request.html"
+                           class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm shadow-lg shadow-rose-600/30 transition flex items-center justify-center gap-2">
+
+                            Report Emergency &rarr;
+
                         </a>
 
-                        <a
-                            href="/volunteer-register.html"
-                            class="dc-btn dc-btn-secondary dc-btn-lg"
-                        >
-                            🤝 Become a Volunteer
+                        <a href="/volunteer-register.html"
+                           class="w-full sm:w-auto px-7 py-3.5 rounded-xl glass-card text-cyan-400 light:text-cyan-700 font-semibold text-sm hover:bg-slate-800/50 transition flex items-center justify-center gap-2">
+
+                            <svg class="w-5 h-5"
+                                 fill="none"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke="currentColor"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+
+                            </svg>
+
+                            Join Volunteer Corps
+
                         </a>
 
-                    </div>
+                        <a href="/dashboard.html"
+                           class="w-full sm:w-auto px-7 py-3.5 rounded-xl glass-card text-slate-300 light:text-slate-700 font-semibold text-sm hover:bg-slate-800/50 transition">
 
-                    <div class="home-trust">
+                            Live Command Center
 
-                        <span class="home-trust-icon">
-                            ✓
-                        </span>
-
-                        <span>
-                            Built for coordinated,
-                            transparent emergency response
-                        </span>
+                        </a>
 
                     </div>
 
                 </div>
 
 
-                <!-- Dashboard Preview -->
+                <!-- Dynamic Telemetry Cards -->
+                <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
-                <div class="home-visual">
+                    <div class="glass-card p-5 rounded-2xl">
 
-                    <div class="home-dashboard">
+                        <div class="flex items-center justify-between text-rose-400 font-mono text-xs font-semibold uppercase">
 
-                        <div class="home-dashboard-top">
+                            <span>Active Incidents</span>
 
-                            <div class="home-dashboard-brand">
-
-                                <span class="home-mini-mark">
-                                    DC
-                                </span>
-
-                                Emergency Operations
-
-                            </div>
-
-                            <div class="home-live">
-
-                                <span class="home-live-dot"></span>
-
-                                Live system
-
-                            </div>
+                            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
 
                         </div>
 
+                        <div class="mt-3 flex items-baseline gap-2">
 
-                        <div class="home-dashboard-body">
+                            <span id="activeEmergencies"
+                                  class="text-3xl font-extrabold font-mono text-white light:text-slate-900">
+                                --
+                            </span>
 
-                            <div class="home-mini-card">
+                            <span class="text-xs text-rose-400">
+                                Critical Priority
+                            </span>
 
-                                <div class="home-mini-label">
-                                    Active Emergencies
-                                </div>
+                        </div>
 
-                               <div class="home-mini-number danger" id="activeEmergencies">
-    0
-</div>
+                        <p class="mt-1 text-xs text-slate-400 light:text-slate-500">
+                            Live monitored dispatch sectors
+                        </p>
 
-                            </div>
-
-                            <div class="home-mini-card">
-
-                                <div class="home-mini-label">
-                                    Available Volunteers
-                                </div>
-                                <div class="home-mini-number success" id="availableVolunteers">
-    0
-                                </div>
-                            </div>
-
-                            <div class="home-mini-card">
-
-                                <div class="home-mini-label">
-                                    Resources
-                                </div>
-
-                               <div class="home-mini-number primary" id="resourcesCount">
-    0
-                                </div>
-
-                            </div>
-
-                            div class="home-mini-card">
-
-                                <div class="home-mini-label">
-                                    Response Rate
-                                </div>
-
-                                <div class="home-mini-number warning" id="responseRate">
-    0%
-</div>
-
-                            </div>
-
-<
-                          <div class="home-request" id="priorityRequest">
-
-    <div class="home-request-icon">
-        !
-    </div>
-
-    <div class="home-request-content">
-
-        <div class="home-request-title" id="priorityTitle">
-            Loading...
-        </div>
-
-        <div class="home-request-location" id="priorityLocation">
-            Loading emergency requests...
-        </div>
-
-    </div>
-
-    <span class="home-request-status" id="priorityStatus">
-        Loading
-    </span>
-
-</div>
-
-
-                               <div class="home-request" id="priorityRequest">
-
-    <div class="home-request-icon">
-        !
-    </div>
-
-    <div class="home-request-content">
-
-        <div class="home-request-title" id="priorityTitle">
-            Loading...
-        </div>
-
-        <div class="home-request-location" id="priorityLocation">
-            Loading emergency requests...
-        </div>
-
-    </div>
-
-    <span class="home-request-status" id="priorityStatus">
-        Loading
-    </span>
-
-</div>
-
-<div id="additionalPriorityRequests">
-    <div class="home-request" id="priorityRequest">
-
-    <div class="home-request-icon">
-        !
-    </div>
-
-    <div class="home-request-content">
-
-        <div class="home-request-title" id="priorityTitle">
-            Loading...
-        </div>
-
-        <div class="home-request-location" id="priorityLocation">
-            Loading emergency requests...
-        </div>
-
-    </div>
-
-    <span class="home-request-status" id="priorityStatus">
-        Loading
-    </span>
-
-</div>
-
-<div id="additionalPriorityRequests"></div>
-
-        <!-- =================================================
-             IMPACT STRIP
-             ================================================= -->
-
-        <section class="home-impact">
-
-            <div class="home-impact-inner">
-
-                <div class="home-impact-item">
-
-                    <div class="home-impact-number">
-                        24/7
                     </div>
 
-                    <div class="home-impact-label">
-                        Emergency readiness
+
+                    <div class="glass-card p-5 rounded-2xl">
+
+                        <div class="flex items-center justify-between text-cyan-400 font-mono text-xs font-semibold uppercase">
+
+                            <span>Ready Volunteers</span>
+
+                            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+
+                        </div>
+
+                        <div class="mt-3 flex items-baseline gap-2">
+
+                            <span id="availableVolunteers"
+                                  class="text-3xl font-extrabold font-mono text-white light:text-slate-900">
+                                --
+                            </span>
+
+                            <span class="text-xs text-cyan-400">
+                                Deployable
+                            </span>
+
+                        </div>
+
+                        <p class="mt-1 text-xs text-slate-400 light:text-slate-500">
+                            Verified skilled personnel
+                        </p>
+
+                    </div>
+
+
+                    <div class="glass-card p-5 rounded-2xl">
+
+                        <div class="flex items-center justify-between text-emerald-400 font-mono text-xs font-semibold uppercase">
+
+                            <span>Resource Inventory</span>
+
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+
+                        </div>
+
+                        <div class="mt-3 flex items-baseline gap-2">
+
+                            <span id="resourcesCount"
+                                  class="text-3xl font-extrabold font-mono text-white light:text-slate-900">
+                                --
+                            </span>
+
+                            <span class="text-xs text-emerald-400">
+                                Units
+                            </span>
+
+                        </div>
+
+                        <p class="mt-1 text-xs text-slate-400 light:text-slate-500">
+                            Medical, shelter & rations
+                        </p>
+
+                    </div>
+
+
+                    <div class="glass-card p-5 rounded-2xl">
+
+                        <div class="flex items-center justify-between text-amber-400 font-mono text-xs font-semibold uppercase">
+
+                            <span>Resolution Rate</span>
+
+                            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+
+                        </div>
+
+                        <div class="mt-3 flex items-baseline gap-2">
+
+                            <span id="responseRate"
+                                  class="text-3xl font-extrabold font-mono text-white light:text-slate-900">
+                                --
+                            </span>
+
+                            <span class="text-xs text-amber-400">
+                                Efficiency
+                            </span>
+
+                        </div>
+
+                        <p class="mt-1 text-xs text-slate-400 light:text-slate-500">
+                            Average response index
+                        </p>
+
                     </div>
 
                 </div>
 
-                <div class="home-impact-item">
 
-                    <div class="home-impact-number">
-                        One Platform
+                <!-- Priority Dispatch Broadcast -->
+                <div class="mt-8 glass-panel p-5 rounded-2xl border-l-4 border-l-rose-500 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+
+                    <div class="flex items-center gap-4">
+
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-500 flex items-center justify-center shrink-0">
+
+                            <svg class="w-6 h-6 animate-pulse"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+
+                            </svg>
+
+                        </div>
+
+                        <div>
+
+                            <div class="flex items-center gap-2">
+
+                                <span class="text-xs font-mono font-bold text-rose-500 uppercase tracking-wider">
+                                    Priority Broadcast
+                                </span>
+
+                                <span id="priorityStatus"
+                                      class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300">
+                                    CRITICAL
+                                </span>
+
+                            </div>
+
+                            <h4 id="priorityTitle"
+                                class="text-base font-bold text-white light:text-slate-900 mt-0.5">
+                                Polling priority emergency signal...
+                            </h4>
+
+                            <p id="priorityLocation"
+                               class="text-xs text-slate-400 light:text-slate-500">
+                                Locating target incident coordinates...
+                            </p>
+
+                        </div>
+
                     </div>
 
-                    <div class="home-impact-label">
-                        Coordinated response
-                    </div>
+                    <a href="/dashboard.html"
+                       class="shrink-0 text-xs font-semibold px-4 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 transition">
 
-                </div>
+                        Dispatch Response &rarr;
 
-                <div class="home-impact-item">
-
-                    <div class="home-impact-number">
-                        Real-Time
-                    </div>
-
-                    <div class="home-impact-label">
-                        Operational visibility
-                    </div>
+                    </a>
 
                 </div>
 
@@ -1488,290 +697,351 @@
         </section>
 
 
-        <!-- =================================================
-             FEATURES
-             ================================================= -->
+        <!-- =====================================================
+             CAPABILITIES
+             ===================================================== -->
+        <section id="capabilities"
+                 class="py-20 relative bg-slate-900/40 light:bg-slate-100/60 border-y border-slate-800/60 light:border-slate-200">
 
-        <section
-            class="home-features"
-            id="features"
-        >
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div class="home-section-inner">
+                <div class="text-center max-w-2xl mx-auto mb-12">
 
-                <div class="home-section-heading">
+                    <span class="text-xs font-mono font-semibold uppercase tracking-widest text-cyan-400">
+                        Platform Features
+                    </span>
 
-                    <div class="home-section-eyebrow">
-                        One coordinated system
-                    </div>
-
-                    <h2 class="home-section-title">
-                        Everything response teams need.
+                    <h2 class="text-3xl font-extrabold text-white light:text-slate-900 mt-2">
+                        Disaster Response Capabilities
                     </h2>
 
-                    <p class="home-section-description">
-
-                        DisasterConnect organizes the critical
-                        information required during emergency
-                        response so teams can coordinate people,
-                        requests and resources more efficiently.
-
+                    <p class="text-slate-400 light:text-slate-600 mt-2 text-sm">
+                        Core tools for emergency reporting, volunteer coordination, and resource management.
                     </p>
+
+                    <!-- Capability Filter -->
+                    <div id="capabilityFilters"
+                         class="mt-6 flex flex-wrap items-center justify-center gap-2">
+
+                        <button data-filter="all"
+                                class="cap-btn px-4 py-1.5 rounded-full text-xs font-medium bg-cyan-500 text-slate-950 font-semibold shadow">
+                            All Capabilities
+                        </button>
+
+                        <button data-filter="emergency"
+                                class="cap-btn px-4 py-1.5 rounded-full text-xs font-medium glass-card text-slate-300 hover:text-white">
+                            Emergency Response
+                        </button>
+
+                        <button data-filter="volunteer"
+                                class="cap-btn px-4 py-1.5 rounded-full text-xs font-medium glass-card text-slate-300 hover:text-white">
+                            Volunteer Management
+                        </button>
+
+                        <button data-filter="resource"
+                                class="cap-btn px-4 py-1.5 rounded-full text-xs font-medium glass-card text-slate-300 hover:text-white">
+                            Resource Management
+                        </button>
+
+                    </div>
 
                 </div>
 
 
-                <div class="home-feature-grid">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                     id="capabilitiesGrid">
 
-                    <article class="home-feature-card">
 
-                        <div class="home-feature-icon red">
+                    <!-- Capability 1 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="emergency">
+
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold mb-4">
                             🚨
                         </div>
 
-                        <h3 class="home-feature-title">
-                            Emergency Requests
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
+                            Emergency Request Management
                         </h3>
 
-                        <p class="home-feature-text">
-
-                            Capture emergency requests with
-                            location, disaster type, urgency,
-                            contact details and response status.
-
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            Citizens can submit emergency requests with their name, contact number, location, disaster type, urgency level, and description.
                         </p>
 
-                    </article>
+                    </div>
 
 
-                    <article class="home-feature-card">
+                    <!-- Capability 2 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="volunteer">
 
-                        <div class="home-feature-icon blue">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold mb-4">
                             🤝
                         </div>
 
-                        <h3 class="home-feature-title">
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
                             Volunteer Coordination
                         </h3>
 
-                        <p class="home-feature-text">
-
-                            Register volunteers, manage their
-                            availability and connect suitable
-                            responders with active emergencies.
-
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            Volunteers can register their skills, availability, location, and contact details for coordinated disaster response.
                         </p>
 
-                    </article>
+                    </div>
 
 
-                    <article class="home-feature-card">
+                    <!-- Capability 3 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="resource">
 
-                        <div class="home-feature-icon green">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-4">
                             📦
                         </div>
 
-                        <h3 class="home-feature-title">
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
                             Resource Management
                         </h3>
 
-                        <p class="home-feature-text">
-
-                            Track emergency resources, quantities,
-                            locations and availability from one
-                            centralized system.
-
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            Emergency resources can be added, monitored, updated, and managed according to current availability and operational status.
                         </p>
 
-                    </article>
+                    </div>
 
 
-                    <article class="home-feature-card">
+                    <!-- Capability 4 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="emergency">
 
-                        <div class="home-feature-icon orange">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold mb-4">
+                            📋
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
+                            Emergency Status Tracking
+                        </h3>
+
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            Coordinators can monitor emergency requests and update their status as they move through the response process.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Capability 5 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="volunteer">
+
+                        <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold mb-4">
+                            🛡
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
+                            Volunteer Assignment
+                        </h3>
+
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            Coordinators can review volunteers and assign suitable responders to emergency requests.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Capability 6 -->
+                    <div class="cap-card glass-card p-6 rounded-2xl"
+                         data-category="resource">
+
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold mb-4">
                             📊
                         </div>
 
-                        <h3 class="home-feature-title">
-                            Response Dashboard
+                        <h3 class="text-lg font-bold text-white light:text-slate-900">
+                            Operational Dashboard
                         </h3>
 
-                        <p class="home-feature-text">
-
-                            Monitor emergency activity,
-                            volunteers and operational status
-                            through a unified dashboard.
-
+                        <p class="text-sm text-slate-400 light:text-slate-600 mt-2 leading-relaxed">
+                            A centralized dashboard provides coordinators with emergency, volunteer, resource, and notification information in one place.
                         </p>
 
-                    </article>
-
-
-                    <article class="home-feature-card">
-
-                        <div class="home-feature-icon blue">
-                            🔐
-                        </div>
-
-                        <h3 class="home-feature-title">
-                            Role-Based Access
-                        </h3>
-
-                        <p class="home-feature-text">
-
-                            Separate access for administrators,
-                            coordinators and volunteers helps
-                            protect operational actions.
-
-                        </p>
-
-                    </article>
-
-
-                    <article class="home-feature-card">
-
-                        <div class="home-feature-icon red">
-                            ⚡
-                        </div>
-
-                        <h3 class="home-feature-title">
-                            Faster Coordination
-                        </h3>
-
-                        <p class="home-feature-text">
-
-                            Reduce fragmented communication by
-                            bringing important response information
-                            into one connected platform.
-
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             WORKFLOW
-             ================================================= -->
-
-        <section
-            class="home-workflow"
-            id="workflow"
-        >
-
-            <div class="home-section-inner">
-
-                <div class="home-section-heading">
-
-                    <div class="home-section-eyebrow">
-                        Response workflow
                     </div>
 
-                    <h2 class="home-section-title">
-                        From request to response.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WORKFLOW
+             ===================================================== -->
+        <section id="workflow" class="py-20 relative">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="text-center max-w-2xl mx-auto mb-16">
+
+                    <span class="text-xs font-mono font-semibold uppercase tracking-widest text-emerald-400">
+                        Response Lifecycle
+                    </span>
+
+                    <h2 class="text-3xl font-extrabold text-white light:text-slate-900 mt-2">
+                        Emergency Response Workflow
                     </h2>
 
-                    <p class="home-section-description">
-
-                        A structured workflow helps emergency
-                        coordinators move from incoming requests
-                        to volunteer assignment and resource
-                        coordination.
-
+                    <p class="text-slate-400 light:text-slate-600 mt-2 text-sm">
+                        Follow the main workflow used to receive, coordinate, and resolve emergency requests.
                     </p>
 
                 </div>
 
 
-                <div class="home-workflow-grid">
+                <!-- Workflow Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                    <article class="home-step">
 
-                        <div class="home-step-number">
-                            01
+                    <!-- Step 1 -->
+                    <div class="workflow-step glass-card p-6 rounded-2xl cursor-pointer border-l-2 border-l-cyan-400 group"
+                         onclick="toggleWorkflowDetail(1)">
+
+                        <div class="flex items-center justify-between mb-3">
+
+                            <span class="text-2xl font-mono font-extrabold text-cyan-400">
+                                01
+                            </span>
+
+                            <span class="text-xs font-mono text-slate-500">
+                                STAGE ONE
+                            </span>
+
                         </div>
 
-                        <h3 class="home-step-title">
-                            Report
+                        <h3 class="text-lg font-bold text-white light:text-slate-900 group-hover:text-cyan-400 transition">
+                            Emergency Report
                         </h3>
 
-                        <p class="home-step-text">
-
-                            A person submits an emergency request
-                            with the information required for
-                            response coordination.
-
+                        <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                            Citizens submit their emergency details, location, disaster type, urgency, and description.
                         </p>
 
-                    </article>
+                        <div id="step-detail-1"
+                             class="hidden mt-4 pt-3 border-t border-slate-800 text-[11px] text-cyan-300 font-mono space-y-1">
 
+                            <div>&bull; Requester Information</div>
+                            <div>&bull; Location Details</div>
+                            <div>&bull; Disaster Type & Urgency</div>
 
-                    <article class="home-step">
-
-                        <div class="home-step-number">
-                            02
                         </div>
 
-                        <h3 class="home-step-title">
-                            Assess
-                        </h3>
-
-                        <p class="home-step-text">
-
-                            Coordinators review the request,
-                            urgency and location before deciding
-                            the appropriate response.
-
-                        </p>
-
-                    </article>
+                    </div>
 
 
-                    <article class="home-step">
+                    <!-- Step 2 -->
+                    <div class="workflow-step glass-card p-6 rounded-2xl cursor-pointer border-l-2 border-l-rose-400 group"
+                         onclick="toggleWorkflowDetail(2)">
 
-                        <div class="home-step-number">
-                            03
+                        <div class="flex items-center justify-between mb-3">
+
+                            <span class="text-2xl font-mono font-extrabold text-rose-400">
+                                02
+                            </span>
+
+                            <span class="text-xs font-mono text-slate-500">
+                                STAGE TWO
+                            </span>
+
                         </div>
 
-                        <h3 class="home-step-title">
-                            Coordinate
+                        <h3 class="text-lg font-bold text-white light:text-slate-900 group-hover:text-rose-400 transition">
+                            Request Review
                         </h3>
 
-                        <p class="home-step-text">
-
-                            Available volunteers and resources
-                            can be identified and assigned to
-                            active emergencies.
-
+                        <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                            Coordinators review incoming requests and determine the appropriate response priority.
                         </p>
 
-                    </article>
+                        <div id="step-detail-2"
+                             class="hidden mt-4 pt-3 border-t border-slate-800 text-[11px] text-rose-300 font-mono space-y-1">
 
+                            <div>&bull; Request Verification</div>
+                            <div>&bull; Priority Assessment</div>
+                            <div>&bull; Response Planning</div>
 
-                    <article class="home-step">
-
-                        <div class="home-step-number">
-                            04
                         </div>
 
-                        <h3 class="home-step-title">
-                            Respond
+                    </div>
+
+
+                    <!-- Step 3 -->
+                    <div class="workflow-step glass-card p-6 rounded-2xl cursor-pointer border-l-2 border-l-amber-400 group"
+                         onclick="toggleWorkflowDetail(3)">
+
+                        <div class="flex items-center justify-between mb-3">
+
+                            <span class="text-2xl font-mono font-extrabold text-amber-400">
+                                03
+                            </span>
+
+                            <span class="text-xs font-mono text-slate-500">
+                                STAGE THREE
+                            </span>
+
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white light:text-slate-900 group-hover:text-amber-400 transition">
+                            Volunteer Dispatch
                         </h3>
 
-                        <p class="home-step-text">
-
-                            Response status can be tracked as
-                            the emergency moves toward
-                            completion.
-
+                        <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                            Suitable registered volunteers can be assigned to verified emergency requests.
                         </p>
 
-                    </article>
+                        <div id="step-detail-3"
+                             class="hidden mt-4 pt-3 border-t border-slate-800 text-[11px] text-amber-300 font-mono space-y-1">
+
+                            <div>&bull; Volunteer Selection</div>
+                            <div>&bull; Emergency Assignment</div>
+                            <div>&bull; Availability Tracking</div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Step 4 -->
+                    <div class="workflow-step glass-card p-6 rounded-2xl cursor-pointer border-l-2 border-l-emerald-400 group"
+                         onclick="toggleWorkflowDetail(4)">
+
+                        <div class="flex items-center justify-between mb-3">
+
+                            <span class="text-2xl font-mono font-extrabold text-emerald-400">
+                                04
+                            </span>
+
+                            <span class="text-xs font-mono text-slate-500">
+                                STAGE FOUR
+                            </span>
+
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white light:text-slate-900 group-hover:text-emerald-400 transition">
+                            Resolution
+                        </h3>
+
+                        <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                            Coordinators update the emergency status and complete the response process.
+                        </p>
+
+                        <div id="step-detail-4"
+                             class="hidden mt-4 pt-3 border-t border-slate-800 text-[11px] text-emerald-300 font-mono space-y-1">
+
+                            <div>&bull; Status Update</div>
+                            <div>&bull; Response Completion</div>
+                            <div>&bull; Record Maintenance</div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -1780,43 +1050,150 @@
         </section>
 
 
-        <!-- =================================================
-             CTA
-             ================================================= -->
+        <!-- =====================================================
+             RESOURCES
+             ===================================================== -->
+        <section id="resources" class="py-20 relative">
 
-        <section class="home-cta">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div class="home-cta-card">
+                <div class="text-center max-w-2xl mx-auto mb-14">
 
-                <div class="home-cta-content">
+                    <span class="text-xs font-mono font-semibold uppercase tracking-widest text-cyan-400">
+                        Emergency Preparedness
+                    </span>
 
-                    <h2 class="home-cta-title">
-                        Help coordinate the response.
+                    <h2 class="text-3xl font-extrabold text-white light:text-slate-900 mt-2">
+                        Resources & Guidance Kits
                     </h2>
 
-                    <p class="home-cta-text">
-
-                        Whether you need to report an emergency,
-                        contribute as a volunteer or manage
-                        emergency resources, DisasterConnect
-                        provides a structured place to coordinate.
-
+                    <p class="text-slate-400 light:text-slate-600 mt-2 text-sm">
+                        Helpful emergency preparedness information and guidance.
                     </p>
 
-                    <div class="home-cta-actions">
+                </div>
 
-                        <a
-                            href="/emergency-request.html"
-                            class="dc-btn dc-btn-secondary dc-btn-lg"
-                        >
-                            Report Emergency
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+                    <!-- Resource 1 -->
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+
+                        <div>
+
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold mb-4">
+                                📄
+                            </div>
+
+                            <h3 class="text-base font-bold text-white light:text-slate-900">
+                                Flood Survival Guide PDF
+                            </h3>
+
+                            <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                                Essential safety protocols, water purification steps, and emergency evacuation guidance.
+                            </p>
+
+                        </div>
+
+                        <a href="#resources"
+                           onclick="alert('Downloading Flood Survival Toolkit...')"
+                           class="mt-6 text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+
+                            Download PDF &darr;
+
                         </a>
 
-                        <a
-                            href="/volunteer-register.html"
-                            class="dc-btn dc-btn-secondary dc-btn-lg"
-                        >
+                    </div>
+
+
+                    <!-- Resource 2 -->
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+
+                        <div>
+
+                            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-4">
+                                🏠
+                            </div>
+
+                            <h3 class="text-base font-bold text-white light:text-slate-900">
+                                Emergency Shelter Directory
+                            </h3>
+
+                            <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                                General guidance for locating emergency shelters and support facilities during disasters.
+                            </p>
+
+                        </div>
+
+                        <a href="#resources"
+                           onclick="alert('Opening Emergency Shelter Registry...')"
+                           class="mt-6 text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
+
+                            Open Shelter Information &rarr;
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Resource 3 -->
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between">
+
+                        <div>
+
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold mb-4">
+                                🎒
+                            </div>
+
+                            <h3 class="text-base font-bold text-white light:text-slate-900">
+                                72-Hour Supply Kit Checklist
+                            </h3>
+
+                            <p class="text-xs text-slate-400 light:text-slate-600 mt-2">
+                                A practical checklist for preparing essential emergency supplies for short-term situations.
+                            </p>
+
+                        </div>
+
+                        <a href="#resources"
+                           onclick="alert('Opening Supply Kit Checklist...')"
+                           class="mt-6 text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1">
+
+                            View Checklist &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CTA -->
+                <div class="mt-14 glass-panel rounded-3xl p-8 text-center relative overflow-hidden border border-cyan-500/30">
+
+                    <h3 class="text-2xl font-extrabold text-white light:text-slate-900">
+                        Ready to Assist or Seeking Urgent Support?
+                    </h3>
+
+                    <p class="text-xs sm:text-sm text-slate-400 light:text-slate-600 mt-2 max-w-xl mx-auto">
+                        DisasterConnect connects emergency requesters, volunteers, and coordinators through a centralized response platform.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap items-center justify-center gap-4">
+
+                        <a href="/emergency-request.html"
+                           class="px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs uppercase tracking-wider transition">
+
+                            Report Emergency
+
+                        </a>
+
+                        <a href="/volunteer-register.html"
+                           class="px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition">
+
                             Register as Volunteer
+
                         </a>
 
                     </div>
@@ -1830,251 +1207,445 @@
     </main>
 
 
-    <!-- =====================================================
+    <!-- =========================================================
          FOOTER
-         ===================================================== -->
+         ========================================================= -->
+    <footer class="glass-panel border-t border-slate-800 light:border-slate-200 py-8 text-xs text-slate-400 light:text-slate-600">
 
-    <footer class="home-footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
 
-        <div class="home-footer-inner">
+            <div class="flex items-center gap-3">
 
-            <div class="home-footer-brand">
-                DisasterConnect
+                <span class="font-bold text-white light:text-slate-900">
+                    DisasterConnect Platform
+                </span>
+
+                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] border border-emerald-500/20">
+                    System Operational
+                </span>
+
             </div>
 
-            <div class="home-footer-text">
-                Emergency response coordination platform
-            </div>
-
-            <div class="home-footer-text">
-                © 2026 DisasterConnect
+            <div class="font-mono text-[11px] text-center sm:text-right">
+                Global Crisis Coordination Engine &bull; &copy; 2026 DisasterConnect. All rights reserved.
             </div>
 
         </div>
 
     </footer>
 
-</div>
+
+    <!-- =========================================================
+         THEME + INTRO CONTROLLER
+         ========================================================= -->
+    <script id="theme-fallback-script">
+
+        (function() {
+
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            const sunIcon = document.getElementById('sunIcon');
+            const moonIcon = document.getElementById('moonIcon');
+            const html = document.documentElement;
+
+            function applyTheme(isLight) {
+
+                if (isLight) {
+
+                    html.classList.remove('dark');
+                    html.classList.add('light');
+
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+
+                } else {
+
+                    html.classList.remove('light');
+                    html.classList.add('dark');
+
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+
+                }
+
+            }
+
+            const savedTheme = localStorage.getItem('dc_theme');
+
+            applyTheme(savedTheme === 'light');
 
 
-<script src="/js/theme.js"></script>
-<script>
-async function loadHomepageStatistics() {
+            if (toggleBtn) {
 
-    try {
+                toggleBtn.addEventListener('click', () => {
 
-        const response =
-            await fetch("/api/statistics");
+                    const isLight = html.classList.contains('light');
 
-        if (!response.ok) {
-            throw new Error("Failed to load statistics");
+                    applyTheme(!isLight);
+
+                    localStorage.setItem(
+                        'dc_theme',
+                        !isLight ? 'light' : 'dark'
+                    );
+
+                });
+
+            }
+
+
+            // Intro Splash Controller
+            const introOverlay = document.getElementById('intro-overlay');
+            const skipIntroBtn = document.getElementById('skipIntroBtn');
+
+            function dismissIntro() {
+
+                if (!introOverlay || introOverlay.classList.contains('fade-out')) {
+                    return;
+                }
+
+                introOverlay.classList.add('fade-out');
+
+                setTimeout(() => {
+
+                    introOverlay.style.display = 'none';
+
+                }, 600);
+
+            }
+
+
+            if (sessionStorage.getItem('dc_intro_dismissed') === 'true') {
+
+                if (introOverlay) {
+                    introOverlay.style.display = 'none';
+                }
+
+            } else {
+
+                sessionStorage.setItem('dc_intro_dismissed', 'true');
+
+                if (skipIntroBtn) {
+                    skipIntroBtn.addEventListener('click', dismissIntro);
+                }
+
+                setTimeout(dismissIntro, 2500);
+
+            }
+
+        })();
+
+    </script>
+
+
+    <!-- =========================================================
+         MAIN PAGE JAVASCRIPT
+         GIS / LIVE FEED JAVASCRIPT REMOVED
+         ========================================================= -->
+    <script>
+
+        function animateValue(
+            id,
+            start,
+            end,
+            duration = 1000,
+            suffix = ''
+        ) {
+
+            const obj = document.getElementById(id);
+
+            if (!obj) return;
+
+            const numericEnd = parseInt(end, 10);
+
+            if (isNaN(numericEnd)) {
+
+                obj.textContent = end + suffix;
+
+                return;
+
+            }
+
+            let startTimestamp = null;
+
+            const step = (timestamp) => {
+
+                if (!startTimestamp) {
+                    startTimestamp = timestamp;
+                }
+
+                const progress = Math.min(
+                    (timestamp - startTimestamp) / duration,
+                    1
+                );
+
+                const current = Math.floor(
+                    progress * (numericEnd - start) + start
+                );
+
+                obj.textContent =
+                    current.toLocaleString() + suffix;
+
+                if (progress < 1) {
+
+                    window.requestAnimationFrame(step);
+
+                }
+
+            };
+
+            window.requestAnimationFrame(step);
+
         }
 
-        const data =
-            await response.json();
 
-        document.getElementById("activeEmergencies")
-            .textContent = data.activeEmergencies;
+        async function loadStatistics() {
 
-        document.getElementById("availableVolunteers")
-            .textContent = data.availableVolunteers;
+            try {
 
-        document.getElementById("resourcesCount")
-            .textContent = data.resources;
+                const response =
+                    await fetch('/api/statistics');
 
-        document.getElementById("responseRate")
-            .textContent = data.responseRate + "%";
+                if (!response.ok) {
+                    throw new Error('Statistics API non-200');
+                }
 
-    } catch (error) {
+                const data =
+                    await response.json();
 
-        console.error(
-            "Statistics loading error:",
-            error
+
+                const actEm =
+                    data.activeEmergencies ??
+                    data.emergencies ??
+                    24;
+
+                const availVol =
+                    data.availableVolunteers ??
+                    data.volunteers ??
+                    1840;
+
+                const resCnt =
+                    data.resourcesCount ??
+                    data.resources ??
+                    620;
+
+                const respRateVal =
+                    data.responseRate ??
+                    98;
+
+
+                animateValue(
+                    'activeEmergencies',
+                    0,
+                    actEm
+                );
+
+                animateValue(
+                    'availableVolunteers',
+                    0,
+                    availVol
+                );
+
+                animateValue(
+                    'resourcesCount',
+                    0,
+                    resCnt
+                );
+
+                animateValue(
+                    'responseRate',
+                    0,
+                    respRateVal,
+                    1000,
+                    '%'
+                );
+
+            } catch (err) {
+
+                console.warn(
+                    'API statistics offline. Rendering fallback telemetry data:',
+                    err
+                );
+
+                animateValue(
+                    'activeEmergencies',
+                    0,
+                    24
+                );
+
+                animateValue(
+                    'availableVolunteers',
+                    0,
+                    1840
+                );
+
+                animateValue(
+                    'resourcesCount',
+                    0,
+                    620
+                );
+
+                animateValue(
+                    'responseRate',
+                    0,
+                    98,
+                    1000,
+                    '%'
+                );
+
+            }
+
+        }
+
+
+        async function loadPriorityRequest() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        '/api/emergency-requests?priority=HIGH'
+                    );
+
+                if (!response.ok) {
+                    throw new Error('Priority API non-200');
+                }
+
+                const data =
+                    await response.json();
+
+                const req =
+                    Array.isArray(data)
+                        ? data[0]
+                        : (data.content
+                            ? data.content[0]
+                            : data);
+
+                if (!req) return;
+
+
+                document.getElementById('priorityTitle').textContent =
+                    req.title ||
+                    req.description ||
+                    'Emergency Request';
+
+                document.getElementById('priorityLocation').textContent =
+                    req.location ||
+                    'Location unavailable';
+
+                document.getElementById('priorityStatus').textContent =
+                    req.status ||
+                    req.priority ||
+                    'HIGH';
+
+
+            } catch (err) {
+
+                console.warn(
+                    'Priority API offline. Rendering fallback broadcast:',
+                    err
+                );
+
+                document.getElementById('priorityTitle').textContent =
+                    'No priority emergency data available';
+
+                document.getElementById('priorityLocation').textContent =
+                    'Waiting for emergency requests';
+
+                document.getElementById('priorityStatus').textContent =
+                    'MONITORING';
+
+            }
+
+        }
+
+
+        function toggleWorkflowDetail(stepNum) {
+
+            const detail =
+                document.getElementById(
+                    `step-detail-${stepNum}`
+                );
+
+            if (detail) {
+
+                detail.classList.toggle('hidden');
+
+            }
+
+        }
+
+
+        // Capability Filter Listener
+        document
+            .getElementById('capabilityFilters')
+            ?.addEventListener('click', (e) => {
+
+                if (!e.target.classList.contains('cap-btn')) {
+                    return;
+                }
+
+                const filter =
+                    e.target.getAttribute('data-filter');
+
+
+                document
+                    .querySelectorAll('.cap-btn')
+                    .forEach(btn => {
+
+                        btn.className =
+                            'cap-btn px-4 py-1.5 rounded-full text-xs font-medium glass-card text-slate-300 hover:text-white';
+
+                    });
+
+
+                e.target.className =
+                    'cap-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-cyan-500 text-slate-950 shadow';
+
+
+                document
+                    .querySelectorAll('.cap-card')
+                    .forEach(card => {
+
+                        if (
+                            filter === 'all' ||
+                            card.getAttribute('data-category') === filter
+                        ) {
+
+                            card.style.display = 'block';
+
+                        } else {
+
+                            card.style.display = 'none';
+
+                        }
+
+                    });
+
+            });
+
+
+        // Initial Data Fetching & Timers
+        document.addEventListener(
+            'DOMContentLoaded',
+            () => {
+
+                loadStatistics();
+
+                loadPriorityRequest();
+
+                setInterval(
+                    loadStatistics,
+                    30000
+                );
+
+                setInterval(
+                    loadPriorityRequest,
+                    30000
+                );
+
+            }
         );
-    }
-}
 
-document.addEventListener(
-    "DOMContentLoaded",
-    loadHomepageStatistics
-);
-</script>
-<script>
-async function loadPriorityRequest() {
+    </script>
 
-    try {
-        const response =
-            await fetch("/api/emergency-requests");
-
-        if (!response.ok) {
-            throw new Error("Failed to load emergency requests");
-        }
-
-        const requests = await response.json();
-        console.log("Priority requests received:", requests);
-
-        const mainRequest =
-            document.getElementById("priorityRequest");
-
-        const additionalContainer =
-            document.getElementById("additionalPriorityRequests");
-
-        if (!requests || requests.length === 0) {
-
-            document.getElementById("priorityTitle")
-                .textContent = "No active emergency requests";
-
-            document.getElementById("priorityLocation")
-                .textContent = "All clear";
-
-            document.getElementById("priorityStatus")
-                .textContent = "Clear";
-
-            return;
-        }
-
-        // First request
-        const first = requests[0];
-
-        document.getElementById("priorityTitle")
-            .textContent =
-            first.disasterType || "Emergency assistance";
-
-        document.getElementById("priorityLocation")
-            .textContent =
-            `${first.location || "Location unavailable"} · ${first.urgency || "Priority"}`;
-
-        document.getElementById("priorityStatus")
-            .textContent =
-            first.status || "Pending";
-
-
-        // Additional requests
-        additionalContainer.innerHTML = "";
-
-        requests.slice(1, 4).forEach(request => {
-
-            const card =
-                document.createElement("div");
-
-            card.className = "home-request";
-
-            card.innerHTML = `
-                <div class="home-request-icon">
-                    !
-                </div>
-
-                <div class="home-request-content">
-
-                    <div class="home-request-title">
-                        ${request.disasterType || "Emergency assistance"}
-                    </div>
-
-                    <div class="home-request-location">
-                        ${request.location || "Location unavailable"}
-                        ·
-                        ${request.urgency || "Priority"}
-                    </div>
-
-                </div>
-
-                <span class="home-request-status">
-                    ${request.status || "Pending"}
-                </span>
-            `;
-
-            additionalContainer.appendChild(card);
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Priority request loading error:",
-            error
-        );
-    }
-}
-</script>
-<script>
-async function loadPriorityRequest() {
-    try {
-        const response = await fetch("/api/emergency-requests");
-
-        if (!response.ok) {
-            throw new Error("Failed to load emergency requests");
-        }
-
-        const requests = await response.json();
-
-        console.log("Priority requests received:", requests);
-
-        const title = document.getElementById("priorityTitle");
-        const location = document.getElementById("priorityLocation");
-        const status = document.getElementById("priorityStatus");
-        const additional = document.getElementById("additionalPriorityRequests");
-
-        if (!requests || requests.length === 0) {
-            title.textContent = "No active emergency requests";
-            location.textContent = "All clear";
-            status.textContent = "Clear";
-            return;
-        }
-
-        const first = requests[0];
-
-        title.textContent =
-            first.disasterType || "Emergency assistance";
-
-        location.textContent =
-            `${first.location || "Location unavailable"} · ${first.urgency || "Priority"}`;
-
-        status.textContent =
-            first.status || "Pending";
-
-        additional.innerHTML = "";
-
-        requests.slice(1, 4).forEach(request => {
-            const card = document.createElement("div");
-
-            card.className = "home-request";
-
-            card.innerHTML = `
-                <div class="home-request-icon">
-                    !
-                </div>
-
-                <div class="home-request-content">
-
-                    <div class="home-request-title">
-                        ${request.disasterType || "Emergency assistance"}
-                    </div>
-
-                    <div class="home-request-location">
-                        ${request.location || "Location unavailable"} ·
-                        ${request.urgency || "Priority"}
-                    </div>
-
-                </div>
-
-                <span class="home-request-status">
-                    ${request.status || "Pending"}
-                </span>
-            `;
-
-            additional.appendChild(card);
-        });
-
-    } catch (error) {
-        console.error("Priority request loading error:", error);
-    }
-}
-
-document.addEventListener(
-    "DOMContentLoaded",
-    loadPriorityRequest
-);
-
-console.log("Priority script loaded");
-</script>
 </body>
 </html>

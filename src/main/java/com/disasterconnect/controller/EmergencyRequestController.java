@@ -88,7 +88,7 @@ public class EmergencyRequestController {
     }
 
     // =========================================================
-    // UPDATE STATUS
+    // UPDATE EMERGENCY STATUS
     // =========================================================
 
     @PutMapping("/api/emergency-requests/{id}/status")
@@ -99,6 +99,29 @@ public class EmergencyRequestController {
 
         Optional<EmergencyRequest> updatedRequest =
                 emergencyRequestService.updateStatus(
+                        id,
+                        status
+                );
+
+        return updatedRequest
+                .map(ResponseEntity::ok)
+                .orElseGet(
+                        () -> ResponseEntity.badRequest().build()
+                );
+    }
+
+    // =========================================================
+    // UPDATE VOLUNTEER ACTION STATUS
+    // =========================================================
+
+    @PutMapping("/api/emergency-requests/{id}/volunteer-status")
+    @ResponseBody
+    public ResponseEntity<EmergencyRequest> updateVolunteerActionStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+
+        Optional<EmergencyRequest> updatedRequest =
+                emergencyRequestService.updateVolunteerActionStatus(
                         id,
                         status
                 );
